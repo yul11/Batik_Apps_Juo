@@ -1,0 +1,174 @@
+	//some methods of the SVGDocument interface:
+		
+		
+
+	public Attr createAttribute(String name) {
+		return null;
+	}
+	//Creates an attribute of the given name
+
+	public Attr createAttributeNS(String namespaceURI, String name)
+	//Creates an attribute of the given qualified name and namespace URI
+
+	public Comment createComment(String comment)
+	//Creates a Comment node given the specified string
+
+	public Element createElement(String tagName)
+	//Creates an element of the type specified
+
+	public Element createElementNS(String namespaceURI, String name)
+	//Creates an element of the given qualified name and namespace URI
+
+	public Text createTextNode(String data)
+	//Creates a Text node given the specified string
+
+	public Element getDocumentElement()
+	//Provieds access to the root node of the document
+
+	public Element getElementById(String elementId)
+	//Returns the element whose ID is given by elementId
+
+	public NodeList getElementsByTagName(String tagName)
+	//Returns a NodeList of all the elements with a given tag name in the order in which they are encountered in a preorder traversal of the Document tree.
+
+	public NodeList getElementsByTagNameNS(String namespaceURI, String localName)
+	//Returns a NodeList of all elements with a given local name and namespaceURI in the order in which they are encountered
+	//in a preorder traversal of the Document tree.
+	
+	
+
+	
+	
+	
+	//some methods of the Element interface:
+
+
+	public node appendChi1d(Node newChild)
+	//Adds the node newChild to the end of the list of
+	//children of this node. If newChild is already in
+	//the tree, the old one is ﬁrst removed.	
+	
+	public String getAttribute(String name)
+	//Retrieves an attribute value by name.	
+	
+	public NamedNodeMap getAttributes()
+	//Returns a NamedNodeMap containing the
+	//attributes of this node (if it is an Element) or
+	//null otherwise.	
+	
+	public Attr getAttributeNode(String,name)
+	//Retrieves an attribute node by name.
+		
+	public String getAttributeNS(String namespaceURI, String name)
+	//Retrieves an attribute value by local name and
+	//namespace URI.
+		
+	public Attr getAttributeNodeNS(String namespaceURI, String name)
+	//Retrieves an attribute node by local name and
+	//namespace URI.	
+	
+	public NodeList getChildNodes()
+	//Returns a NodeList that contains all children of
+	//this node. If there are no children, a NodeList
+	//containing no nodes is returned.
+	
+	public NodeList getElementsByTagName(String name)
+	//Returns a NodeList of all descendant elements
+	//with a given tag name, in the order in which they
+	//are encountered in a preorder traversal of this
+	//Element tree.
+	
+	public NodeList getElementsByTagNameNS(String namespaceURI, String name)
+	//Returns a NodeList of all the descendant
+	//elements with a given local name and
+	//namespace URI in the order in which they are
+	//encountered in a preorder traversal of this
+	//element tree.
+		
+	public Node getFitstChild()
+	//Returns the ﬁrst child of this node. If there is no
+	//such node, this method returns null
+		
+	public Node getLastChi1d{}
+	//Returns the last child of this node. If there is no
+	//such node, this method returns null.
+		
+	public Node getNextSibling{)
+	//Returns the node immediately following this
+	//node. If there is no such node, this method
+	//returns null.
+	
+	public Node getParentNode()
+	//Returns the parent of this node.
+	
+	public Node getPreviousSibling(}
+	//Returns the node immediately preceding this
+	//node.
+	
+	public String getTagName()
+	//Returns the name of the element.
+	
+	public boolean hasAttribute(String name)
+	//Returns true if an attribute with a given name is
+	//specified on this element or has a default value.
+	//Otherwise, it returns false.
+	
+	public boolean hasAttributes)
+	//Indicates whether or not this element has
+	//attributes.
+	public boolean hasAttributeNS(String namespaceURI, String name}
+	//Returns true if an attribute with a given local
+	//name and namespace URI is specified on this
+	//element or has a default value. Otherwise, this
+	//method returns false.
+	
+	public boolean hasChildNodes()
+	//Indicates whether or not this element has
+	//children.
+	
+	public Node insertBefore{Node newChild, Node refChild}
+	//Inserts the node newChild before the existing
+	//child node refChild.
+	
+	public void removeAttribute(String name}
+	//Removes an attribute by name.
+	
+	public void removeAtttibuteNS{String nameSpaceURI, String name}
+	//Removes an attribute by local name and namespace URI.
+	
+	public Mode removeChild(Node, oldChild}
+	//Removes the child node indicated by oldChild
+	//from the list of children, and returns it.
+	
+	public Node replaceChild(Mode newChild, Node oldChild)
+	//Replaces the child node 0ldChild with newChild 
+	//in the list of children, and returns the OldChild node.
+	
+	public void setAttribute (String name, String value)
+	//Adds a new attribute.
+	
+	public void SetAttributeNS(String namespaceURI, String name, String value)
+	//The namespace-aware version of the previous
+	//method, also adds a new attribute.
+	
+	//As you can see from the list, the Element interface has
+	//several methods for manipulating an XML document and
+	//navigate through it. You may have noticed that many
+	//methods have two versions, one that is namespace aware and
+	//one that is 11ot. When working with SVG, use the namespace
+	//aware version of a 11letl1od.
+	
+	//Finally, you need to be familiar with the Attr interface.
+	//Some of its methods are shown here.
+	public String getName()
+	//Returns the name of this attribute
+	
+	public boolean getSpecified()
+	//Returns true if this attribute was already given
+	//a value ill the original document. Otherwise,
+	//returns false.
+	
+	public String getvalue)
+	//Returns the value of the attribute.
+	public void setValue(String value)
+	//Sets the value of the attribute.
