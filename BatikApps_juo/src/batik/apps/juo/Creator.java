@@ -58,7 +58,8 @@ public class Creator extends JFrame implements ActionListener{
 		SVGGeneratorContext ctx = SVGGeneratorContext.createDefault(doc);
 		ctx.setComment("This file was created by juo with the svg-generator from Batik");
 		
-		generator = new SVGGraphics2D(ctx,false);
+		generator = new SVGGraphics2D(ctx,false); 
+		//generator = new SVGGraphics2D(doc);		//geht auch
 	}
 	
 
@@ -90,8 +91,10 @@ public class Creator extends JFrame implements ActionListener{
 		}		
 	}
 
-	
-	
+
+
+
+
 	// And finally the methods that actually draw a circle and a square using the available methods of Graphics2D
 	private void drawSquare(Graphics2D g2d){
 		
@@ -115,7 +118,7 @@ public class Creator extends JFrame implements ActionListener{
 		//Create a circle
 		Ellipse2D circle = new Ellipse2D.Double(10,10,100,100);
 		
-		//Set the color and the stroke to draw the outline and draw it		
+		//Set the color and the stroke to draw the outline and draw it	
 		g2d.setPaint(Color.green);
 		g2d.setStroke(new BasicStroke(15.0f));
 		g2d.draw(circle);

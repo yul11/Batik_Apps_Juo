@@ -172,7 +172,7 @@ public class SVGInteractor extends JFrame{
 	public class OnMouseOverCircleAction implements EventListener {
 		public void handleEvent(Event evt) {
 			Element elt = document.getElementById("theCircle");
-			elt.setAttribute("fill","yellow");
+			elt.setAttribute("fill","green");
 		}
 	}
 
