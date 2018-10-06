@@ -4,9 +4,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/batik-swing"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/batik-anim"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/batik-bridge"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/batik-util"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/batik-dom"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/batik-svggen"/>
+	<classpathentry kind="lib" path="D:/PC/Software/Java/Batik/BatikApps_juo_github/BatikApps_juo/juo_additional/batik-script-1.7.jar/batik-script-1.7.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/batik-bridge"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,23 +1,23 @@
 package batik.apps.juo;
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import org.apache.batik.anim.dom.SVGDOMImplementation;
+import org.apache.batik.script.Window;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.svg.SVGLoadEventDispatcherAdapter;
 import org.apache.batik.swing.svg.SVGLoadEventDispatcherEvent;
-
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
 
 
+@SuppressWarnings("unused")
 public class SVGInteractor extends JFrame{
 	
 
@@ -27,12 +27,14 @@ public class SVGInteractor extends JFrame{
 	private final String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
 	private JSVGCanvas canvas = new JSVGCanvas();
 	private Document document; // The SVG document
-	//private Window window;     // The window object
+	//private org.apache.batik.bridge.Window window;     // The window object
+	private Window window;     // The window object
 	
 	
 	public SVGInteractor(){
 		
-		super("SVG Interactor");
+		super("SVG Interactor");		
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel panel = new JPanel();		
 		canvas.setMySize(new Dimension(600, 400));
@@ -44,7 +46,7 @@ public class SVGInteractor extends JFrame{
 		canvas.addSVGLoadEventDispatcherListener(
 				new SVGLoadEventDispatcherAdapter(){
 			
-					public void svgLoadEventDispatchStarted( 
+					public void svgLoadEventDispatchStarted(  
 							
 							SVGLoadEventDispatcherEvent e) {
 							//window = canvas.getUpdateManager().getScriptingEnvironment().createWindow();
@@ -93,6 +95,7 @@ public class SVGInteractor extends JFrame{
 		this.setBounds(150,150,this.getWidth(),this.getHeight());
 	
 	}
+	
 
 	
 	//This mehtod attaches all the required listeners
@@ -116,7 +119,17 @@ public class SVGInteractor extends JFrame{
 			}
 		}
 		,false);
+		
+		
+		//Add a listener for the SVGLoad event		
+		t1.addEventListener("SVGLoad", new EventListener(){			
+			public void handleEvent(Event evt){
+				//window.setInterval(new CircleMovement(),20);
+			}
+		}
+		,false);
 
+		
 		
 		// Get a reference to the square as an event target
 		EventTarget t2 = (EventTarget)document.getElementById("theSquare");
@@ -124,11 +137,13 @@ public class SVGInteractor extends JFrame{
 		// Add to the square a listener for the ‘click’ event
 		t2.addEventListener("click",new EventListener() {
 			public void handleEvent(Event evt) {
-				//window.alert("Greetings from the Square!");
 				System.out.println("Greetings from the Square!");
 			}
 		}
 		,false);	
+
+		
+		
 		
 		//Add to the square a listener for the 'mouseover' event
 		t2.addEventListener("mouseover",new EventListener(){
@@ -138,9 +153,21 @@ public class SVGInteractor extends JFrame{
 				//elt.setAttribute("y","l00");
 				elt.setAttribute("width","200");
 				//elt.setAttribute("height","200");
+				
+				elt.setAttribute("attributeName", "transform");
+				elt.setAttribute( "attributeType", "XML");
+				elt.setAttribute( "type", "rotate");
+				elt.setAttribute( "dur", 10 + "s");
+				elt.setAttribute( "repeatCount", "indefinite");
+				elt.setAttribute( "from", "0 "+360+" "+120);
+				elt.setAttribute( "to", 120+" "+360+" "+120);
 			}
 		}
 		,false);
+
+		
+		
+		
 		
 		//Add to the square a listener for the 'mouseout' event
 		t2.addEventListener("mouseout",new EventListener() {
@@ -155,10 +182,15 @@ public class SVGInteractor extends JFrame{
 		,false);
 	}
 	
+	
+	
 
 	
 	
-	// An emplementation of the EventListener interface,
+
+	
+	
+	// An implementation of the EventListener interface,
 	//to work as a ‘click’ event listener for the circle
 	public class OnClickCircleAction implements EventListener {
 		public void handleEvent(Event evt) {
@@ -167,14 +199,53 @@ public class SVGInteractor extends JFrame{
 		}
 	}
 
-	// An emplementation of the EventListener interface,
+	// An implementation of the EventListener interface,
 	// to work as a 'mouseover' event listener for the circle
 	public class OnMouseOverCircleAction implements EventListener {
-		public void handleEvent(Event evt) {
-			Element elt = document.getElementById("theCircle");
-			elt.setAttribute("fill","green");
+		public void handleEvent(Event evt) {			
+			Element elt = document.getElementById("theCircle");			
+			elt.setAttribute("fill","yellow");			
+			elt.setAttribute("fill-opacity",".5");
+
 		}
 	}
+		
+
+		
+	//An inner class encapsulating the laws of the circles movement
+	public class CircleMovement implements Runnable{		
+		private int deltaY = 1;
+		
+		public void run(){			
+		Element elt = document.getElementById("theCircle");
+				int yPos = Integer.parseInt(elt.getAttribute("cy"));
+
+				if (yPos <= 70 || (yPos >= 330))
+				   deltaY  = - deltaY;
+				
+				yPos += deltaY;							
+				elt.setAttribute("cy", "" + yPos);
+		}
+	}		
+		
+		
+		
+	//An inner class encapsulating the laws of the square movement
+	public class SquareMovement implements Runnable{		
+		private int deltaX = 2;
+		
+		public void run(){			
+		Element elt = document.getElementById("theSquare");
+				int xPos = Integer.parseInt(elt.getAttribute("x"));
+
+				if (xPos <= 0 || (xPos >= 440))
+				   deltaX  = - deltaX;
+				
+				xPos += deltaX;							
+				elt.setAttribute("x", "" + xPos);
+		}
+	}				
+	
 
 
 	
