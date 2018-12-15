@@ -1,8 +1,13 @@
 package batik.apps.juo;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.apache.batik.anim.dom.SVGDOMImplementation;
+import org.apache.batik.script.Interpreter;
 import org.apache.batik.script.Window;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.svg.SVGLoadEventDispatcherAdapter;
@@ -20,7 +25,6 @@ import org.w3c.dom.events.EventTarget;
 @SuppressWarnings("unused")
 public class SVGInteractor extends JFrame{
 	
-
 	private static final long serialVersionUID = 1L;
 	
 	//SVG namespace string to be used throughout the application
@@ -29,6 +33,10 @@ public class SVGInteractor extends JFrame{
 	private Document document; // The SVG document
 	//private org.apache.batik.bridge.Window window;     // The window object
 	private Window window;     // The window object
+	private Thread thread;
+	private CircleMovement circleMov;
+	private SquareMovement squareMov;
+
 	
 	
 	public SVGInteractor(){
@@ -42,15 +50,25 @@ public class SVGInteractor extends JFrame{
 		//Force the canvas to always be dynamic
 		canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
 		
+						
+		Interpreter interpreter;		
+		try {
+			URL myURL = new URL("http://example.com/");
+			org.apache.batik.bridge.RhinoInterpreterFactory fact = new org.apache.batik.bridge.RhinoInterpreterFactory();
+			interpreter = fact.createInterpreter(myURL, true);
+		} 
+		catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
 		// Obtain the Window reference when it becomes available
 		canvas.addSVGLoadEventDispatcherListener(
-				new SVGLoadEventDispatcherAdapter(){
+			new SVGLoadEventDispatcherAdapter(){
 			
-					public void svgLoadEventDispatchStarted(  
-							
-							SVGLoadEventDispatcherEvent e) {
-							//window = canvas.getUpdateManager().getScriptingEnvironment().createWindow();
-					}
+				public void svgLoadEventDispatchStarted(  
+						SVGLoadEventDispatcherEvent e) {
+						//window = canvas.getUpdateManager().getScriptingEnvironment().createWindow(interpreter,svgNS);
+				}
 			}
 		);
 
@@ -58,7 +76,7 @@ public class SVGInteractor extends JFrame{
 		DOMImplementation dom = SVGDOMImplementation.getDOMImplementation();
 		document = dom.createDocument(svgNS, "svg", null);
 		canvas.setDocument(document);
-		
+					
 		// Get a reference to the <svg> element
 		Element root = document.getDocumentElement();
 		
@@ -94,13 +112,16 @@ public class SVGInteractor extends JFrame{
 		this.pack();
 		this.setBounds(150,150,this.getWidth(),this.getHeight());
 	
-	}
+	}	
+	//end SVGInteractor()-Konstruktor
 	
-
 	
-	//This mehtod attaches all the required listeners
+	
+	
+	//This method attaches all the required listeners
 	//to those elements in the document which we want to make interactive
 	public void registerListeners(){
+		
 		
 		//Get a reference to the circle and cast it as an EventTarget
 		EventTarget t1 = (EventTarget)document.getElementById("theCircle");
@@ -116,11 +137,14 @@ public class SVGInteractor extends JFrame{
 			public void handleEvent(Event evt){
 				Element elt = document.getElementById("theCircle");
 				elt.setAttribute("fill","lightsteelblue");
+				
+				System.out.println("bin in mouseout theCircle!");
+				stoppeCircleMoveThread(circleMov);    //juo added on 15.12.2018
+				
 			}
 		}
-		,false);
-		
-		
+		,false); 
+				
 		//Add a listener for the SVGLoad event		
 		t1.addEventListener("SVGLoad", new EventListener(){			
 			public void handleEvent(Event evt){
@@ -129,6 +153,10 @@ public class SVGInteractor extends JFrame{
 		}
 		,false);
 
+
+		
+		
+		
 		
 		
 		// Get a reference to the square as an event target
@@ -141,9 +169,6 @@ public class SVGInteractor extends JFrame{
 			}
 		}
 		,false);	
-
-		
-		
 		
 		//Add to the square a listener for the 'mouseover' event
 		t2.addEventListener("mouseover",new EventListener(){
@@ -161,13 +186,12 @@ public class SVGInteractor extends JFrame{
 				elt.setAttribute( "repeatCount", "indefinite");
 				elt.setAttribute( "from", "0 "+360+" "+120);
 				elt.setAttribute( "to", 120+" "+360+" "+120);
+				
+				starteSquareMoveThread();  //juo added on 18.11.2018				
+				
 			}
 		}
 		,false);
-
-		
-		
-		
 		
 		//Add to the square a listener for the 'mouseout' event
 		t2.addEventListener("mouseout",new EventListener() {
@@ -177,6 +201,9 @@ public class SVGInteractor extends JFrame{
 				//elt.setAttribute("y","l20");
 				elt.setAttribute("width","160");
 				//elt.setAttribute("height","l60");
+				
+				System.out.println("bin in mouseout theSquare!");
+				stoppeSquareMoveThread(squareMov);    //juo added on 15.12.2018
 			}
 		}
 		,false);
@@ -206,53 +233,156 @@ public class SVGInteractor extends JFrame{
 			Element elt = document.getElementById("theCircle");			
 			elt.setAttribute("fill","yellow");			
 			elt.setAttribute("fill-opacity",".5");
-
+			
+			starteCircleMoveThread();    //juo added on 18.11.2018
 		}
 	}
-		
 
-		
+	
+	
+	
+	
+	
+	public void starteCircleMoveThread(){		
+		//CircleMovement mov = new CircleMovement();	 //original
+		circleMov = new CircleMovement();	
+		circleMov.starte();
+	}
+	
+	public void stoppeCircleMoveThread(CircleMovement mov){
+		System.out.println("rufe circleMov.stoppe() auf!!!");
+		mov.stoppe();			
+	}
+	
 	//An inner class encapsulating the laws of the circles movement
-	public class CircleMovement implements Runnable{		
-		private int deltaY = 1;
-		
-		public void run(){			
-		Element elt = document.getElementById("theCircle");
-				int yPos = Integer.parseInt(elt.getAttribute("cy"));
-
-				if (yPos <= 70 || (yPos >= 330))
-				   deltaY  = - deltaY;
+	public class CircleMovement implements Runnable{	
 				
-				yPos += deltaY;							
-				elt.setAttribute("cy", "" + yPos);
+		private int deltaY = 10;
+				
+		public void starte(){
+			thread = new Thread(this); 
+			thread.start();
+		}				
+		
+		public void stoppe(){
+			System.out.println("stoppe CircleMovement-thread now");
+			thread.stop();
+		}
+		
+		public void run(){	
+			
+			while (!Thread.currentThread().isInterrupted()) {
+								
+				System.out.println("CircleMovement-thread laeuft...");
+				
+				try {
+					Thread.sleep(100);
+				} 
+				catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				
+				// Returns immediately
+				canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
+				    // Insert some actions on the DOM here
+					public void run(){													
+						
+						System.out.println("bin in invokeLater theCircle");							
+						
+						Element elt = document.getElementById("theCircle");				
+						
+						int yPos = Integer.parseInt(elt.getAttribute("cy"));
+						
+						if ((yPos <= 70) || (yPos >=330)){
+							deltaY  = - deltaY;
+							System.out.println("deltaY: " +deltaY);
+						}
+							
+						yPos += deltaY;	
+						
+						elt.setAttribute("cy", "" + yPos);
+						System.out.println("yPos: " + yPos);
+						
+					}
+				});								
+			}
 		}
 	}		
-		
-		
-		
-	//An inner class encapsulating the laws of the square movement
-	public class SquareMovement implements Runnable{		
-		private int deltaX = 2;
-		
-		public void run(){			
-		Element elt = document.getElementById("theSquare");
-				int xPos = Integer.parseInt(elt.getAttribute("x"));
 
-				if (xPos <= 0 || (xPos >= 440))
-				   deltaX  = - deltaX;
-				
-				xPos += deltaX;							
-				elt.setAttribute("x", "" + xPos);
-		}
-	}				
 	
 
 
+
+	
+	
+	
+	public void starteSquareMoveThread(){		
+	    squareMov = new SquareMovement();			
+	    squareMov.starte();
+	}
+	
+	public void stoppeSquareMoveThread(SquareMovement mov){
+		System.out.println("rufe SquareMovement-thread auf!!!");
+		squareMov.stoppe();			
+	}
+
+	
+	
+	//An inner class encapsulating the laws of the square movement
+	public class SquareMovement implements Runnable{
+				
+		public void starte(){
+			thread = new Thread(this); 
+			thread.start();
+		}
+		
+		public void stoppe(){
+			System.out.println("stoppe SquareMovement-thread now");
+			thread.stop();
+		}
+		
+		private int deltaX = 2;
+		
+		public void run(){				
+
+			while (!Thread.currentThread().isInterrupted()) {
+			
+				System.out.println("SquareMovement-thread laeuft");								
+				try {
+					Thread.sleep(100);
+				} 
+				catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				
+				// Returns immediately
+				canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
+				    // Insert some actions on the DOM here
+					public void run(){													
+						
+						System.out.println("bin in invokeLater theSquare");							
+						
+						Element elt = document.getElementById("theSquare");
+						int xPos = Integer.parseInt(elt.getAttribute("x"));
+						
+						if (xPos <= 0 || (xPos >= 440))
+						   deltaX  = - deltaX;
+						
+						xPos += deltaX;							
+						elt.setAttribute("x", "" + xPos);	
+						
+					}
+				});				
+			}
+		}
+	}				
 	
 	
 	//Entry point into the program
 	public static void main(String[] args){		
 		SVGInteractor inter = new SVGInteractor();
 		inter.setVisible(true);
-	}	
+	}
 }
