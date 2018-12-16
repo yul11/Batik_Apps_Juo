@@ -1,9 +1,12 @@
 package batik.apps.juo;
 
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.awt.Dimension;
+import java.awt.Panel;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.apache.batik.anim.dom.SVGDOMImplementation;
@@ -19,6 +22,7 @@ import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.events.MouseEvent;
 
 
 
@@ -121,8 +125,7 @@ public class SVGInteractor extends JFrame{
 	//This method attaches all the required listeners
 	//to those elements in the document which we want to make interactive
 	public void registerListeners(){
-		
-		
+				
 		//Get a reference to the circle and cast it as an EventTarget
 		EventTarget t1 = (EventTarget)document.getElementById("theCircle");
 		
@@ -139,8 +142,7 @@ public class SVGInteractor extends JFrame{
 				elt.setAttribute("fill","lightsteelblue");
 				
 				System.out.println("bin in mouseout theCircle!");
-				stoppeCircleMoveThread(circleMov);    //juo added on 15.12.2018
-				
+				stoppeCircleMoveThread(circleMov);    //juo added on 15.12.2018				
 			}
 		}
 		,false); 
@@ -156,9 +158,6 @@ public class SVGInteractor extends JFrame{
 
 		
 		
-		
-		
-		
 		// Get a reference to the square as an event target
 		EventTarget t2 = (EventTarget)document.getElementById("theSquare");
 		
@@ -166,6 +165,20 @@ public class SVGInteractor extends JFrame{
 		t2.addEventListener("click",new EventListener() {
 			public void handleEvent(Event evt) {
 				System.out.println("Greetings from the Square!");
+				Element elt = document.getElementById("theSquare");
+				
+				String str_w = elt.getAttribute("width");				
+				Integer int_w = Integer.parseInt(str_w);
+				System.out.println("int_w: " + int_w);				
+				int_w = int_w+10;				
+				elt.setAttribute("width", Integer.toString(int_w));
+				
+				
+				String str_h = elt.getAttribute("height");				
+				Integer int_h = Integer.parseInt(str_h);
+				System.out.println("int_h: " + int_h);				
+				int_h = int_h+10;				
+				elt.setAttribute("height", Integer.toString(int_h));
 			}
 		}
 		,false);	
@@ -178,8 +191,9 @@ public class SVGInteractor extends JFrame{
 				//elt.setAttribute("y","l00");
 				elt.setAttribute("width","200");
 				//elt.setAttribute("height","200");
+				elt.setAttributeNS(null, "height", "200");
 				
-				elt.setAttribute("attributeName", "transform");
+				elt.setAttribute( "attributeName", "transform");
 				elt.setAttribute( "attributeType", "XML");
 				elt.setAttribute( "type", "rotate");
 				elt.setAttribute( "dur", 10 + "s");
@@ -187,8 +201,7 @@ public class SVGInteractor extends JFrame{
 				elt.setAttribute( "from", "0 "+360+" "+120);
 				elt.setAttribute( "to", 120+" "+360+" "+120);
 				
-				starteSquareMoveThread();  //juo added on 18.11.2018				
-				
+				starteSquareMoveThread();  //juo added on 18.11.2018								
 			}
 		}
 		,false);
@@ -201,12 +214,38 @@ public class SVGInteractor extends JFrame{
 				//elt.setAttribute("y","l20");
 				elt.setAttribute("width","160");
 				//elt.setAttribute("height","l60");
+				elt.setAttributeNS(null, "height", "160");
 				
 				System.out.println("bin in mouseout theSquare!");
 				stoppeSquareMoveThread(squareMov);    //juo added on 15.12.2018
 			}
 		}
 		,false);
+		
+		//Add to the square a listener for the 'mousemove' event
+		t2.addEventListener("mousemove",new EventListener() {
+			public void handleEvent(Event evt) {
+				Element elt = document.getElementById("theSquare");
+				
+				String str_fill = elt.getAttribute("fill");
+				System.out.println("str_fill: " + str_fill);
+				
+				if (str_fill.equals("plum"))
+					elt.setAttribute("fill","red");
+				
+				if (str_fill.equals("red")){				
+					elt.setAttribute("fill","green");
+				}
+
+				if (str_fill.equals("green")){				
+					elt.setAttribute("fill","plum");
+				}				
+				System.out.println("bin in mousemove theSquare!");				
+			}
+		}
+		,false);
+		
+
 	}
 	
 	
@@ -232,8 +271,7 @@ public class SVGInteractor extends JFrame{
 		public void handleEvent(Event evt) {			
 			Element elt = document.getElementById("theCircle");			
 			elt.setAttribute("fill","yellow");			
-			elt.setAttribute("fill-opacity",".5");
-			
+			elt.setAttribute("fill-opacity",".5");			
 			starteCircleMoveThread();    //juo added on 18.11.2018
 		}
 	}
@@ -242,7 +280,7 @@ public class SVGInteractor extends JFrame{
 	
 	
 	
-	
+	//CIRCLE START
 	public void starteCircleMoveThread(){		
 		//CircleMovement mov = new CircleMovement();	 //original
 		circleMov = new CircleMovement();	
@@ -281,8 +319,7 @@ public class SVGInteractor extends JFrame{
 				catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
-				
+								
 				// Returns immediately
 				canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
 				    // Insert some actions on the DOM here
@@ -308,7 +345,8 @@ public class SVGInteractor extends JFrame{
 				});								
 			}
 		}
-	}		
+	}
+	//CIRCLE END
 
 	
 
@@ -316,7 +354,7 @@ public class SVGInteractor extends JFrame{
 
 	
 	
-	
+	//SQUARE START
 	public void starteSquareMoveThread(){		
 	    squareMov = new SquareMovement();			
 	    squareMov.starte();
@@ -327,8 +365,6 @@ public class SVGInteractor extends JFrame{
 		squareMov.stoppe();			
 	}
 
-	
-	
 	//An inner class encapsulating the laws of the square movement
 	public class SquareMovement implements Runnable{
 				
@@ -350,13 +386,12 @@ public class SVGInteractor extends JFrame{
 			
 				System.out.println("SquareMovement-thread laeuft");								
 				try {
-					Thread.sleep(100);
+					Thread.sleep(10);
 				} 
 				catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
-				
+								
 				// Returns immediately
 				canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
 				    // Insert some actions on the DOM here
@@ -377,9 +412,10 @@ public class SVGInteractor extends JFrame{
 				});				
 			}
 		}
-	}				
+	}
+	//SQUARE END
 	
-	
+
 	//Entry point into the program
 	public static void main(String[] args){		
 		SVGInteractor inter = new SVGInteractor();
