@@ -18,6 +18,7 @@ import org.apache.batik.swing.svg.SVGLoadEventDispatcherEvent;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -84,6 +85,16 @@ public class SVGInteractor extends JFrame{
 		// Get a reference to the <svg> element
 		Element root = document.getDocumentElement();
 		
+		
+		// Create and append to the root a couple of basic shapes
+		Element line = document.createElementNS(svgNS, "line");
+		line.setAttributeNS(null, "x1", "300");					
+		line.setAttributeNS(null, "y1", "200");
+		line.setAttributeNS(null, "x2", "300");
+		line.setAttributeNS(null, "y2", "200");
+		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:5");
+		line.setAttributeNS(null, "id", "theLine");
+		
 		// Create and append to the root a couple of basic shapes
 		Element circle = document.createElementNS(svgNS, "circle");
 		circle.setAttributeNS(null, "fill", "lightsteelblue");					
@@ -106,6 +117,7 @@ public class SVGInteractor extends JFrame{
 		
 		root.appendChild(circle);
 		root.appendChild(square);
+		root.appendChild(line);
 		
 		//Attach the listeners to the shapes	
 		registerListeners();
@@ -115,9 +127,18 @@ public class SVGInteractor extends JFrame{
 		this.setContentPane(panel);
 		this.pack();
 		this.setBounds(150,150,this.getWidth(),this.getHeight());
+		
+		
+		LineMovement lineMove = new LineMovement(document,canvas);
+		lineMove.starte();
 	
 	}	
 	//end SVGInteractor()-Konstruktor
+	
+
+	public void moveLine(){
+		System.out.println("line is moving now");
+	}
 	
 	
 	
@@ -125,6 +146,40 @@ public class SVGInteractor extends JFrame{
 	//This method attaches all the required listeners
 	//to those elements in the document which we want to make interactive
 	public void registerListeners(){
+
+		
+		
+		
+		//Get a reference to the line and cast it as an EventTarget
+		
+		
+		/*
+		
+		EventTarget t3 = (EventTarget)document.getElementById("line");
+		
+		// Add to the line a listener for the ‘click’ event
+		t3.addEventListener("click",new EventListener() {
+			public void handleEvent(Event evt) {
+				System.out.println("Greetings from the line!");
+				Element elt = document.getElementById("line");
+
+				
+				
+				//String str_w = elt.getAttribute("width");				
+				//Integer int_w = Integer.parseInt(str_w);
+				//System.out.println("int_w: " + int_w);				
+				//int_w = int_w+10;				
+				//elt.setAttribute("width", Integer.toString(int_w));
+			}
+		}
+		,false);	
+		
+		*/
+		
+
+				
+				
+		
 				
 		//Get a reference to the circle and cast it as an EventTarget
 		EventTarget t1 = (EventTarget)document.getElementById("theCircle");
@@ -154,6 +209,7 @@ public class SVGInteractor extends JFrame{
 			}
 		}
 		,false);
+
 
 
 		
@@ -414,8 +470,9 @@ public class SVGInteractor extends JFrame{
 		}
 	}
 	//SQUARE END
-	
 
+	
+	
 	//Entry point into the program
 	public static void main(String[] args){		
 		SVGInteractor inter = new SVGInteractor();
