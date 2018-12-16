@@ -90,9 +90,9 @@ public class SVGInteractor extends JFrame{
 		Element line = document.createElementNS(svgNS, "line");
 		line.setAttributeNS(null, "x1", "300");					
 		line.setAttributeNS(null, "y1", "200");
-		line.setAttributeNS(null, "x2", "300");
-		line.setAttributeNS(null, "y2", "200");
-		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:5");
+		line.setAttributeNS(null, "x2", "400");
+		line.setAttributeNS(null, "y2", "300");
+		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:10");
 		line.setAttributeNS(null, "id", "theLine");
 		
 		// Create and append to the root a couple of basic shapes
@@ -129,16 +129,12 @@ public class SVGInteractor extends JFrame{
 		this.setBounds(150,150,this.getWidth(),this.getHeight());
 		
 		
-		LineMovement lineMove = new LineMovement(document,canvas);
-		lineMove.starte();
 	
 	}	
 	//end SVGInteractor()-Konstruktor
+
 	
 
-	public void moveLine(){
-		System.out.println("line is moving now");
-	}
 	
 	
 	
@@ -148,33 +144,22 @@ public class SVGInteractor extends JFrame{
 	public void registerListeners(){
 
 		
-		
-		
 		//Get a reference to the line and cast it as an EventTarget
-		
-		
-		/*
-		
-		EventTarget t3 = (EventTarget)document.getElementById("line");
+		EventTarget t3 = (EventTarget)document.getElementById("theLine");
 		
 		// Add to the line a listener for the ‘click’ event
 		t3.addEventListener("click",new EventListener() {
 			public void handleEvent(Event evt) {
 				System.out.println("Greetings from the line!");
-				Element elt = document.getElementById("line");
-
+				Element elt = document.getElementById("theLine");				
 				
-				
-				//String str_w = elt.getAttribute("width");				
-				//Integer int_w = Integer.parseInt(str_w);
-				//System.out.println("int_w: " + int_w);				
-				//int_w = int_w+10;				
-				//elt.setAttribute("width", Integer.toString(int_w));
+				LineMovement lineMove = new LineMovement(document,canvas);
+				lineMove.starte();
 			}
 		}
 		,false);	
 		
-		*/
+
 		
 
 				

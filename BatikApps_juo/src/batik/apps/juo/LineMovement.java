@@ -6,15 +6,11 @@ import org.w3c.dom.Element;
 
 
 
-//An inner class encapsulating the laws of the circles movement
 public class LineMovement implements Runnable{	
 	
-	private int deltaY = 10;
 	Document document;
 	JSVGCanvas canvas;
 	private Thread thread;
-
-		
 	
 	public LineMovement(Document d, JSVGCanvas c){		
 		this.document =d;
@@ -41,10 +37,8 @@ public class LineMovement implements Runnable{
 				e.printStackTrace();
 			}
 							
-			// Returns immediately
-			//canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
-			    // Insert some actions on the DOM here
-				//public void run(){													
+			canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
+				public void run(){													
 					
 					System.out.println("LineMovement()-> bin in invokeLater line");	
 					
@@ -63,11 +57,9 @@ public class LineMovement implements Runnable{
 					yPos = yPos -10;					
 					elt.setAttribute("y2", "" + yPos);
 					
-					
-					
 				}
-			//});								
+			});								
 		}
 	}
-//}
+}
 //LINE END
