@@ -21,8 +21,7 @@ public class LineMovement implements Runnable{
 		thread = new Thread(this); 
 		thread.start();
 	}		
-	
-	
+		
 	
 	public void run(){	
 		
@@ -36,19 +35,19 @@ public class LineMovement implements Runnable{
 			}
 							
 			//canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
-				//public void run(){													
+			//	public void run(){													
 					
-					System.out.println("LineMovement()-> bin in invokeLater line");	
-					
+					System.out.println("LineMovement()-> bin in invokeLater line");						
 				
 					int sec=0;
+					Element elt = document.getElementById("theLine");
+					elt.setAttributeNS(null,"x1", "300");  //Mittelpunkt
+					elt.setAttributeNS(null,"y1", "200");  //Mittelpunkt
+
 					
 					while (true){
-					
-						
-						Element elt = document.getElementById("theLine");
+											
 						System.out.println("LineMovement()-> style: " + elt.getAttribute("style"));
-
 						
 						double alf = (90 - 6 * sec) * Math.PI / 180;
 						double x = Math.cos(alf) *190;
@@ -61,10 +60,8 @@ public class LineMovement implements Runnable{
 						System.out.println("LineMovement()-> int_x: " + int_x);
 						System.out.println("LineMovement()-> int_y: " + int_y + "\n");
 						
-
-						
-						elt.setAttributeNS(null,"x1", "300");
-						elt.setAttributeNS(null,"y1", "200");
+						//elt.setAttributeNS(null,"x1", "300");
+						//elt.setAttributeNS(null,"y1", "200");
 						elt.setAttributeNS(null,"x2", Integer.toString(int_x+300));
 						elt.setAttributeNS(null,"y2", Integer.toString(int_y+200));
 						
@@ -76,7 +73,7 @@ public class LineMovement implements Runnable{
 						
 						
 						try {
-							Thread.sleep(1000);
+							Thread.sleep(100);
 						} 
 						catch (InterruptedException e) {
 							e.printStackTrace();
