@@ -41,6 +41,8 @@ public class SVGInteractor extends JFrame{
 	private Thread thread;
 	private CircleMovement circleMov;
 	private SquareMovement squareMov;
+	private LineMovement lineMove;
+	JPanel panel;
 
 	
 	
@@ -49,7 +51,7 @@ public class SVGInteractor extends JFrame{
 		super("SVG Interactor");		
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JPanel panel = new JPanel();		
+		panel = new JPanel();		
 		canvas.setMySize(new Dimension(600, 400));
 		
 		//Force the canvas to always be dynamic
@@ -87,15 +89,6 @@ public class SVGInteractor extends JFrame{
 		
 		
 		// Create and append to the root a couple of basic shapes
-		Element line = document.createElementNS(svgNS, "line");
-		line.setAttributeNS(null, "x1", "300");					
-		line.setAttributeNS(null, "y1", "200");
-		line.setAttributeNS(null, "x2", "400");
-		line.setAttributeNS(null, "y2", "300");
-		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:10");
-		line.setAttributeNS(null, "id", "theLine");
-		
-		// Create and append to the root a couple of basic shapes
 		Element circle = document.createElementNS(svgNS, "circle");
 		circle.setAttributeNS(null, "fill", "lightsteelblue");					
 		circle.setAttributeNS(null, "stroke", "darkslateblue");
@@ -115,6 +108,15 @@ public class SVGInteractor extends JFrame{
 		square.setAttributeNS(null, "y", "120");
 		square.setAttributeNS(null, "id", "theSquare");
 		
+		// Create and append to the root a couple of basic shapes
+		Element line = document.createElementNS(svgNS, "line");
+		line.setAttributeNS(null, "x1", "300");					
+		line.setAttributeNS(null, "y1", "200");
+		line.setAttributeNS(null, "x2", "400");
+		line.setAttributeNS(null, "y2", "300");
+		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:20");
+		line.setAttributeNS(null, "id", "theLine");		
+		
 		root.appendChild(circle);
 		root.appendChild(square);
 		root.appendChild(line);
@@ -124,18 +126,17 @@ public class SVGInteractor extends JFrame{
 		
 		// Complete the construction of the program window
 		panel.add(canvas);
+		
 		this.setContentPane(panel);
 		this.pack();
-		this.setBounds(150,150,this.getWidth(),this.getHeight());
-		
-		
+		this.setBounds(150,150,this.getWidth(),this.getHeight());		
 	
 	}	
 	//end SVGInteractor()-Konstruktor
 
-	
 
 	
+
 	
 	
 	
@@ -149,17 +150,25 @@ public class SVGInteractor extends JFrame{
 		
 		// Add to the line a listener for the ‘click’ event
 		t3.addEventListener("click",new EventListener() {
+		//t3.addEventListener("mouseover",new EventListener() {	
 			public void handleEvent(Event evt) {
-				System.out.println("Greetings from the line!");
+				System.out.println("click Greetings from the line!");
 				Element elt = document.getElementById("theLine");				
 				
-				LineMovement lineMove = new LineMovement(document,canvas);
+				lineMove = new LineMovement(document,canvas,panel);
 				lineMove.starte();
 			}
 		}
 		,false);	
 		
-
+		t3.addEventListener("mouseout",new EventListener() {	
+			public void handleEvent(Event evt) {
+				System.out.println("mouseout Greetings from the line!");
+				Element elt = document.getElementById("theLine");								
+				lineMove.stoppe();
+			}
+		}
+		,false);	
 		
 
 				
@@ -418,6 +427,16 @@ public class SVGInteractor extends JFrame{
 			System.out.println("stoppe SquareMovement-thread now");
 			thread.stop();
 		}
+
+		
+		
+		
+		public void aktualisiere(){
+			panel.repaint();
+		}
+
+		
+		
 		
 		private int deltaX = 2;
 		
@@ -435,10 +454,9 @@ public class SVGInteractor extends JFrame{
 								
 				// Returns immediately
 				canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
-				    // Insert some actions on the DOM here
 					public void run(){													
 						
-						System.out.println("bin in invokeLater theSquare");							
+						System.out.println("bin in invokeLater theSquare");	
 						
 						Element elt = document.getElementById("theSquare");
 						int xPos = Integer.parseInt(elt.getAttribute("x"));
