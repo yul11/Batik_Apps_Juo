@@ -115,15 +115,26 @@ public class SVGInteractor extends JFrame{
 		line.setAttributeNS(null, "y2", "10");
 		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:10");
 		line.setAttributeNS(null, "id", "theLine");		
+
+		
+		
+		
 		
 		Element line33 = document.createElementNS(svgNS, "line");
 		line33.setAttributeNS(null, "x1", "100");					
 		line33.setAttributeNS(null, "y1", "100");
 		line33.setAttributeNS(null, "x2", "300");
 		line33.setAttributeNS(null, "y2", "10");
-		line33.setAttributeNS(null,  "style", "stroke:rgb(0,255,0);stroke-width:20");
-		line33.setAttributeNS(null, "id", "theLine33");
-
+		
+		
+		//line.setAttributeNS(null, "filter", "stroke:rgb(0,255,0);stroke-width:10");
+		//line33.setAttributeNS(null,  "filter x", "0" );
+		//line33.setAttributeNS(null,  "filter y", "0" );
+		//line33.setAttributeNS(null,  "width", "200%" );		
+		//line33.setAttributeNS(null, "transform", "translate(100,100) rotate(90)");
+		
+		line33.setAttributeNS(null, "feGaussianBlur", "500");
+		
 		
 		root.appendChild(circle);
 		root.appendChild(square);
