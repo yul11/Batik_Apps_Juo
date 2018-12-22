@@ -108,18 +108,28 @@ public class SVGInteractor extends JFrame{
 		square.setAttributeNS(null, "y", "120");
 		square.setAttributeNS(null, "id", "theSquare");
 		
-		// Create and append to the root a couple of basic shapes
 		Element line = document.createElementNS(svgNS, "line");
 		line.setAttributeNS(null, "x1", "300");					
 		line.setAttributeNS(null, "y1", "200");
-		line.setAttributeNS(null, "x2", "400");
-		line.setAttributeNS(null, "y2", "300");
-		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:20");
+		line.setAttributeNS(null, "x2", "300");
+		line.setAttributeNS(null, "y2", "10");
+		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:10");
 		line.setAttributeNS(null, "id", "theLine");		
+		
+		Element line4 = document.createElementNS(svgNS, "line");
+		line4.setAttributeNS(null, "x1", "100");					
+		line4.setAttributeNS(null, "y1", "100");
+		line4.setAttributeNS(null, "x2", "300");
+		line4.setAttributeNS(null, "y2", "10");
+		line4.setAttributeNS(null,  "style", "stroke:rgb(0,255,0);stroke-width:20");
+		line4.setAttributeNS(null, "id", "theLine4");
+
 		
 		root.appendChild(circle);
 		root.appendChild(square);
 		root.appendChild(line);
+		root.appendChild(line4);
+		
 		
 		//Attach the listeners to the shapes	
 		registerListeners();
@@ -155,7 +165,7 @@ public class SVGInteractor extends JFrame{
 				System.out.println("click Greetings from the line!");
 				Element elt = document.getElementById("theLine");				
 				
-				lineMove = new LineMovement(document,canvas,panel);
+				lineMove = new LineMovement(document,canvas);
 				lineMove.starte();
 			}
 		}

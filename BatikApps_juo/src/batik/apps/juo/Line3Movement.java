@@ -8,7 +8,7 @@ import org.w3c.dom.Element;
 
 
 
-public class LineMovement implements Runnable{	
+public class Line3Movement implements Runnable{	
 	
 	Document document;
 	JSVGCanvas canvas;
@@ -17,7 +17,7 @@ public class LineMovement implements Runnable{
 	String mx= "300";  //Mittelpunkt x-Koordinate
 	String my= "200";  //Mittelpunkt y-Koordinate
 	
-	public LineMovement(Document d, JSVGCanvas c){		
+	public Line3Movement(Document d, JSVGCanvas c){		
 		this.document =d;
 		this.canvas   =c;
 	}
