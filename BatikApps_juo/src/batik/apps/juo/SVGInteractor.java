@@ -116,19 +116,19 @@ public class SVGInteractor extends JFrame{
 		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:10");
 		line.setAttributeNS(null, "id", "theLine");		
 		
-		Element line4 = document.createElementNS(svgNS, "line");
-		line4.setAttributeNS(null, "x1", "100");					
-		line4.setAttributeNS(null, "y1", "100");
-		line4.setAttributeNS(null, "x2", "300");
-		line4.setAttributeNS(null, "y2", "10");
-		line4.setAttributeNS(null,  "style", "stroke:rgb(0,255,0);stroke-width:20");
-		line4.setAttributeNS(null, "id", "theLine4");
+		Element line33 = document.createElementNS(svgNS, "line");
+		line33.setAttributeNS(null, "x1", "100");					
+		line33.setAttributeNS(null, "y1", "100");
+		line33.setAttributeNS(null, "x2", "300");
+		line33.setAttributeNS(null, "y2", "10");
+		line33.setAttributeNS(null,  "style", "stroke:rgb(0,255,0);stroke-width:20");
+		line33.setAttributeNS(null, "id", "theLine33");
 
 		
 		root.appendChild(circle);
 		root.appendChild(square);
 		root.appendChild(line);
-		root.appendChild(line4);
+		root.appendChild(line33);
 		
 		
 		//Attach the listeners to the shapes	
