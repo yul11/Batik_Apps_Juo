@@ -190,7 +190,7 @@ public class SVGInteractor extends JFrame{
 		t3.addEventListener("click",new EventListener() {
 		//t3.addEventListener("mouseover",new EventListener() {	
 			public void handleEvent(Event evt) {
-				System.out.println("click Greetings from the line!");
+				System.out.println("click  Greetings from the line!");
 				Element elt = document.getElementById("theLine");				
 				
 				lineMove = new LineMovement(document,canvas);
