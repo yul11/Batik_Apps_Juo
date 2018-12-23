@@ -45,6 +45,9 @@ public class SVGInteractor extends JFrame{
 	private SquareMovement squareMov;
 	private LineMovement lineMove;
 	JPanel panel;
+	String mx= "300";  //Mittelpunkt x-Koordinate
+	String my= "200";  //Mittelpunkt y-Koordinate
+
 
 	
 	
@@ -141,10 +144,31 @@ public class SVGInteractor extends JFrame{
 		
 		
 		
+		
+		
+		// Creates the face (Ziffernblatt) of a clock 
+		Element clockFace = document.createElementNS(svgNS, "circle");
+		clockFace.setAttributeNS(null, "fill", "grey");					
+		clockFace.setAttributeNS(null, "stroke", "darkslateblue");
+		clockFace.setAttributeNS(null, "stroke-width", "5");
+		clockFace.setAttributeNS(null, "r", "180");
+		clockFace.setAttributeNS(null, "cx", mx);
+		clockFace.setAttributeNS(null, "cy", my);
+		clockFace.setAttributeNS(null, "id", "theCircle");
+		Gradients.insertCoolRadialGradient(document);
+		clockFace.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
+
+		
+
+		
+		
+		root.appendChild(rect2);
+		root.appendChild(clockFace);
 		root.appendChild(circle);
 		root.appendChild(square);
 		root.appendChild(line);
-		root.appendChild(rect2);
+		
+		
 				
 		//Attach the listeners to the shapes	
 		registerListeners();

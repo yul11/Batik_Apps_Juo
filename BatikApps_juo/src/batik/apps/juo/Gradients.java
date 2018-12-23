@@ -19,8 +19,8 @@ public class Gradients {
 		
 		Element gradient = doc.createElementNS(svgNS, "radialGradient");		
 		gradient.setAttributeNS(null, "id", COOL_RADIAL_GRADIENT_ID);		
-		gradient.setAttributeNS(null, "fx", "30%");		
-		gradient.setAttributeNS(null, "fy", "30%");
+		gradient.setAttributeNS(null, "fx", "50%");		
+		gradient.setAttributeNS(null, "fy", "50%");
 		
 		Element stop1 = doc.createElementNS(svgNS, "stop");		
 		stop1.setAttributeNS(null,"offset", "0%");		
@@ -29,7 +29,7 @@ public class Gradients {
 		
 		Element stop2 = doc.createElementNS(svgNS, "stop");
 		stop2.setAttributeNS(null, "offset", "100%");
-		stop2.setAttributeNS(null, "stop-color","#666");
+		stop2.setAttributeNS(null, "stop-color","#444");
 		gradient.appendChild(stop2);
 		
 		defs.appendChild(gradient);				
