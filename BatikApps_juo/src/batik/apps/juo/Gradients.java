@@ -13,8 +13,7 @@ public class Gradients {
 	
 	public static void insertCoolRadialGradient(Document doc) {		
 	
-		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;		
-	
+		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;			
 		Element defs = getOrCreateDefs(doc);
 		
 		Element gradient = doc.createElementNS(svgNS, "radialGradient");		
@@ -30,8 +29,7 @@ public class Gradients {
 		Element stop2 = doc.createElementNS(svgNS, "stop");
 		stop2.setAttributeNS(null, "offset", "100%");
 		stop2.setAttributeNS(null, "stop-color","#444");
-		gradient.appendChild(stop2);
-		
+		gradient.appendChild(stop2);		
 		defs.appendChild(gradient);				
 	}
 	
@@ -49,10 +47,10 @@ public class Gradients {
 	    gradient.setAttributeNS(null, "y2","100%");
 
 		Element stopl = doc.createElementNS(svgNS, "stop");
-
 		stopl.setAttributeNS(null,"offset", "0%");
 		stopl.setAttributeNS(null, "stop-color","#666");
 		gradient.appendChild(stopl);
+		
 		Element stop2 = doc.createElementNS(svgNS, "stop");
 		stop2.setAttributeNS(null, "offset", "100%");
 		stop2.setAttributeNS(null, "stop-color", "#fff");
@@ -80,16 +78,3 @@ public class Gradients {
 		return defs;
 	}
 }
-
-
-
-
-
-
-
-				
-				
-				
-
-
-
