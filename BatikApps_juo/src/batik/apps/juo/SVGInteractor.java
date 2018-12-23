@@ -10,6 +10,7 @@ import java.awt.Panel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.apache.batik.anim.dom.SVGDOMImplementation;
+import org.apache.batik.bridge.BridgeExtension;
 import org.apache.batik.script.Interpreter;
 import org.apache.batik.script.Window;
 import org.apache.batik.swing.JSVGCanvas;
@@ -19,6 +20,7 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -113,33 +115,48 @@ public class SVGInteractor extends JFrame{
 		line.setAttributeNS(null, "y1", "200");
 		line.setAttributeNS(null, "x2", "300");
 		line.setAttributeNS(null, "y2", "10");
-		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0);stroke-width:10");
+		line.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
 		line.setAttributeNS(null, "id", "theLine");		
+
 
 		
 		
 		
+		Element rect2 = document.createElementNS(svgNS, "rect");
+		rect2.setAttributeNS(null, "fill", "plum");
+		rect2.setAttributeNS(null, "stroke", "indigo");
+		rect2.setAttributeNS(null, "stroke-width", "5");
+		rect2.setAttributeNS(null, "width", "160");
+		rect2.setAttributeNS(null, "height", "160");
+		rect2.setAttributeNS(null, "x", "400");
+		rect2.setAttributeNS(null, "y", "150");
+		rect2.setAttributeNS(null, "id", "theSquare");
 		
-		Element line33 = document.createElementNS(svgNS, "line");
-		line33.setAttributeNS(null, "x1", "100");					
-		line33.setAttributeNS(null, "y1", "100");
-		line33.setAttributeNS(null, "x2", "300");
-		line33.setAttributeNS(null, "y2", "10");
+		rect2.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linejoin:round");
+		
+		rect2.setAttributeNS(null, "linear-gradient", "to right, red, orange, yellow, green, blue, indigo, green");
+		
+		NodeList nl = rect2.getElementsByTagName(svgNS);
+		nl.getLength();
+		
+		String str_tn = rect2.getTagName();
+		
+		 
 		
 		
 		//line.setAttributeNS(null, "filter", "stroke:rgb(0,255,0);stroke-width:10");
 		//line33.setAttributeNS(null,  "filter x", "0" );
 		//line33.setAttributeNS(null,  "filter y", "0" );
 		//line33.setAttributeNS(null,  "width", "200%" );		
-		//line33.setAttributeNS(null, "transform", "translate(100,100) rotate(90)");
+		//line33.setAttributeNS(null, "transform", "translate(100,100) rotate(90)");		
+		//line33.setAttributeNS(null, "feGaussianBlur", "500");
 		
-		line33.setAttributeNS(null, "feGaussianBlur", "500");
 		
 		
 		root.appendChild(circle);
 		root.appendChild(square);
 		root.appendChild(line);
-		root.appendChild(line33);
+		root.appendChild(rect2);
 		
 		
 		//Attach the listeners to the shapes	
