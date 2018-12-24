@@ -10,6 +10,32 @@ public class Gradients {
 	public static final String COOL_RADIAL_GRADIENT_ID = "cr_grad";
 	public static final String VERTICAL_GRADIENT_ID     = "v_grad";
 
+
+	public static void insertCoolPicture(Document doc) {		
+		
+		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;			
+		Element defs = getOrCreateDefs(doc);
+		
+		Element pat = doc.createElementNS(svgNS, "pattern");		
+		pat.setAttributeNS(null, "id", "picture");		
+		pat.setAttributeNS(null, "x", "20");		
+		pat.setAttributeNS(null, "y", "20");		
+		pat.setAttributeNS(null, "width", "50");		
+		pat.setAttributeNS(null, "height", "60");
+		pat.setAttributeNS(null, "patternUnits", "userSpaceOnUse");
+		
+		Element img = doc.createElementNS(svgNS, "image");		
+		img.setAttributeNS(null, "x", "0");		
+		img.setAttributeNS(null, "y", "0");
+		img.setAttributeNS(null, "width", "50");
+		img.setAttributeNS(null, "height", "60");		
+		img.setAttributeNS(null, "xlink:href", "audi_logo.jpg");
+		pat.appendChild(img);
+				
+		defs.appendChild(pat);			
+	}
+
+	
 	
 	public static void insertCoolRadialGradient(Document doc) {		
 	
@@ -29,9 +55,11 @@ public class Gradients {
 		Element stop2 = doc.createElementNS(svgNS, "stop");
 		stop2.setAttributeNS(null, "offset", "100%");
 		stop2.setAttributeNS(null, "stop-color","#444");
-		gradient.appendChild(stop2);		
+		gradient.appendChild(stop2);
+		
 		defs.appendChild(gradient);				
 	}
+
 	
 	
 	public static void insertVerticalGradient(Document doc) {

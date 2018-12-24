@@ -91,8 +91,11 @@ public class SVGInteractor extends JFrame{
 					
 		// Get a reference to the <svg> element
 		Element root = document.getDocumentElement();
+		
 		Gradients.insertVerticalGradient(document);
 		Gradients.insertCoolRadialGradient(document);
+		
+
 		
 		
 		// Create and append to the root a couple of basic shapes
@@ -104,6 +107,9 @@ public class SVGInteractor extends JFrame{
 		circle.setAttributeNS(null, "cx", "120");
 		circle.setAttributeNS(null, "cy", "180");
 		circle.setAttributeNS(null, "id", "theCircle");
+		Gradients.insertCoolPicture(document);
+		circle.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
+
 		
 		Element square = document.createElementNS(svgNS, "rect");
 		square.setAttributeNS(null, "fill", "plum");
@@ -147,8 +153,14 @@ public class SVGInteractor extends JFrame{
 		clockFace.setAttributeNS(null, "id", "theClockFace");
 		clockFace.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
 
+		// Creates a picture
+		//Element pic = document.createElementNS(svgNS, "pattern");
+		//pic.setAttributeNS(null, "x", "20");
+		//pic.setAttributeNS(null, "y", "20");
+		//pic.setAttributeNS(null, "id", "picture");
+		//pic.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
 		
-		
+		//root.appendChild(pic);
 		root.appendChild(rect2);
 		root.appendChild(clockFace);
 		root.appendChild(circle);
