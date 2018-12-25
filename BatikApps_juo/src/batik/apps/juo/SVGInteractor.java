@@ -92,23 +92,21 @@ public class SVGInteractor extends JFrame{
 		// Get a reference to the <svg> element
 		Element root = document.getDocumentElement();
 		
-		Gradients.insertVerticalGradient(document);
-		Gradients.insertCoolRadialGradient(document);
+		
 		
 
 		
 		
 		// Create and append to the root a couple of basic shapes
 		Element circle = document.createElementNS(svgNS, "circle");
-		circle.setAttributeNS(null, "fill", "lightsteelblue");					
+		//circle.setAttributeNS(null, "fill", "lightsteelblue");					
 		circle.setAttributeNS(null, "stroke", "darkslateblue");
 		circle.setAttributeNS(null, "stroke-width", "5");
 		circle.setAttributeNS(null, "r", "70");
 		circle.setAttributeNS(null, "cx", "120");
 		circle.setAttributeNS(null, "cy", "180");
 		circle.setAttributeNS(null, "id", "theCircle");
-		Gradients.insertCoolPicture(document);
-		circle.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
+		
 
 		
 		Element square = document.createElementNS(svgNS, "rect");
@@ -117,9 +115,15 @@ public class SVGInteractor extends JFrame{
 		square.setAttributeNS(null, "stroke-width", "5");
 		square.setAttributeNS(null, "width", "160");
 		square.setAttributeNS(null, "height", "160");
-		square.setAttributeNS(null, "x", "360");
-		square.setAttributeNS(null, "y", "120");
-		square.setAttributeNS(null, "id", "theSquare");
+		square.setAttributeNS(null, "x", mx);
+		square.setAttributeNS(null, "y", my);
+		square.setAttributeNS(null, "id", "theSquare");		
+		//square.setAttributeNS(null, "fill","url(#" + Gradients.VERTICAL_GRADIENT_ID + ")");		
+		//square.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
+		Gradients.insertCoolPicture(document);		
+		square.setAttributeNS(null, "fill","url(#" + Gradients.PHOTO_GRADIENT_ID + ")");
+		
+		
 		
 		Element line = document.createElementNS(svgNS, "line");
 		line.setAttributeNS(null, "x1", "300");					
@@ -128,6 +132,7 @@ public class SVGInteractor extends JFrame{
 		line.setAttributeNS(null, "y2", "10");		
 		line.setAttributeNS(null, "style", "stroke:rgb(120,120,120); stroke-width:10; stroke-linecap:round");
 		line.setAttributeNS(null, "id", "theLine");	
+		Gradients.insertCoolRadialGradient(document);
 		line.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
 		
 		Element rect2 = document.createElementNS(svgNS, "rect");
@@ -140,7 +145,8 @@ public class SVGInteractor extends JFrame{
 		rect2.setAttributeNS(null, "stroke", "black");
 		rect2.setAttributeNS(null, "width", "160");
 		rect2.setAttributeNS(null, "height", "160");
-		rect2.setAttributeNS(null, "fill","url(#" + Gradients.VERTICAL_GRADIENT_ID + ")");		
+		Gradients.insertVerticalGradient(document);
+		rect2.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");		
 		
 		// Creates the face (Ziffernblatt) of a clock 
 		Element clockFace = document.createElementNS(svgNS, "circle");
@@ -151,6 +157,7 @@ public class SVGInteractor extends JFrame{
 		clockFace.setAttributeNS(null, "cx", mx);
 		clockFace.setAttributeNS(null, "cy", my);
 		clockFace.setAttributeNS(null, "id", "theClockFace");
+		Gradients.insertCoolRadialGradient(document);
 		clockFace.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
 
 		// Creates a picture
