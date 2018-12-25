@@ -10,10 +10,14 @@ public class Gradients {
 	public static final String COOL_RADIAL_GRADIENT_ID  = "cr_grad";
 	public static final String VERTICAL_GRADIENT_ID     = "v_grad";
 	public static final String PHOTO_GRADIENT_ID        = "picture";
-	// id in <pattern id="picture" x="20"
+	// id in <pattern id="picture" x="20..."
 
 
-	public static void insertCoolPicture(Document doc) {		
+
+	public static void insertCoolPicture(Document doc) {	
+		
+		String mx= "300";  //Mittelpunkt x-Koordinate
+		String my= "300";  //Mittelpunkt y-Koordinate
 		
 		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;	
 		
@@ -21,23 +25,26 @@ public class Gradients {
 		
 		Element pat = doc.createElementNS(svgNS, "pattern");
 		pat.setAttributeNS(null, "id", PHOTO_GRADIENT_ID);
-		pat.setAttributeNS(null, "x", "350");		
-		pat.setAttributeNS(null, "y", "140");	
-		pat.setAttributeNS(null, "width", "400");
-		pat.setAttributeNS(null, "height", "240");
+		pat.setAttributeNS(null, "x", mx);		
+		pat.setAttributeNS(null, "y", my);	
+		pat.setAttributeNS(null, "width", "120");
+		pat.setAttributeNS(null, "height", "120");
 		pat.setAttributeNS(null, "patternUnits", "userSpaceOnUse");
-		Element img = doc.createElementNS(svgNS, "image");
-						
-		img.setAttributeNS(null, "x", "360");		
-		img.setAttributeNS(null, "y", "150");
-		img.setAttributeNS(null, "width", "50");
-		img.setAttributeNS(null, "height", "120");
-		//img.setAttributeNS(null, "xlink\\:href", "audi_logo.jpg");
-		
-		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");
-		img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6461/mdn_logo_only_color.png");		
-		System.out.println("xlink:href ist: " +img.getAttributeNS("http://www.w3.org/1999/xlink","xlink:href"));
+		//pat.setAttributeNS(null, "patternUnits", "objectBoundingBox");
 				
+		Element img = doc.createElementNS(svgNS, "image");						
+		//img.setAttributeNS(null, "x", "315");		
+		//img.setAttributeNS(null, "y", "150");
+		img.setAttributeNS(null, "x", "0");		
+		img.setAttributeNS(null, "y", "0");
+		img.setAttributeNS(null, "width", "120");
+		img.setAttributeNS(null, "height", "120");
+		//img.setAttributeNS(null, "xlink\\:href", "audi_logo.jpg");		
+		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");
+	    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6461/mdn_logo_only_color.png"); 		
+	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://www.bacb.de/wp-content/uploads/2016/03/audi-logo.png"); 		
+
+	    
 		pat.appendChild(img);				
 		defs.appendChild(pat);			
 	}
@@ -51,17 +58,17 @@ public class Gradients {
 		
 		Element gradient = doc.createElementNS(svgNS, "radialGradient");		
 		gradient.setAttributeNS(null, "id", COOL_RADIAL_GRADIENT_ID);		
-		gradient.setAttributeNS(null, "fx", "50%");		
+		gradient.setAttributeNS(null, "fx", "70%");		
 		gradient.setAttributeNS(null, "fy", "50%");
 		
 		Element stop1 = doc.createElementNS(svgNS, "stop");		
 		stop1.setAttributeNS(null,"offset", "0%");		
-		stop1.setAttributeNS(null, "stop-color", "#fff");
+		stop1.setAttributeNS(null, "stop-color", "#FF0000"); //red
 		gradient.appendChild(stop1);
 		
 		Element stop2 = doc.createElementNS(svgNS, "stop");
 		stop2.setAttributeNS(null, "offset", "100%");
-		stop2.setAttributeNS(null, "stop-color","#444");
+		stop2.setAttributeNS(null, "stop-color","#00FF00");	 //green
 		gradient.appendChild(stop2);
 		
 		defs.appendChild(gradient);				

@@ -14,7 +14,7 @@ public class LineMovement implements Runnable{
 	private Thread thread;
 	int sec=0;
 	String mx= "300";  //Mittelpunkt x-Koordinate
-	String my= "200";  //Mittelpunkt y-Koordinate
+	String my= "300";  //Mittelpunkt y-Koordinate
 	
 	public LineMovement(Document d, JSVGCanvas c){		
 		this.document =d;
@@ -53,8 +53,8 @@ public class LineMovement implements Runnable{
 					System.out.println("LineMovement()-> style: " + elt.getAttribute("style"));
 					
 					double alf = (180 - 6 * sec) * Math.PI / 180;
-					double x = Math.sin(alf) *190;
-					double y = Math.cos(alf) *190;
+					double x = Math.sin(alf) *200;
+					double y = Math.cos(alf) *200;
 					
 					System.out.println("LineMovement()-> sec: " + sec);
 					
