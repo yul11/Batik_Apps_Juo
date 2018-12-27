@@ -43,7 +43,7 @@ public class SVGInteractor extends JFrame{
 	private Thread thread;
 	private CircleMovement circleMov;
 	private SquareMovement squareMov;
-	private LineMovement lineMove;
+	private LineMovement   lineMove;
 	JPanel panel;
 	String mx= "300";  //Mittelpunkt x-Koordinate
 	String my= "300";  //Mittelpunkt y-Koordinate
@@ -53,7 +53,7 @@ public class SVGInteractor extends JFrame{
 	
 	public SVGInteractor(){
 		
-		super("SVG Interactor");		
+		super("SVGInteractor");	
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel = new JPanel();		
@@ -109,9 +109,6 @@ public class SVGInteractor extends JFrame{
 		circle.setAttributeNS(null, "id", "theCircle");
 		Gradients.insertCoolRadialGradient(document);
 		circle.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
-
-		
-
 		
 		Element square = document.createElementNS(svgNS, "rect");
 		//square.setAttributeNS(null, "fill", "plum");
@@ -123,7 +120,7 @@ public class SVGInteractor extends JFrame{
 		square.setAttributeNS(null, "y", my);
 		square.setAttributeNS(null, "id", "theSquare");		
 		Gradients.insertVerticalGradient(document);		
-		square.setAttributeNS(null, "fill","url(#" + Gradients.PHOTO_GRADIENT_ID + ")");		
+		square.setAttributeNS(null, "fill","url(#" + Gradients.VERTICAL_GRADIENT_ID + ")");		
 		
 		Element line = document.createElementNS(svgNS, "line");
 		line.setAttributeNS(null, "x1", "300");					
@@ -157,9 +154,11 @@ public class SVGInteractor extends JFrame{
 		clockFace.setAttributeNS(null, "cx", mx);
 		clockFace.setAttributeNS(null, "cy", my);
 		clockFace.setAttributeNS(null, "id", "theClockFace");
-		//Gradients.insertCoolRadialGradient(document);
-		Gradients.insertCoolPicture(document);		
-		clockFace.setAttributeNS(null, "fill","url(#" + Gradients.PHOTO_GRADIENT_ID + ")");
+		Gradients.insertCoolRadialGradient(document);
+		//Gradients.insertCoolPictureAfrica(document);
+		//Gradients.insertCoolPictureRedGirl(document);
+		//clockFace.setAttributeNS(null, "fill","url(#" + Gradients.PHOTO_GRADIENT_ID + ")");
+		clockFace.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");		
 
 				
 		root.appendChild(rect2);
@@ -167,8 +166,7 @@ public class SVGInteractor extends JFrame{
 		root.appendChild(circle);
 		root.appendChild(square);
 		root.appendChild(line);
-		
-				
+						
 		//Attach the listeners to the shapes	
 		registerListeners();
 		
@@ -341,6 +339,31 @@ public class SVGInteractor extends JFrame{
 			}
 		}
 		,false);
+
+		
+
+		
+		// Get a reference to the square as an event target
+		EventTarget t4 = (EventTarget)document.getElementById("theClockFace");
+		
+		// Add to the square a listener for the ‘click’ event
+		t4.addEventListener("click",new EventListener() {
+			public void handleEvent(Event evt) {
+				System.out.println("Greetings from the clock-face!");
+				Element elt = document.getElementById("theClockFace");
+				
+				String str_r = elt.getAttribute("r");				
+				Integer int_r = Integer.parseInt(str_r);
+				System.out.println("int_r: " + int_r);				
+				int_r = int_r+10;				
+				elt.setAttribute("r", Integer.toString(int_r));
+				
+				new Setup(document);				
+
+			}
+		}
+		,false);			
+		
 		
 
 	}
@@ -474,16 +497,6 @@ public class SVGInteractor extends JFrame{
 			System.out.println("stoppe SquareMovement-thread now");
 			thread.stop();
 		}
-
-		
-		
-		
-		public void aktualisiere(){
-			panel.repaint();
-		}
-
-		
-		
 		
 		private int deltaX = 2;
 		

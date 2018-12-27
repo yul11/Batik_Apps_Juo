@@ -10,11 +10,9 @@ public class Gradients {
 	public static final String COOL_RADIAL_GRADIENT_ID  = "cr_grad";
 	public static final String VERTICAL_GRADIENT_ID     = "v_grad";
 	public static final String PHOTO_GRADIENT_ID        = "picture";
-	// id in <pattern id="picture" x="20..."
 
 
-
-	public static void insertCoolPicture(Document doc) {	
+	public static void insertCoolPictureAfrica(Document doc) {	
 		
 		String mx= "300";  //Mittelpunkt x-Koordinate
 		String my= "300";  //Mittelpunkt y-Koordinate
@@ -30,24 +28,57 @@ public class Gradients {
 		pat.setAttributeNS(null, "width", "120");
 		pat.setAttributeNS(null, "height", "120");
 		pat.setAttributeNS(null, "patternUnits", "userSpaceOnUse");
-		//pat.setAttributeNS(null, "patternUnits", "objectBoundingBox");
 				
 		Element img = doc.createElementNS(svgNS, "image");						
-		//img.setAttributeNS(null, "x", "315");		
-		//img.setAttributeNS(null, "y", "150");
 		img.setAttributeNS(null, "x", "0");		
 		img.setAttributeNS(null, "y", "0");
 		img.setAttributeNS(null, "width", "120");
 		img.setAttributeNS(null, "height", "120");
-		//img.setAttributeNS(null, "xlink\\:href", "audi_logo.jpg");		
 		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");
-	    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6461/mdn_logo_only_color.png"); 		
+	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6461/mdn_logo_only_color.png"); 		
 	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://www.bacb.de/wp-content/uploads/2016/03/audi-logo.png"); 		
+		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://openclipart.org/download/190044/ccAzqg7fg9uzPw.svg"); 
+	    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/African-Girl-2.svg"); 	    
+	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/erstauntMaedchen.svg");
 
-	    
-		pat.appendChild(img);				
+	    pat.appendChild(img);				
 		defs.appendChild(pat);			
 	}
+	
+	public static void insertCoolPictureRedGirl(Document doc) {	
+		
+		String mx= "300";  //Mittelpunkt x-Koordinate
+		String my= "300";  //Mittelpunkt y-Koordinate
+		
+		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;	
+		
+		Element defs = getOrCreateDefs(doc);
+		
+		Element pat = doc.createElementNS(svgNS, "pattern");
+		pat.setAttributeNS(null, "id", PHOTO_GRADIENT_ID);
+		pat.setAttributeNS(null, "x", mx);		
+		pat.setAttributeNS(null, "y", my);	
+		pat.setAttributeNS(null, "width", "120");
+		pat.setAttributeNS(null, "height", "120");
+		pat.setAttributeNS(null, "patternUnits", "userSpaceOnUse");
+				
+		Element img = doc.createElementNS(svgNS, "image");						
+		img.setAttributeNS(null, "x", "0");		
+		img.setAttributeNS(null, "y", "0");
+		img.setAttributeNS(null, "width", "120");
+		img.setAttributeNS(null, "height", "120");
+		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");
+	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6461/mdn_logo_only_color.png"); 		
+	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://www.bacb.de/wp-content/uploads/2016/03/audi-logo.png"); 		
+		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://openclipart.org/download/190044/ccAzqg7fg9uzPw.svg"); 
+	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/African-Girl-2.svg"); 	    
+	    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/erstauntMaedchen.svg");
+
+	    pat.appendChild(img);				
+		defs.appendChild(pat);			
+	}	
+	
+	
 
 	
 	
@@ -69,8 +100,7 @@ public class Gradients {
 		Element stop2 = doc.createElementNS(svgNS, "stop");
 		stop2.setAttributeNS(null, "offset", "100%");
 		stop2.setAttributeNS(null, "stop-color","#00FF00");	 //green
-		gradient.appendChild(stop2);
-		
+		gradient.appendChild(stop2);		
 		defs.appendChild(gradient);				
 	}
 
@@ -109,9 +139,9 @@ public class Gradients {
 		Element root = doc.getDocumentElement();
 		Element defs = null;
 		NodeList nl = root.getElementsByTagNameNS(svgNS, "defs");
-			
-		if (nl.getLength() > 0) {
-			defs = (Element) nl.item(0);
+					
+		if (nl.getLength() > 0) {  //origin
+			defs = (Element) nl.item(0);			
 		} 
 		else {
 			defs = doc.createElementNS(svgNS , "defs"); 
