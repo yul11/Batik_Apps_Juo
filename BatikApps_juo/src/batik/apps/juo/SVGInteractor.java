@@ -155,9 +155,6 @@ public class SVGInteractor extends JFrame{
 		clockFace.setAttributeNS(null, "cy", my);
 		clockFace.setAttributeNS(null, "id", "theClockFace");
 		Gradients.insertCoolRadialGradient(document);
-		//Gradients.insertCoolPictureAfrica(document);
-		//Gradients.insertCoolPictureRedGirl(document);
-		//clockFace.setAttributeNS(null, "fill","url(#" + Gradients.PHOTO_GRADIENT_ID + ")");
 		clockFace.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");		
 
 				
@@ -175,7 +172,7 @@ public class SVGInteractor extends JFrame{
 		
 		this.setContentPane(panel);
 		this.pack();
-		this.setBounds(150,150,this.getWidth(),this.getHeight());		
+		this.setBounds(600,100,this.getWidth(),this.getHeight());		
 	
 	}	
 	//end SVGInteractor()-Konstruktor
@@ -358,7 +355,7 @@ public class SVGInteractor extends JFrame{
 				int_r = int_r+10;				
 				elt.setAttribute("r", Integer.toString(int_r));
 				
-				new Setup(document);				
+				new Setup(document, canvas);				
 
 			}
 		}

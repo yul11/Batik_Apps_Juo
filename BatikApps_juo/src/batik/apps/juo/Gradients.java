@@ -2,6 +2,7 @@ package batik.apps.juo;
 import org.apache.batik.anim.dom.SVGDOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
@@ -10,6 +11,80 @@ public class Gradients {
 	public static final String COOL_RADIAL_GRADIENT_ID  = "cr_grad";
 	public static final String VERTICAL_GRADIENT_ID     = "v_grad";
 	public static final String PHOTO_GRADIENT_ID        = "picture";
+	
+	
+	public static void deleteDefs(Document doc){
+		
+		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
+		Element root = doc.getDocumentElement();		
+		
+		try{
+			System.out.println("defs ist:  " + root.getAttribute("defs"));
+			System.out.println("style ist: " + root.getAttribute("style"));
+			
+			
+			NodeList nList = doc.getElementsByTagName("string");
+			System.out.println("nList.length ist: " + nList.getLength());
+
+		    for (int temp = 0; temp < nList.getLength(); temp++) {
+		        Node nNode = nList.item(temp);
+		        System.out.println("\nCurrent Element :" + nNode.getNodeName());
+		        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		            Element eElement = (Element) nNode;
+		            System.out.println("Order number: " + 
+		            eElement.getTextContent());
+		         }
+		     }
+		   
+			
+	        Node firstChild = doc.getFirstChild();
+	        System.out.println(firstChild.getChildNodes().getLength());
+	        System.out.println(firstChild.getNodeType());
+	        System.out.println(firstChild.getNodeName());
+
+	        Node rootx = doc.getDocumentElement();
+	        System.out.println(rootx.getChildNodes().getLength());
+	        System.out.println(rootx.getNodeType());
+	        System.out.println(rootx.getNodeName());
+			
+						
+			NodeList cl = root.getChildNodes();
+			
+			for (int i=0; i<cl.getLength(); i++){
+				
+				Node n = cl.item(i);
+				System.out.println("parentNode: " + n.getParentNode());
+				System.out.println("firstChild: " + n.getFirstChild());
+				System.out.println("lastChild:  " + n.getLastChild());				
+			}
+			
+			Element defs = null;
+			NodeList nl = root.getElementsByTagNameNS(svgNS, "defs");			
+			
+			for (int i=0; i<nl.getLength(); i++){
+				System.out.println("Inhalt item " +i + " " +nl.item(i));
+				
+				Node nod = nl.item(i);
+				System.out.println("nodeVal ist: " + nod.getNodeValue());
+				System.out.println("nodeName ist: " + nod.getNodeName());
+			}
+						
+			System.out.println("NodeList hat noch funktioniert, Länge: " +nl.getLength());
+			
+			if (nl.getLength()>0){
+				defs = (Element) nl.item(0);								
+				doc.removeChild(defs);
+				System.out.println("removeChild hat noch funktioniert");				
+			}
+			else
+				System.out.println("Länge NodeList ist 0");
+				
+			
+		}
+		catch (Exception e){
+			System.out.println("deleteDefs() Exception: " + e.getMessage());
+		}
+	}
 
 
 	public static void insertCoolPictureAfrica(Document doc) {	
@@ -34,12 +109,7 @@ public class Gradients {
 		img.setAttributeNS(null, "y", "0");
 		img.setAttributeNS(null, "width", "120");
 		img.setAttributeNS(null, "height", "120");
-		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");
-	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6461/mdn_logo_only_color.png"); 		
-	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://www.bacb.de/wp-content/uploads/2016/03/audi-logo.png"); 		
-		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://openclipart.org/download/190044/ccAzqg7fg9uzPw.svg"); 
 	    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/African-Girl-2.svg"); 	    
-	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/erstauntMaedchen.svg");
 
 	    pat.appendChild(img);				
 		defs.appendChild(pat);			
@@ -50,8 +120,7 @@ public class Gradients {
 		String mx= "300";  //Mittelpunkt x-Koordinate
 		String my= "300";  //Mittelpunkt y-Koordinate
 		
-		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;	
-		
+		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;			
 		Element defs = getOrCreateDefs(doc);
 		
 		Element pat = doc.createElementNS(svgNS, "pattern");
@@ -67,11 +136,6 @@ public class Gradients {
 		img.setAttributeNS(null, "y", "0");
 		img.setAttributeNS(null, "width", "120");
 		img.setAttributeNS(null, "height", "120");
-		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");
-	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6461/mdn_logo_only_color.png"); 		
-	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://www.bacb.de/wp-content/uploads/2016/03/audi-logo.png"); 		
-		//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://openclipart.org/download/190044/ccAzqg7fg9uzPw.svg"); 
-	    //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/African-Girl-2.svg"); 	    
 	    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/erstauntMaedchen.svg");
 
 	    pat.appendChild(img);				
@@ -140,13 +204,19 @@ public class Gradients {
 		Element defs = null;
 		NodeList nl = root.getElementsByTagNameNS(svgNS, "defs");
 					
-		if (nl.getLength() > 0) {  //origin
+		if (nl.getLength() > 0) {
 			defs = (Element) nl.item(0);			
 		} 
 		else {
 			defs = doc.createElementNS(svgNS , "defs"); 
-			root.appendChild(defs);
+			root.appendChild(defs);			
 		}
 		return defs;
 	}
 }
+
+//possible pictures
+//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");
+//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6461/mdn_logo_only_color.png"); 		
+//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://www.bacb.de/wp-content/uploads/2016/03/audi-logo.png"); 		
+//img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://openclipart.org/download/190044/ccAzqg7fg9uzPw.svg"); 
