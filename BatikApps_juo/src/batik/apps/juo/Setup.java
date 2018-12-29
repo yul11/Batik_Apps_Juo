@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import org.apache.batik.anim.dom.SVGDOMImplementation;
 import org.apache.batik.swing.JSVGCanvas;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -24,7 +25,6 @@ public class Setup extends SVGInteractor implements ActionListener{
 	public static JComboBox<String> comboBox;
 	private Document document; // The SVG document
 	private JSVGCanvas canvas;
-	private final String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
 	
 	
 	Setup(Document d, JSVGCanvas c){
@@ -43,8 +43,8 @@ public class Setup extends SVGInteractor implements ActionListener{
 		String[] choices = {"black girl","red girl","CHOICE 3","CHOICE 4","CHOICE 5","CHOICE 6","CHOICE 7"};
 	    comboBox = new JComboBox<String>(choices);
 	    comboBox.setVisible(true);
-	    setSize(170, 500);
-	    setLocation(100, 100);
+	    setSize(170, 650);
+	    setLocation(430, 100);
 	    
 		JPanel    mainPanel   = new JPanel();		
 		mainPanel.setLayout(new BorderLayout());				
@@ -88,10 +88,9 @@ public class Setup extends SVGInteractor implements ActionListener{
                 System.out.println("chose black girl");
                 
         		Gradients.insertCoolPictureAfrica(document);	     		      		
-        		Element el = document.getElementById("theClockFace");        		
+        		Element el = document.getElementById("theClockFace");
         		el.setAttributeNS(null, "fill","url(#" + Gradients.PHOTO_GRADIENT_ID + ")");
         		
-        		System.out.println("Füllung black girl: " + el.getAttribute("fill"));
         		System.out.println("Id black girl: " + el.getAttribute("id"));
         		System.out.println("Fill black girl: " + el.getAttribute("fill"));
        		       		
@@ -106,10 +105,10 @@ public class Setup extends SVGInteractor implements ActionListener{
                     System.out.println("chose red girl");                    
                     
             		Gradients.insertCoolPictureRedGirl(document);         		
-            		Element elt = document.getElementById("theClockFace");            		
-            		elt.setAttributeNS(null, "fill","url(#" + Gradients.PHOTO_GRADIENT_ID + ")");            		
+            		Element elt = document.getElementById("theClockFace"); 
+            		elt.setAttributeNS(null, "fill","url(#" + Gradients.PHOTO_GRADIENT_ID +"2" + ")");
+            		//elt.setAttributeNS(null, "fill","red");
 
-            		System.out.println("Füllung red girl: " + elt.getAttribute("fill"));
             		System.out.println("Id red girl: " + elt.getAttribute("id"));
             		System.out.println("Fill red girl: " + elt.getAttribute("fill"));
             		           		
@@ -131,10 +130,10 @@ public class Setup extends SVGInteractor implements ActionListener{
 
 	
 	
-    public static void main(String[] args) { 
-    	
-    	Document document = null;
-    	JSVGCanvas can = null;
-    	new Setup(document, can);
-    }
+    //public static void main(String[] args) { 
+	//	
+	//	Document document = null;
+	//	JSVGCanvas can = null;
+	//	new Setup(document, can);
+	//}
 }

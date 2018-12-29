@@ -123,23 +123,23 @@ public class Gradients {
 		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;			
 		Element defs = getOrCreateDefs(doc);
 		
-		Element pat = doc.createElementNS(svgNS, "pattern");
-		pat.setAttributeNS(null, "id", PHOTO_GRADIENT_ID);
-		pat.setAttributeNS(null, "x", mx);		
-		pat.setAttributeNS(null, "y", my);	
-		pat.setAttributeNS(null, "width", "120");
-		pat.setAttributeNS(null, "height", "120");
-		pat.setAttributeNS(null, "patternUnits", "userSpaceOnUse");
+		Element pat2 = doc.createElementNS(svgNS, "pattern");
+		pat2.setAttributeNS(null, "id", PHOTO_GRADIENT_ID+"2");
+		pat2.setAttributeNS(null, "x", mx);		
+		pat2.setAttributeNS(null, "y", my);	
+		pat2.setAttributeNS(null, "width", "120");
+		pat2.setAttributeNS(null, "height", "120");
+		pat2.setAttributeNS(null, "patternUnits", "userSpaceOnUse");
 				
-		Element img = doc.createElementNS(svgNS, "image");						
-		img.setAttributeNS(null, "x", "0");		
-		img.setAttributeNS(null, "y", "0");
-		img.setAttributeNS(null, "width", "120");
-		img.setAttributeNS(null, "height", "120");
-	    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/erstauntMaedchen.svg");
+		Element img2 = doc.createElementNS(svgNS, "image");						
+		img2.setAttributeNS(null, "x", "0");		
+		img2.setAttributeNS(null, "y", "0");
+		img2.setAttributeNS(null, "width", "120");
+		img2.setAttributeNS(null, "height", "120");
+		img2.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/erstauntMaedchen.svg");
 
-	    pat.appendChild(img);				
-		defs.appendChild(pat);			
+		pat2.appendChild(img2);				
+		defs.appendChild(pat2);			
 	}	
 	
 	
