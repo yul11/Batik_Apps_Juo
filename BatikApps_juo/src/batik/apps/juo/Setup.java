@@ -123,17 +123,4 @@ public class Setup extends SVGInteractor implements ActionListener{
             } 
 		}
 	}
-	
-	
-		 
-
-
-	
-	
-    //public static void main(String[] args) { 
-	//	
-	//	Document document = null;
-	//	JSVGCanvas can = null;
-	//	new Setup(document, can);
-	//}
 }

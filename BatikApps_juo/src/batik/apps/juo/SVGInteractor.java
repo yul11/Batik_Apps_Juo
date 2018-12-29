@@ -47,7 +47,8 @@ public class SVGInteractor extends JFrame{
 	JPanel panel;
 	String mx= "300";  //Mittelpunkt x-Koordinate
 	String my= "300";  //Mittelpunkt y-Koordinate
-
+	private int clickCt;
+	Setup s = null;
 
 	
 	
@@ -170,6 +171,7 @@ public class SVGInteractor extends JFrame{
 		// Complete the construction of the program window
 		panel.add(canvas);
 		
+		clickCt = 0;		
 		this.setContentPane(panel);
 		this.pack();
 		this.setBounds(600,100,this.getWidth(),this.getHeight());		
@@ -346,23 +348,28 @@ public class SVGInteractor extends JFrame{
 		// Add to the square a listener for the ‘click’ event
 		t4.addEventListener("click",new EventListener() {
 			public void handleEvent(Event evt) {
-				System.out.println("Greetings from the clock-face!");
 				Element elt = document.getElementById("theClockFace");
-				
-				String str_r = elt.getAttribute("r");				
+				String  str_r = elt.getAttribute("r");				
 				Integer int_r = Integer.parseInt(str_r);
-				System.out.println("int_r: " + int_r);				
-				int_r = int_r+10;				
-				elt.setAttribute("r", Integer.toString(int_r));
 				
-				new Setup(document, canvas);				
-
+				if ((clickCt % 2)!=1){
+					int_r = int_r+10;
+					s = new Setup(document, canvas);
+				}
+				else{
+					int_r = int_r-10;
+					if (s!=null){
+						s.dispose();
+					}
+					else{
+						System.out.println("Oject s ist null, nothing to dispose!");
+					}						
+				}
+				elt.setAttribute("r", Integer.toString(int_r));
+				clickCt++;
 			}
 		}
 		,false);			
-		
-		
-
 	}
 	
 	
