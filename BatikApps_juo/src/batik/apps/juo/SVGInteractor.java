@@ -120,7 +120,7 @@ public class SVGInteractor extends JFrame{
 		square.setAttributeNS(null, "x", mx);
 		square.setAttributeNS(null, "y", my);
 		square.setAttributeNS(null, "id", "theSquare");		
-		Gradients.insertVerticalGradient(document);		
+		Gradients.insertCoolVerticalGradient(document);		
 		square.setAttributeNS(null, "fill","url(#" + Gradients.VERTICAL_GRADIENT_ID + ")");		
 		
 		Element line = document.createElementNS(svgNS, "line");
@@ -143,7 +143,7 @@ public class SVGInteractor extends JFrame{
 		rect2.setAttributeNS(null, "stroke", "black");
 		rect2.setAttributeNS(null, "width", "160");
 		rect2.setAttributeNS(null, "height", "160");
-		Gradients.insertVerticalGradient(document);
+		Gradients.insertCoolVerticalGradient(document);
 		rect2.setAttributeNS(null, "fill","url(#" + Gradients.VERTICAL_GRADIENT_ID + ")");		
 		
 		// Creates the face (Ziffernblatt) of a clock 
@@ -351,6 +351,9 @@ public class SVGInteractor extends JFrame{
 				Element elt = document.getElementById("theClockFace");
 				String  str_r = elt.getAttribute("r");				
 				Integer int_r = Integer.parseInt(str_r);
+
+				String str_stroke = elt.getAttribute("stroke");
+				elt.setAttributeNS(null, "stroke", "red");
 				
 				if ((clickCt % 2)!=1){
 					int_r = int_r+10;
@@ -360,6 +363,7 @@ public class SVGInteractor extends JFrame{
 					int_r = int_r-10;
 					if (s!=null){
 						s.dispose();
+						elt.setAttributeNS(null, "stroke", "yellow");
 					}
 					else{
 						System.out.println("Oject s ist null, nothing to dispose!");

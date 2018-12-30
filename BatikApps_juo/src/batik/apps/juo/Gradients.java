@@ -12,82 +12,8 @@ public class Gradients {
 	public static final String VERTICAL_GRADIENT_ID     = "v_grad";
 	public static final String PHOTO_GRADIENT_ID        = "picture";
 	
-	
-	public static void deleteDefs(Document doc){
-		
-		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
-		Element root = doc.getDocumentElement();		
-		
-		try{
-			System.out.println("defs ist:  " + root.getAttribute("defs"));
-			System.out.println("style ist: " + root.getAttribute("style"));
-			
-			
-			NodeList nList = doc.getElementsByTagName("string");
-			System.out.println("nList.length ist: " + nList.getLength());
 
-		    for (int temp = 0; temp < nList.getLength(); temp++) {
-		        Node nNode = nList.item(temp);
-		        System.out.println("\nCurrent Element :" + nNode.getNodeName());
-		        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-		            Element eElement = (Element) nNode;
-		            System.out.println("Order number: " + 
-		            eElement.getTextContent());
-		         }
-		     }
-		   
-			
-	        Node firstChild = doc.getFirstChild();
-	        System.out.println(firstChild.getChildNodes().getLength());
-	        System.out.println(firstChild.getNodeType());
-	        System.out.println(firstChild.getNodeName());
-
-	        Node rootx = doc.getDocumentElement();
-	        System.out.println(rootx.getChildNodes().getLength());
-	        System.out.println(rootx.getNodeType());
-	        System.out.println(rootx.getNodeName());
-			
-						
-			NodeList cl = root.getChildNodes();
-			
-			for (int i=0; i<cl.getLength(); i++){
-				
-				Node n = cl.item(i);
-				System.out.println("parentNode: " + n.getParentNode());
-				System.out.println("firstChild: " + n.getFirstChild());
-				System.out.println("lastChild:  " + n.getLastChild());				
-			}
-			
-			Element defs = null;
-			NodeList nl = root.getElementsByTagNameNS(svgNS, "defs");			
-			
-			for (int i=0; i<nl.getLength(); i++){
-				System.out.println("Inhalt item " +i + " " +nl.item(i));
-				
-				Node nod = nl.item(i);
-				System.out.println("nodeVal ist: " + nod.getNodeValue());
-				System.out.println("nodeName ist: " + nod.getNodeName());
-			}
-						
-			System.out.println("NodeList hat noch funktioniert, Länge: " +nl.getLength());
-			
-			if (nl.getLength()>0){
-				defs = (Element) nl.item(0);								
-				doc.removeChild(defs);
-				System.out.println("removeChild hat noch funktioniert");				
-			}
-			else
-				System.out.println("Länge NodeList ist 0");
-				
-			
-		}
-		catch (Exception e){
-			System.out.println("deleteDefs() Exception: " + e.getMessage());
-		}
-	}
-
-
-	public static void insertCoolPictureAfrica(Document doc) {	
+	public static void insertCoolPictureBlackGirl(Document doc) {	
 		
 		String mx= "300";  //Mittelpunkt x-Koordinate
 		String my= "300";  //Mittelpunkt y-Koordinate
@@ -109,7 +35,7 @@ public class Gradients {
 		img.setAttributeNS(null, "y", "0");
 		img.setAttributeNS(null, "width", "120");
 		img.setAttributeNS(null, "height", "120");
-	    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/African-Girl-2.svg"); 	    
+		img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/git/Batik_Apps_Juo2/BatikApps_juo/src/batik/apps/juo/blackGirl.svg");
 
 	    pat.appendChild(img);				
 		defs.appendChild(pat);			
@@ -136,8 +62,7 @@ public class Gradients {
 		img2.setAttributeNS(null, "y", "0");
 		img2.setAttributeNS(null, "width", "120");
 		img2.setAttributeNS(null, "height", "120");
-		img2.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/Batik2/svg_Dateien/erstauntMaedchen.svg");
-
+		img2.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "file:///D:/PC/Software/Java/git/Batik_Apps_Juo2/BatikApps_juo/src/batik/apps/juo/redGirl.svg");
 		pat2.appendChild(img2);				
 		defs.appendChild(pat2);			
 	}	
@@ -170,7 +95,7 @@ public class Gradients {
 
 	
 	
-	public static void insertVerticalGradient(Document doc) {
+	public static void insertCoolVerticalGradient(Document doc) {
 			
 		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
 		Element defs = getOrCreateDefs(doc);
@@ -215,7 +140,7 @@ public class Gradients {
 	}
 }
 
-//possible pictures
+//more possible pictures are:
 //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");
 //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://mdn.mozillademos.org/files/6461/mdn_logo_only_color.png"); 		
 //img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "" + "https://www.bacb.de/wp-content/uploads/2016/03/audi-logo.png"); 		
