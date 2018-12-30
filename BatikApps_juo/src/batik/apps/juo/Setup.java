@@ -72,8 +72,10 @@ public class Setup extends JFrame implements ActionListener{
 	    JLabel hd_parameters = new JLabel("Parameters:");
 	    JTextField txt_background       = new JTextField("background-color");
 	    txt_background.setPreferredSize(dim);
+	    txt_background.setFont(new Font(fontName, Font.BOLD, 14));
 	    JTextField txt_foreground       = new JTextField("foreground-color");
 	    txt_foreground.setPreferredSize(dim);
+	    txt_foreground.setFont(new Font(fontName, Font.BOLD, 14));
 	    	    
 		JPanel    mainPanel   = new JPanel();		
 		mainPanel.setLayout(new BorderLayout());
@@ -99,13 +101,13 @@ public class Setup extends JFrame implements ActionListener{
 	    txt_background.addMouseListener(new MouseListener(){
 			public void mouseClicked(MouseEvent arg0) {
 				System.out.println("txt_background wurde angeklickt");	
-				Color ausgewaehlteFarbe = JColorChooser.showDialog(null,"Farbe Hintergrund auswählen", null);
-				System.out.println("ausgewaehlteFarbe: " + ausgewaehlteFarbe);
-				System.out.println("rot: " + ausgewaehlteFarbe.getRed());
-				System.out.println("grün" + ausgewaehlteFarbe.getGreen());
-				System.out.println("blau: " + ausgewaehlteFarbe.getBlue());
-				txt_background.setText("[R,G,B] " + " ["+ ausgewaehlteFarbe.getRed() + "," + ausgewaehlteFarbe.getGreen() + "," + ausgewaehlteFarbe.getBlue() + "]");
-				String hex = String.format("#%02x%02x%02x", ausgewaehlteFarbe.getRed(), ausgewaehlteFarbe.getGreen(), ausgewaehlteFarbe.getBlue());  
+				Color selectedColor = JColorChooser.showDialog(null,"Farbe Hintergrund auswählen", null);
+				System.out.println("selected color: " + selectedColor);
+				System.out.println("red: " + selectedColor.getRed());
+				System.out.println("green" + selectedColor.getGreen());
+				System.out.println("blue: " + selectedColor.getBlue());
+				txt_background.setText("[R,G,B] " + " ["+ selectedColor.getRed() + "," + selectedColor.getGreen() + "," + selectedColor.getBlue() + "]");
+				String hex = String.format("#%02x%02x%02x", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue());  
 				Element el = document.getElementById("theClockFace");
         		el.setAttributeNS(null, "fill",hex);
 			}

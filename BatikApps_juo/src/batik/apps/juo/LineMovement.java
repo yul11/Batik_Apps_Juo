@@ -49,7 +49,7 @@ public class LineMovement implements Runnable{
 					
 					System.out.println("LineMovement()-> bin in invokeLater line");						
 					
-					Element elt = document.getElementById("theLine");
+					Element elt = document.getElementById("theSecondsHand");
 					System.out.println("LineMovement()-> style: " + elt.getAttribute("style"));
 					
 					double alf = (180 - 6 * sec) * Math.PI / 180;

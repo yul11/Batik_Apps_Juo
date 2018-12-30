@@ -123,15 +123,15 @@ public class SVGInteractor extends JFrame{
 		Gradients.insertCoolVerticalGradient(document);		
 		square.setAttributeNS(null, "fill","url(#" + Gradients.VERTICAL_GRADIENT_ID + ")");		
 		
-		Element line = document.createElementNS(svgNS, "line");
-		line.setAttributeNS(null, "x1", "300");					
-		line.setAttributeNS(null, "y1", "300");
-		line.setAttributeNS(null, "x2", "300");
-		line.setAttributeNS(null, "y2", "100");		
-		line.setAttributeNS(null, "style", "stroke:rgb(120,120,120); stroke-width:10; stroke-linecap:round");
-		line.setAttributeNS(null, "id", "theLine");	
+		Element secondsHand = document.createElementNS(svgNS, "line");
+		secondsHand.setAttributeNS(null, "x1", "300");					
+		secondsHand.setAttributeNS(null, "y1", "300");
+		secondsHand.setAttributeNS(null, "x2", "300");
+		secondsHand.setAttributeNS(null, "y2", "100");		
+		secondsHand.setAttributeNS(null, "style", "stroke:rgb(120,120,120); stroke-width:10; stroke-linecap:round");
+		secondsHand.setAttributeNS(null, "id", "theSecondsHand");	
 		Gradients.insertCoolRadialGradient(document);
-		line.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
+		secondsHand.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
 		
 		Element rect2 = document.createElementNS(svgNS, "rect");
 		//rect2.setAttributeNS(null, "fill", "plum");
@@ -163,7 +163,7 @@ public class SVGInteractor extends JFrame{
 		root.appendChild(clockFace);
 		root.appendChild(circle);
 		root.appendChild(square);
-		root.appendChild(line);
+		root.appendChild(secondsHand);
 						
 		//Attach the listeners to the shapes	
 		registerListeners();
@@ -191,13 +191,13 @@ public class SVGInteractor extends JFrame{
 
 		
 		//Get a reference to the line and cast it as an EventTarget
-		EventTarget t3 = (EventTarget)document.getElementById("theLine");
+		EventTarget t3 = (EventTarget)document.getElementById("theSecondsHand");
 		
 		// Add to the line a listener for the ‘click’ event
 		t3.addEventListener("click",new EventListener() {
 			public void handleEvent(Event evt) {
 				System.out.println("click  Greetings from the line!");
-				Element elt = document.getElementById("theLine");				
+				Element elt = document.getElementById("theSecondsHand");				
 				
 				lineMove = new LineMovement(document,canvas);
 				lineMove.starte();
@@ -208,7 +208,7 @@ public class SVGInteractor extends JFrame{
 		t3.addEventListener("mouseout",new EventListener() {	
 			public void handleEvent(Event evt) {
 				System.out.println("mouseout Greetings from the line!");
-				Element elt = document.getElementById("theLine");								
+				Element elt = document.getElementById("theSecondsHand");								
 				lineMove.stoppe();
 			}
 		}
