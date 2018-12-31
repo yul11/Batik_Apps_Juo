@@ -223,10 +223,26 @@ public class SVGInteractor extends JFrame{
 		EventTarget t1 = (EventTarget)document.getElementById("theCircle");
 		
 		//Add a listener for the click-event
-		t1.addEventListener("click",new OnClickCircleAction(), false);
+		t1.addEventListener("click",new EventListener(){
+			public void handleEvent(Event evt) {
+				//window.alert("Hi from the Circle");
+				System.out.println("Hi from the Circle");
+			}
+		},false);
+
 		
 		//Add a listener for the mouseover-event
-		t1.addEventListener("mouseover",new OnMouseOverCircleAction(),false);
+		t1.addEventListener("mouseover",new EventListener(){
+			
+			public void handleEvent(Event evt) {			
+				Element elt = document.getElementById("theCircle");			
+				elt.setAttribute("fill","yellow");			
+				elt.setAttribute("fill-opacity",".5");			
+				starteCircleMoveThread();    //juo added on 18.11.2018
+			}						
+		}
+		,false);
+
 		
 		//Add a listener for the mouseout event
 		t1.addEventListener("mouseout",new EventListener(){
@@ -377,32 +393,6 @@ public class SVGInteractor extends JFrame{
 	}
 	
 	
-	
-
-	
-	
-
-	
-	
-	// An implementation of the EventListener interface,
-	//to work as a ‘click’ event listener for the circle
-	public class OnClickCircleAction implements EventListener {
-		public void handleEvent(Event evt) {
-			//window.alert("Hi from the Circle");
-			System.out.println("Hi from the Circle");
-		}
-	}
-
-	// An implementation of the EventListener interface,
-	// to work as a 'mouseover' event listener for the circle
-	public class OnMouseOverCircleAction implements EventListener {
-		public void handleEvent(Event evt) {			
-			Element elt = document.getElementById("theCircle");			
-			elt.setAttribute("fill","yellow");			
-			elt.setAttribute("fill-opacity",".5");			
-			starteCircleMoveThread();    //juo added on 18.11.2018
-		}
-	}
 
 	
 	
