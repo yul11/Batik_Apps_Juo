@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 
 
 
-public class LineMovement implements Runnable{	
+public class SecondMovement implements Runnable{	
 	
 	Document document;
 	JSVGCanvas canvas;
@@ -15,10 +15,25 @@ public class LineMovement implements Runnable{
 	int sec=0;
 	String mx= "300";  //Mittelpunkt x-Koordinate
 	String my= "300";  //Mittelpunkt y-Koordinate
+	int int_x  =300;
+	int int_y = 300;
+
+	private int[] handCoordinates;
+	CoordinatesGenerator coorGen;
 	
-	public LineMovement(Document d, JSVGCanvas c){		
+	public SecondMovement(Document d, JSVGCanvas c){		
 		this.document =d;
 		this.canvas   =c;
+		coorGen = new CoordinatesGenerator();
+		int_x  =300;
+		int_y = 300;
+
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void starte(){
@@ -36,7 +51,7 @@ public class LineMovement implements Runnable{
 		
 		while (!Thread.currentThread().isInterrupted()) {
 			
-			System.out.println("LineMovement-thread laeuft");	
+			System.out.println("SecondMovement-thread laeuft");	
 			try {
 				Thread.sleep(100);
 			} 
@@ -47,40 +62,27 @@ public class LineMovement implements Runnable{
 			canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
 				public void run(){													
 					
-					System.out.println("LineMovement()-> bin in invokeLater line");						
+					handCoordinates = coorGen.getCoordinates();				
+					int_x = handCoordinates[0];
+					int_y = handCoordinates[1];
+					
+					System.out.println("SecondMovement()-> int_x: " + int_x);
+					System.out.println("SecondMovement()-> int_y: " + int_y + "\n");		
 					
 					Element elt = document.getElementById("theSecondsHand");
 					System.out.println("LineMovement()-> style: " + elt.getAttribute("style"));
 					
-					double alf = (180 - 6 * sec) * Math.PI / 180;
-					double x = Math.sin(alf) *200;
-					double y = Math.cos(alf) *200;
-					
-					System.out.println("LineMovement()-> sec: " + sec);
-					
-					int int_x = (int)x;
-					int int_y = (int)y;
-					System.out.println("LineMovement()-> int_x: " + int_x);
-					System.out.println("LineMovement()-> int_y: " + int_y + "\n");
-					
 					elt.setAttributeNS(null,"x1", mx);
 					elt.setAttributeNS(null,"y1", my);
-					elt.setAttributeNS(null,"x2", Integer.toString(int_x+Integer.parseInt(mx)));
-					elt.setAttributeNS(null,"y2", Integer.toString(int_y+Integer.parseInt(my)));
+					elt.setAttributeNS(null,"x2", Integer.toString(int_x));
+					elt.setAttributeNS(null,"y2", Integer.toString(int_y));
 					
 					System.out.println("x1()-> : " + mx);
 					System.out.println("y1()-> : " + my);
 					System.out.println("x2()-> : " + Integer.toString(int_x+Integer.parseInt(mx)));
 					System.out.println("y2()-> : " + Integer.toString(int_y+Integer.parseInt(my)) + "\n");
-									
-					sec++;
-					
-					if (sec>59){
-						sec=0;
-					}											
 				}
 			});								
 		}
 	}
 }
-//LINE END

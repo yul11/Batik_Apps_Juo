@@ -52,6 +52,8 @@ public class Uhr_Basis extends JPanel implements Runnable {
     	lengthFactor  = 10;
     	stateUhrBasis = 1;
     	handCoordinates = new int[6];
+    	xM=300;
+    	yM=300;
     } 
     
     public void set_stateUhrBasis(int state){

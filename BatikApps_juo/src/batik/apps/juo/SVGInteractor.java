@@ -4,6 +4,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Panel;
 
@@ -26,6 +27,7 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MouseEvent;
+import javax.swing.JColorChooser;
 
 
 
@@ -43,12 +45,16 @@ public class SVGInteractor extends JFrame{
 	private Thread thread;
 	private CircleMovement circleMov;
 	private SquareMovement squareMov;
-	private LineMovement   lineMove;
+	private SecondMovement secondMove;
+	private MinuteMovement minuteMove;
+	private HourMovement   hourMove;
+
 	JPanel panel;
 	String mx= "300";  //Mittelpunkt x-Koordinate
 	String my= "300";  //Mittelpunkt y-Koordinate
 	private int clickCt;
 	Setup s = null;
+	Uhr_Basis ub;
 
 	
 	
@@ -62,28 +68,6 @@ public class SVGInteractor extends JFrame{
 		
 		//Force the canvas to always be dynamic
 		canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
-		
-						
-		Interpreter interpreter;		
-		try {
-			URL myURL = new URL("http://example.com/");
-			org.apache.batik.bridge.RhinoInterpreterFactory fact = new org.apache.batik.bridge.RhinoInterpreterFactory();
-			interpreter = fact.createInterpreter(myURL, true);
-		} 
-		catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		
-		// Obtain the Window reference when it becomes available
-		canvas.addSVGLoadEventDispatcherListener(
-			new SVGLoadEventDispatcherAdapter(){
-			
-				public void svgLoadEventDispatchStarted(  
-						SVGLoadEventDispatcherEvent e) {
-						//window = canvas.getUpdateManager().getScriptingEnvironment().createWindow(interpreter,svgNS);
-				}
-			}
-		);
 
 		//Create the document and attach it to the canvas		
 		DOMImplementation dom = SVGDOMImplementation.getDOMImplementation();
@@ -92,11 +76,6 @@ public class SVGInteractor extends JFrame{
 					
 		// Get a reference to the <svg> element
 		Element root = document.getDocumentElement();
-		
-		
-		
-
-		
 		
 		// Create and append to the root a couple of basic shapes
 		Element circle = document.createElementNS(svgNS, "circle");
@@ -128,10 +107,30 @@ public class SVGInteractor extends JFrame{
 		secondsHand.setAttributeNS(null, "y1", "300");
 		secondsHand.setAttributeNS(null, "x2", "300");
 		secondsHand.setAttributeNS(null, "y2", "100");		
-		secondsHand.setAttributeNS(null, "style", "stroke:rgb(120,120,120); stroke-width:10; stroke-linecap:round");
+		secondsHand.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
 		secondsHand.setAttributeNS(null, "id", "theSecondsHand");	
 		Gradients.insertCoolRadialGradient(document);
 		secondsHand.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
+				
+		Element minutesHand = document.createElementNS(svgNS, "line");
+		minutesHand.setAttributeNS(null, "x1", "300");					
+		minutesHand.setAttributeNS(null, "y1", "300");
+		minutesHand.setAttributeNS(null, "x2", "300");
+		minutesHand.setAttributeNS(null, "y2", "100");		
+		minutesHand.setAttributeNS(null, "style", "stroke:rgb(100,100,100); stroke-width:10; stroke-linecap:round");
+		minutesHand.setAttributeNS(null, "id", "theMinutesHand");	
+		Gradients.insertCoolRadialGradient(document);
+		minutesHand.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
+		
+		Element hoursHand = document.createElementNS(svgNS, "line");
+		hoursHand.setAttributeNS(null, "x1", "300");					
+		hoursHand.setAttributeNS(null, "y1", "300");
+		hoursHand.setAttributeNS(null, "x2", "300");
+		hoursHand.setAttributeNS(null, "y2", "100");		
+		hoursHand.setAttributeNS(null, "style", "stroke:rgb(100,100,100); stroke-width:10; stroke-linecap:round");
+		hoursHand.setAttributeNS(null, "id", "theHoursHand");	
+		Gradients.insertCoolRadialGradient(document);
+		hoursHand.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
 		
 		Element rect2 = document.createElementNS(svgNS, "rect");
 		//rect2.setAttributeNS(null, "fill", "plum");
@@ -157,12 +156,14 @@ public class SVGInteractor extends JFrame{
 		clockFace.setAttributeNS(null, "id", "theClockFace");
 		Gradients.insertCoolRadialGradient(document);
 		clockFace.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");		
-
 				
 		root.appendChild(rect2);
 		root.appendChild(clockFace);
 		root.appendChild(circle);
 		root.appendChild(square);
+		
+		root.appendChild(hoursHand);		
+		root.appendChild(minutesHand);
 		root.appendChild(secondsHand);
 						
 		//Attach the listeners to the shapes	
@@ -181,14 +182,9 @@ public class SVGInteractor extends JFrame{
 
 
 	
-
-	
-	
-	
 	//This method attaches all the required listeners
 	//to those elements in the document which we want to make interactive
 	public void registerListeners(){
-
 		
 		//Get a reference to the line and cast it as an EventTarget
 		EventTarget t3 = (EventTarget)document.getElementById("theSecondsHand");
@@ -196,27 +192,58 @@ public class SVGInteractor extends JFrame{
 		// Add to the line a listener for the ‘click’ event
 		t3.addEventListener("click",new EventListener() {
 			public void handleEvent(Event evt) {
-				System.out.println("click  Greetings from the line!");
-				Element elt = document.getElementById("theSecondsHand");				
+				System.out.println("click  Greetings from the SecondHand");				
+				Element elt = document.getElementById("theSecondsHand");
+				System.out.println("SecondMovement()-> style: " + elt.getAttribute("style"));
 				
-				lineMove = new LineMovement(document,canvas);
-				lineMove.starte();
+				secondMove = new SecondMovement(document,canvas);
+				secondMove.starte();
+				
+				minuteMove = new MinuteMovement(document,canvas);
+				minuteMove.starte();
+				
+				hourMove = new HourMovement(document,canvas);
+				hourMove.starte();				
 			}
 		}
 		,false);	
 		
 		t3.addEventListener("mouseout",new EventListener() {	
 			public void handleEvent(Event evt) {
-				System.out.println("mouseout Greetings from the line!");
+				System.out.println("mouseout Greetings from the SecondHand!");
 				Element elt = document.getElementById("theSecondsHand");								
-				lineMove.stoppe();
+				//secondMove.stoppe();
 			}
 		}
-		,false);	
-		
+		,false);
 
+		
+		EventTarget t5 = (EventTarget)document.getElementById("theMinutesHand");
+		t5.addEventListener("click",new EventListener(){
+			public void handleEvent(Event evt) {
+				System.out.println("click  Greetings from the MinutesHand!");	
+				Color selectedColor = JColorChooser.showDialog(null,"Farbe Minutenzeiger auswählen", null);
+				String hex = String.format("#%02x%02x%02x", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue());  
+				System.out.println("hex: " + hex);
+				Element elt = document.getElementById("theMinutesHand");
+				elt.setAttributeNS(null, "style", "stroke:rgb(" + selectedColor.getRed() + "," + selectedColor.getGreen() + "," + selectedColor.getBlue() + "); stroke-width:10; stroke-linecap:round");
+			}						
+		}
+		,false);
 				
-				
+		
+		EventTarget t6 = (EventTarget)document.getElementById("theHoursHand");
+		t6.addEventListener("click",new EventListener(){
+			public void handleEvent(Event evt) {
+				System.out.println("click  Greetings from the HoursHand!");	
+				Color selectedColor = JColorChooser.showDialog(null,"Farbe Stundenzeiger auswählen", null);
+				String hex = String.format("#%02x%02x%02x", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue());  
+				System.out.println("hex: " + hex);
+				Element elt = document.getElementById("theHoursHand");
+				elt.setAttributeNS(null, "style", "stroke:rgb(" + selectedColor.getRed() + "," + selectedColor.getGreen() + "," + selectedColor.getBlue() + "); stroke-width:10; stroke-linecap:round");
+			}						
+		}
+		,false);
 		
 				
 		//Get a reference to the circle and cast it as an EventTarget
@@ -263,9 +290,6 @@ public class SVGInteractor extends JFrame{
 			}
 		}
 		,false);
-
-
-
 		
 		
 		// Get a reference to the square as an event target
@@ -356,8 +380,6 @@ public class SVGInteractor extends JFrame{
 		,false);
 
 		
-
-		
 		// Get a reference to the square as an event target
 		EventTarget t4 = (EventTarget)document.getElementById("theClockFace");
 		
@@ -400,7 +422,6 @@ public class SVGInteractor extends JFrame{
 	
 	//CIRCLE START
 	public void starteCircleMoveThread(){		
-		//CircleMovement mov = new CircleMovement();	 //original
 		circleMov = new CircleMovement();	
 		circleMov.starte();
 	}
@@ -531,8 +552,6 @@ public class SVGInteractor extends JFrame{
 		}
 	}
 	//SQUARE END
-
-	
 	
 	//Entry point into the program
 	public static void main(String[] args){		

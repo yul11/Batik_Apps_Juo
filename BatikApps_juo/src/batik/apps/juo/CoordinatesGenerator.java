@@ -1,25 +1,22 @@
 package batik.apps.juo;
 
 
-public class Start implements Runnable{
-
+public class CoordinatesGenerator implements Runnable{
 
 	private int[] handCoordinates;
 	private Thread thread;
 	Uhr_Basis ub;
 
-
-	public Start() {  			
+	public CoordinatesGenerator() {  			
 		handCoordinates = new int[6];
-
-
 		ub = new Uhr_Basis();
 		thread = new Thread(this);
 		thread.start();
-
-
-
 	} 
+	
+	public int[] getCoordinates(){
+		return this.handCoordinates;
+	}
 
 
 	public void run() {
@@ -43,7 +40,7 @@ public class Start implements Runnable{
 	}
 
 	public static void main(String[] args) {
-		new Start();
+		new CoordinatesGenerator();
 	}
 }
 
