@@ -175,8 +175,14 @@ public class SVGInteractor extends JFrame{
 		clickCt = 0;		
 		this.setContentPane(panel);
 		this.pack();
-		this.setBounds(600,100,this.getWidth(),this.getHeight());		
-	
+		this.setBounds(600,100,this.getWidth(),this.getHeight());
+		
+		secondMove = new SecondMovement(document,canvas);
+		secondMove.starte();		
+		minuteMove = new MinuteMovement(document,canvas);
+		minuteMove.starte();		
+		hourMove = new HourMovement(document,canvas);
+		hourMove.starte();					
 	}	
 	//end SVGInteractor()-Konstruktor
 
@@ -192,21 +198,19 @@ public class SVGInteractor extends JFrame{
 		// Add to the line a listener for the ‘click’ event
 		t3.addEventListener("click",new EventListener() {
 			public void handleEvent(Event evt) {
-				System.out.println("click  Greetings from the SecondHand");				
+				System.out.println("click  Greetings from the SecondHand");
+				Color selectedColor = JColorChooser.showDialog(null,"Farbe Sekundenzeiger auswählen", null);
+				String hex = String.format("#%02x%02x%02x", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue());  
+				System.out.println("hex: " + hex);
 				Element elt = document.getElementById("theSecondsHand");
-				System.out.println("SecondMovement()-> style: " + elt.getAttribute("style"));
-				
-				secondMove = new SecondMovement(document,canvas);
-				secondMove.starte();
-				
-				minuteMove = new MinuteMovement(document,canvas);
-				minuteMove.starte();
-				
-				hourMove = new HourMovement(document,canvas);
-				hourMove.starte();				
-			}
+				elt.setAttributeNS(null, "style", "stroke:rgb(" + selectedColor.getRed() + "," + selectedColor.getGreen() + "," + selectedColor.getBlue() + "); stroke-width:10; stroke-linecap:round");
+			}						
 		}
-		,false);	
+		,false);
+		
+		
+		
+
 		
 		t3.addEventListener("mouseout",new EventListener() {	
 			public void handleEvent(Event evt) {
