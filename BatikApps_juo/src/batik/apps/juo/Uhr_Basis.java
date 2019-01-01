@@ -126,9 +126,9 @@ public class Uhr_Basis extends JPanel implements Runnable {
 		        hourPoint.x = ((int) ( lengthHourHand * (lengthFactor) * Math.sin(Math.toRadians(angleHou))) + xM);
 		        hourPoint.y = ((int) (-lengthHourHand * (lengthFactor) * Math.cos(Math.toRadians(angleHou))) + yM);		        
 		        
-		        System.out.println("Stunde:  " + heute.get(Calendar.HOUR) );
-		        System.out.println("Minute:  " + heute.get(Calendar.MINUTE));		        
-		        System.out.println("Sekunde: " + heute.get(Calendar.SECOND)+ "\n");
+		        //System.out.println("Stunde:  " + heute.get(Calendar.HOUR) );
+		        //System.out.println("Minute:  " + heute.get(Calendar.MINUTE));		        
+		        //System.out.println("Sekunde: " + heute.get(Calendar.SECOND)+ "\n");
 		        
 		        handCoordinates[0]=secondPoint_a.x;
 		        handCoordinates[1]=secondPoint_a.y;

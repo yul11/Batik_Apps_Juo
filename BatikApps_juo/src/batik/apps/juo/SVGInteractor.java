@@ -194,11 +194,12 @@ public class SVGInteractor extends JFrame{
 		
 		//Get a reference to the line and cast it as an EventTarget
 		EventTarget t3 = (EventTarget)document.getElementById("theSecondsHand");
-		
 		// Add to the line a listener for the ‘click’ event
 		t3.addEventListener("click",new EventListener() {
 			public void handleEvent(Event evt) {
 				System.out.println("click  Greetings from the SecondHand");
+					
+				
 				Color selectedColor = JColorChooser.showDialog(null,"Farbe Sekundenzeiger auswählen", null);
 				String hex = String.format("#%02x%02x%02x", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue());  
 				System.out.println("hex: " + hex);
@@ -207,11 +208,6 @@ public class SVGInteractor extends JFrame{
 			}						
 		}
 		,false);
-		
-		
-		
-
-		
 		t3.addEventListener("mouseout",new EventListener() {	
 			public void handleEvent(Event evt) {
 				System.out.println("mouseout Greetings from the SecondHand!");
@@ -222,7 +218,22 @@ public class SVGInteractor extends JFrame{
 		,false);
 
 		
+		
+		
+		
+		
+		
 		EventTarget t5 = (EventTarget)document.getElementById("theMinutesHand");
+		
+		
+		
+		t5.addEventListener("keydown", new EventListener() {
+			public void handleEvent(Event evt) {
+				System.out.println("keydown MinuteHand");
+			}						
+		}
+		,false);
+		
 		t5.addEventListener("click",new EventListener(){
 			public void handleEvent(Event evt) {
 				System.out.println("click  Greetings from the MinutesHand!");	
@@ -234,6 +245,39 @@ public class SVGInteractor extends JFrame{
 			}						
 		}
 		,false);
+		
+		t5.addEventListener("mousedown", new EventListener() {
+			public void handleEvent(Event evt) {
+				System.out.println("mousedooooooooooown MinuteHand");
+				Element elt = document.getElementById("theMinutesHand");
+				
+				
+				//mögliche Lösung:
+				//https://de.switch-case.com/51635211
+				
+				elt.setAttributeNS(null, "x1", "300");					
+				elt.setAttributeNS(null, "y1", "300");
+				elt.setAttributeNS(null, "x2", "300");
+				elt.setAttributeNS(null, "y2", "100");	
+				
+				
+				System.out.println("currentTarget: " + evt.getCurrentTarget());
+				System.out.println("timestamp: " + evt.getTimeStamp());
+				System.out.println("getEventPhase: " + evt.getEventPhase());
+				System.out.println("getType: " + evt.getType());
+				
+				
+				//elt.setAttributeNS(null, "style", "stroke:rgb(" + selectedColor.getRed() + "," + selectedColor.getGreen() + "," + selectedColor.getBlue() + "); stroke-width:10; stroke-linecap:round");
+
+			}						
+		}
+		,false);
+		
+		
+		
+		
+		
+		
 				
 		
 		EventTarget t6 = (EventTarget)document.getElementById("theHoursHand");

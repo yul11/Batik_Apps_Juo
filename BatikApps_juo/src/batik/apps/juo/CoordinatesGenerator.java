@@ -26,10 +26,10 @@ public class CoordinatesGenerator implements Runnable{
 			handCoordinates = ub.getHandCoordinates();
 			for (int i=0; i<handCoordinates.length; i++){
 				handCoordinates = ub.getHandCoordinates();
-				System.out.println("handcoordinates_________: " + handCoordinates[i]);
+				//System.out.println("handcoordinates_________: " + handCoordinates[i]);
 			}
 
-			System.out.println("\n");	
+			//System.out.println("\n");	
 			try {
 				Thread.sleep(1000);
 			} 

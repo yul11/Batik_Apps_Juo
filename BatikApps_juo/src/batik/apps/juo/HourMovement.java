@@ -50,7 +50,7 @@ public class HourMovement implements Runnable{
 		
 		while (!Thread.currentThread().isInterrupted()) {
 			
-			System.out.println("HourMovement-thread laeuft");	
+			//System.out.println("HourMovement-thread laeuft");	
 			try {
 				Thread.sleep(100);
 			} 
@@ -65,21 +65,21 @@ public class HourMovement implements Runnable{
 					int_x = handCoordinates[4];
 					int_y = handCoordinates[5];
 					
-					System.out.println("HourMovement()-> int_x: " + int_x);
-					System.out.println("HourMovement()-> int_y: " + int_y + "\n");		
+					//System.out.println("HourMovement()-> int_x: " + int_x);
+					//System.out.println("HourMovement()-> int_y: " + int_y + "\n");		
 					
 					Element elt = document.getElementById("theHoursHand");
-					System.out.println("HourMovement()-> style: " + elt.getAttribute("style"));
+					//System.out.println("HourMovement()-> style: " + elt.getAttribute("style"));
 					
 					elt.setAttributeNS(null,"x1", mx);
 					elt.setAttributeNS(null,"y1", my);
 					elt.setAttributeNS(null,"x2", Integer.toString(int_x));
 					elt.setAttributeNS(null,"y2", Integer.toString(int_y));
 					
-					System.out.println("x1()-> : " + mx);
-					System.out.println("y1()-> : " + my);
-					System.out.println("x2()-> : " + Integer.toString(int_x+Integer.parseInt(mx)));
-					System.out.println("y2()-> : " + Integer.toString(int_y+Integer.parseInt(my)) + "\n");
+					//System.out.println("x1()-> : " + mx);
+					//System.out.println("y1()-> : " + my);
+					//System.out.println("x2()-> : " + Integer.toString(int_x+Integer.parseInt(mx)));
+					//System.out.println("y2()-> : " + Integer.toString(int_y+Integer.parseInt(my)) + "\n");
 				}
 			});								
 		}
