@@ -1,9 +1,10 @@
 package batik.apps.juo;
 
 import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+//import java.awt.event.WindowAdapter;
+//import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Panel;
@@ -13,20 +14,20 @@ import javax.swing.JPanel;
 import org.apache.batik.anim.dom.SVGDOMImplementation;
 import org.apache.batik.bridge.BridgeExtension;
 import org.apache.batik.script.Interpreter;
-import org.apache.batik.script.Window;
 import org.apache.batik.swing.JSVGCanvas;
-import org.apache.batik.swing.svg.SVGLoadEventDispatcherAdapter;
-import org.apache.batik.swing.svg.SVGLoadEventDispatcherEvent;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MouseEvent;
+import org.w3c.dom.events.UIEvent;
+import org.w3c.dom.views.AbstractView;
 import javax.swing.JColorChooser;
 
 
@@ -40,8 +41,6 @@ public class SVGInteractor extends JFrame{
 	private final String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
 	private JSVGCanvas canvas = new JSVGCanvas();
 	private Document document; // The SVG document
-	//private org.apache.batik.bridge.Window window;     // The window object
-	private Window window;     // The window object
 	private Thread thread;
 	private CircleMovement circleMov;
 	private SquareMovement squareMov;
@@ -121,6 +120,15 @@ public class SVGInteractor extends JFrame{
 		minutesHand.setAttributeNS(null, "id", "theMinutesHand");	
 		Gradients.insertCoolRadialGradient(document);
 		minutesHand.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
+				
+		Element minutesHandAlarm = document.createElementNS(svgNS, "line");
+		minutesHandAlarm.setAttributeNS(null, "x1", "300");					
+		minutesHandAlarm.setAttributeNS(null, "y1", "300");
+		minutesHandAlarm.setAttributeNS(null, "x2", "300");
+		minutesHandAlarm.setAttributeNS(null, "y2", "100");		
+		minutesHandAlarm.setAttributeNS(null, "style", "stroke:rgb(200,200,200); stroke-width:10; stroke-linecap:round");
+		minutesHandAlarm.setAttributeNS(null, "id", "theMinutesHandAlarm");	
+		Gradients.insertCoolRadialGradient(document);
 		
 		Element hoursHand = document.createElementNS(svgNS, "line");
 		hoursHand.setAttributeNS(null, "x1", "300");					
@@ -165,7 +173,8 @@ public class SVGInteractor extends JFrame{
 		root.appendChild(hoursHand);		
 		root.appendChild(minutesHand);
 		root.appendChild(secondsHand);
-						
+		root.appendChild(minutesHandAlarm);
+								
 		//Attach the listeners to the shapes	
 		registerListeners();
 		
@@ -181,10 +190,11 @@ public class SVGInteractor extends JFrame{
 		secondMove.starte();		
 		minuteMove = new MinuteMovement(document,canvas);
 		minuteMove.starte();		
-		hourMove = new HourMovement(document,canvas);
-		hourMove.starte();					
+		hourMove   = new HourMovement(document,canvas);
+        hourMove.starte();					
 	}	
 	//end SVGInteractor()-Konstruktor
+	
 
 
 	
@@ -193,6 +203,98 @@ public class SVGInteractor extends JFrame{
 	public void registerListeners(){
 		
 		//Get a reference to the line and cast it as an EventTarget
+		
+		
+		EventTarget t7 = (EventTarget)document.getElementById("theMinutesHandAlarm");		
+		t7.addEventListener("mousedown", new EventListener() {
+			public void handleEvent(Event evt) {
+				System.out.println("mousedown MinuteHandAlarm");
+				Element elt = document.getElementById("theMinutesHandAlarm");
+				
+				elt.setAttributeNS(null, "x1", "300");					
+				elt.setAttributeNS(null, "y1", "300");
+				elt.setAttributeNS(null, "x2", "300");
+				elt.setAttributeNS(null, "y2", "500");	
+				
+				MouseEvent mevt = (MouseEvent)evt;
+				System.out.println("clientX: " + mevt.getClientX());
+				System.out.println("clientY: " + mevt.getClientY());
+
+			}						
+		}
+		,false);
+		
+		
+		EventTarget t8 = (EventTarget)document.getElementById("theClockFace");		
+		t8.addEventListener("mouseup", new EventListener() {
+			public void handleEvent(Event evt) {
+				System.out.println("mouseup MinuteHandAlarm");
+				Element elt = document.getElementById("theMinutesHandAlarm");
+				
+				MouseEvent mevt = (MouseEvent)evt;
+				elt.setAttributeNS(null, "x1", "300");					
+				elt.setAttributeNS(null, "y1", "300");
+				
+				System.out.println("clientX: " + mevt.getClientX());
+				System.out.println("clientY: " + mevt.getClientY());
+
+				elt.setAttributeNS(null, "x2", Integer.toString(mevt.getClientX()));
+				elt.setAttributeNS(null, "y2", Integer.toString(mevt.getClientY()));
+				
+				double gegenKat = (mevt.getClientX()-300); 
+				double anKat    = (300-(mevt.getClientY()));
+				
+				System.out.println("Gegenkathete: " + gegenKat);;
+				System.out.println("Ankathete:    " + anKat);				
+				System.out.println("Quotient: " + gegenKat/anKat);
+			
+				double winkel = Math.toDegrees(Math.atan2(gegenKat,anKat)); 
+				
+				System.out.println("winkel: " + winkel);
+				
+				double time;
+				double zwoelf = 12;
+				double dreihundertsechzig = 360;
+				double uhrzeit = 0;
+				
+				time = (zwoelf/dreihundertsechzig) * winkel;
+				
+				System.out.println("winkel: " + winkel + " time: " + time);				
+				System.out.println("Minuten: " + time *60);				
+				uhrzeit = 12+(time);				
+				System.out.println("Uhrzeit: " +"0"+uhrzeit);
+				
+				String str_uhrzeit = String.valueOf("0"+uhrzeit);
+
+				int index = str_uhrzeit.indexOf('.');
+				
+				System.out.println("Punkt gefunden an Position: " + index);
+				
+				String hour   = str_uhrzeit.substring(index-2,index);
+				String minute = str_uhrzeit.substring(index+1,index+9);				
+				String str_aux = "0."+minute; 				
+				Double d_minute = Double.parseDouble(str_aux);
+				System.out.println("d_minute: " + d_minute);				
+				d_minute = d_minute * 60;
+				System.out.println("d_minute:  " + d_minute + " ungerundet");
+			
+				NumberFormat numf = NumberFormat.getInstance();
+				numf.setMaximumFractionDigits(0); // max. 0 stellen hinter komma
+				numf.format(d_minute);
+				System.out.println("d_minute: " + numf.format(d_minute) + " gerundet");
+
+				
+				int int_hour = Integer.parseInt(hour);
+				System.out.println("hour: " + hour);
+				
+				int int_minute = Integer.parseInt(numf.format(d_minute));
+				System.out.println("minute: " + int_minute);
+			}						
+		}
+		,false);
+		
+		
+		
 		EventTarget t3 = (EventTarget)document.getElementById("theSecondsHand");
 		// Add to the line a listener for the ‘click’ event
 		t3.addEventListener("click",new EventListener() {
@@ -216,24 +318,9 @@ public class SVGInteractor extends JFrame{
 			}
 		}
 		,false);
-
 		
 		
-		
-		
-		
-		
-		EventTarget t5 = (EventTarget)document.getElementById("theMinutesHand");
-		
-		
-		
-		t5.addEventListener("keydown", new EventListener() {
-			public void handleEvent(Event evt) {
-				System.out.println("keydown MinuteHand");
-			}						
-		}
-		,false);
-		
+		EventTarget t5 = (EventTarget)document.getElementById("theMinutesHand");		
 		t5.addEventListener("click",new EventListener(){
 			public void handleEvent(Event evt) {
 				System.out.println("click  Greetings from the MinutesHand!");	
@@ -246,33 +333,7 @@ public class SVGInteractor extends JFrame{
 		}
 		,false);
 		
-		t5.addEventListener("mousedown", new EventListener() {
-			public void handleEvent(Event evt) {
-				System.out.println("mousedooooooooooown MinuteHand");
-				Element elt = document.getElementById("theMinutesHand");
-				
-				
-				//mögliche Lösung:
-				//https://de.switch-case.com/51635211
-				
-				elt.setAttributeNS(null, "x1", "300");					
-				elt.setAttributeNS(null, "y1", "300");
-				elt.setAttributeNS(null, "x2", "300");
-				elt.setAttributeNS(null, "y2", "100");	
-				
-				
-				System.out.println("currentTarget: " + evt.getCurrentTarget());
-				System.out.println("timestamp: " + evt.getTimeStamp());
-				System.out.println("getEventPhase: " + evt.getEventPhase());
-				System.out.println("getType: " + evt.getType());
-				
-				
-				//elt.setAttributeNS(null, "style", "stroke:rgb(" + selectedColor.getRed() + "," + selectedColor.getGreen() + "," + selectedColor.getBlue() + "); stroke-width:10; stroke-linecap:round");
 
-			}						
-		}
-		,false);
-		
 		
 		
 		
@@ -459,7 +520,7 @@ public class SVGInteractor extends JFrame{
 				clickCt++;
 			}
 		}
-		,false);			
+		,false);		
 	}
 	
 	
@@ -606,4 +667,7 @@ public class SVGInteractor extends JFrame{
 		SVGInteractor inter = new SVGInteractor();
 		inter.setVisible(true);
 	}
+
+
+
 }
