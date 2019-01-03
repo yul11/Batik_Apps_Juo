@@ -11,7 +11,7 @@ public class CalculateTime {
 		double dreihundertsechzig = 360;
 		
 		winkel = 180; //entspricht 06:00 Uhr
-		winkel = 195; //entspricht 06:30 Uhr
+		winkel = 300; //entspricht 06:30 Uhr
 		
 		time = (zwoelf / dreihundertsechzig) * winkel;
 		

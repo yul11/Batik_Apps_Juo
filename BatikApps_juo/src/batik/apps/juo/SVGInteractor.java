@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Panel;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,13 +22,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
-import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MouseEvent;
-import org.w3c.dom.events.UIEvent;
-import org.w3c.dom.views.AbstractView;
 import javax.swing.JColorChooser;
 
 
@@ -194,7 +192,12 @@ public class SVGInteractor extends JFrame{
         hourMove.starte();					
 	}	
 	//end SVGInteractor()-Konstruktor
+
 	
+	
+	
+	
+
 
 
 	
@@ -241,54 +244,13 @@ public class SVGInteractor extends JFrame{
 				elt.setAttributeNS(null, "x2", Integer.toString(mevt.getClientX()));
 				elt.setAttributeNS(null, "y2", Integer.toString(mevt.getClientY()));
 				
-				double gegenKat = (mevt.getClientX()-300); 
-				double anKat    = (300-(mevt.getClientY()));
+				Point p1 = new Point(300,300);
+				Point p2 = new Point(mevt.getClientX(),mevt.getClientY());
+												
+				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2);
 				
-				System.out.println("Gegenkathete: " + gegenKat);;
-				System.out.println("Ankathete:    " + anKat);				
-				System.out.println("Quotient: " + gegenKat/anKat);
-			
-				double winkel = Math.toDegrees(Math.atan2(gegenKat,anKat)); 
-				
-				System.out.println("winkel: " + winkel);
-				
-				double time;
-				double zwoelf = 12;
-				double dreihundertsechzig = 360;
-				double uhrzeit = 0;
-				
-				time = (zwoelf/dreihundertsechzig) * winkel;
-				
-				System.out.println("winkel: " + winkel + " time: " + time);				
-				System.out.println("Minuten: " + time *60);				
-				uhrzeit = 12+(time);				
-				System.out.println("Uhrzeit: " +"0"+uhrzeit);
-				
-				String str_uhrzeit = String.valueOf("0"+uhrzeit);
-
-				int index = str_uhrzeit.indexOf('.');
-				
-				System.out.println("Punkt gefunden an Position: " + index);
-				
-				String hour   = str_uhrzeit.substring(index-2,index);
-				String minute = str_uhrzeit.substring(index+1,index+9);				
-				String str_aux = "0."+minute; 				
-				Double d_minute = Double.parseDouble(str_aux);
-				System.out.println("d_minute: " + d_minute);				
-				d_minute = d_minute * 60;
-				System.out.println("d_minute:  " + d_minute + " ungerundet");
-			
-				NumberFormat numf = NumberFormat.getInstance();
-				numf.setMaximumFractionDigits(0); // max. 0 stellen hinter komma
-				numf.format(d_minute);
-				System.out.println("d_minute: " + numf.format(d_minute) + " gerundet");
-
-				
-				int int_hour = Integer.parseInt(hour);
-				System.out.println("hour: " + hour);
-				
-				int int_minute = Integer.parseInt(numf.format(d_minute));
-				System.out.println("minute: " + int_minute);
+				System.out.println("eventTarget mouseup hourMin[0]" + hourMin[0]);
+				System.out.println("eventTarget mouseup hourMin[1]" + hourMin[1]);
 			}						
 		}
 		,false);
