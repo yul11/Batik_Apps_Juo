@@ -21,6 +21,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -53,7 +54,6 @@ public class SVGInteractor extends JFrame{
 	Setup s = null;
 	Uhr_Basis ub;
 	boolean alarmAdjustmentInProgress;
-
 	
 	
 	public SVGInteractor(){
@@ -75,11 +75,27 @@ public class SVGInteractor extends JFrame{
 		// Get a reference to the <svg> element
 		Element root = document.getDocumentElement();
 		
-		// Create and append to the root a couple of basic shapes
-		Element circle = document.createElementNS(svgNS, "circle");
-		//circle.setAttributeNS(null, "stroke", "darkslateblue");
-		circle.setAttributeNS(null, "stroke", "green");
 
+		
+		
+		
+		
+		
+		// Create and append to the root a couple of basic shapes	
+		
+		
+		Element alarmTextElement = document.createElementNS(svgNS, "text");
+		Text text = document.createTextNode("textNode");
+		text.setNodeValue("juos AlarmText");
+		alarmTextElement.appendChild(text);		
+		alarmTextElement.setAttributeNS(null, "x", "100");
+		alarmTextElement.setAttributeNS(null, "y", "570");
+		alarmTextElement.setAttributeNS(null, "font-size", "50");
+		alarmTextElement.setAttributeNS(null, "fill", "red");
+		alarmTextElement.setAttributeNS(null, "id", "theAlarmText");	
+		
+		Element circle = document.createElementNS(svgNS, "circle");
+		circle.setAttributeNS(null, "stroke", "green");
 		circle.setAttributeNS(null, "stroke-width", "5");
 		circle.setAttributeNS(null, "r", "70");
 		circle.setAttributeNS(null, "cx", "120");
@@ -167,13 +183,14 @@ public class SVGInteractor extends JFrame{
 		root.appendChild(rect2);
 		root.appendChild(clockFace);
 		root.appendChild(circle);
-		root.appendChild(square);
+		root.appendChild(square);		
 		
 		root.appendChild(hoursHand);		
 		root.appendChild(minutesHand);
 		root.appendChild(secondsHand);
 		root.appendChild(minutesHandAlarm);
-								
+		root.appendChild(alarmTextElement);
+										
 		//Attach the listeners to the shapes	
 		registerListeners();
 		
@@ -184,7 +201,7 @@ public class SVGInteractor extends JFrame{
 		this.setContentPane(panel);
 		this.pack();
 		this.setBounds(600,100,this.getWidth(),this.getHeight());
-		
+				
 		secondMove = new SecondMovement(document,canvas);
 		secondMove.starte();		
 		minuteMove = new MinuteMovement(document,canvas);
@@ -198,6 +215,7 @@ public class SVGInteractor extends JFrame{
 	
 	
 	
+
 	
 
 
@@ -221,7 +239,29 @@ public class SVGInteractor extends JFrame{
 		t9.addEventListener("mouseup", new EventListener() {
 			public void handleEvent(Event evt) {
 				System.out.println("mouseup MinuteHandAlarm");
-				alarmAdjustmentInProgress=false;
+				alarmAdjustmentInProgress=false;				
+				
+				Element elt = document.getElementById("theAlarmText");
+				String str_text = elt.getTextContent();
+				System.out.println("str_text: " + str_text);
+				elt.setAttributeNS(null, "x1", "300");					
+				elt.setAttributeNS(null, "y1", "300");				
+				MouseEvent mevt = (MouseEvent)evt;
+				System.out.println("clientX: " + mevt.getClientX());
+				System.out.println("clientY: " + mevt.getClientY());				
+				elt.setAttributeNS(null, "x2", Integer.toString(mevt.getClientX()));
+    			elt.setAttributeNS(null, "y2", Integer.toString(mevt.getClientY()));					
+				
+				Point p1 = new Point(300,300);
+				Point p2 = new Point(mevt.getClientX(),mevt.getClientY());
+												
+				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2);
+				
+				System.out.println("eventTarget mouseup hourMin[0]" + hourMin[0]);
+				System.out.println("eventTarget mouseup hourMin[1]" + hourMin[1]);
+				
+				elt.setTextContent("Alarm: " + hourMin[0] + ":" + hourMin[1] + " Uhr");
+				
 			}						
 		}
 		,false);
@@ -250,8 +290,8 @@ public class SVGInteractor extends JFrame{
 												
 				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2);
 				
-				System.out.println("eventTarget mouseup hourMin[0]" + hourMin[0]);
-				System.out.println("eventTarget mouseup hourMin[1]" + hourMin[1]);
+				System.out.println("eventTarget mousemove hourMin[0]" + hourMin[0]);
+				System.out.println("eventTarget mousemove hourMin[1]" + hourMin[1]);
 			}						
 		}
 		,false);
@@ -507,20 +547,22 @@ public class SVGInteractor extends JFrame{
 	public class CircleMovement implements Runnable{	
 				
 		private int deltaY = 10;
+		boolean doRun = true;
 				
 		public void starte(){
-			thread = new Thread(this); 
+			thread = new Thread(this);
 			thread.start();
 		}				
 		
 		public void stoppe(){
 			System.out.println("stoppe CircleMovement-thread now");
-			thread.stop();
+			doRun = false;
 		}
 		
 		public void run(){	
 			
-			while (!Thread.currentThread().isInterrupted()) {
+			//while (!Thread.currentThread().isInterrupted()) {
+			while (doRun) {
 								
 				System.out.println("CircleMovement-thread laeuft...");
 				
@@ -578,6 +620,8 @@ public class SVGInteractor extends JFrame{
 
 	//An inner class encapsulating the laws of the square movement
 	public class SquareMovement implements Runnable{
+		
+		boolean doRun = true;
 				
 		public void starte(){
 			thread = new Thread(this); 
@@ -586,14 +630,16 @@ public class SVGInteractor extends JFrame{
 		
 		public void stoppe(){
 			System.out.println("stoppe SquareMovement-thread now");
-			thread.stop();
+			doRun=false;
+
 		}
 		
 		private int deltaX = 2;
 		
 		public void run(){				
 
-			while (!Thread.currentThread().isInterrupted()) {
+			//while (!Thread.currentThread().isInterrupted()) {
+			while (doRun) {
 			
 				System.out.println("SquareMovement-thread laeuft");								
 				try {
