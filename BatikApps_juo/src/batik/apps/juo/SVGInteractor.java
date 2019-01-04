@@ -52,6 +52,7 @@ public class SVGInteractor extends JFrame{
 	private int clickCt;
 	Setup s = null;
 	Uhr_Basis ub;
+	boolean alarmAdjustmentInProgress;
 
 	
 	
@@ -197,7 +198,7 @@ public class SVGInteractor extends JFrame{
 	
 	
 	
-
+	
 
 
 	
@@ -206,43 +207,43 @@ public class SVGInteractor extends JFrame{
 	public void registerListeners(){
 		
 		//Get a reference to the line and cast it as an EventTarget
-		
-		
 		EventTarget t7 = (EventTarget)document.getElementById("theMinutesHandAlarm");		
 		t7.addEventListener("mousedown", new EventListener() {
 			public void handleEvent(Event evt) {
-				System.out.println("mousedown MinuteHandAlarm");
-				Element elt = document.getElementById("theMinutesHandAlarm");
-				
-				elt.setAttributeNS(null, "x1", "300");					
-				elt.setAttributeNS(null, "y1", "300");
-				elt.setAttributeNS(null, "x2", "300");
-				elt.setAttributeNS(null, "y2", "500");	
-				
-				MouseEvent mevt = (MouseEvent)evt;
-				System.out.println("clientX: " + mevt.getClientX());
-				System.out.println("clientY: " + mevt.getClientY());
-
+				System.out.println("mousedown MinuteHandAlarm");				
+				alarmAdjustmentInProgress=true;
+				System.out.println("t7 set alarmAdjustmentInProgress to:  " + alarmAdjustmentInProgress);
 			}						
 		}
 		,false);
 		
-		
-		EventTarget t8 = (EventTarget)document.getElementById("theClockFace");		
-		t8.addEventListener("mouseup", new EventListener() {
+		EventTarget t9 = (EventTarget)document.getElementById("theMinutesHandAlarm");		
+		t9.addEventListener("mouseup", new EventListener() {
 			public void handleEvent(Event evt) {
 				System.out.println("mouseup MinuteHandAlarm");
+				alarmAdjustmentInProgress=false;
+			}						
+		}
+		,false);
+		
+		EventTarget t8 = (EventTarget)document.getElementById("theClockFace");		
+		t8.addEventListener("mousemove", new EventListener() {
+			public void handleEvent(Event evt) {
+				System.out.println("mousemove MinuteHandAlarm");
 				Element elt = document.getElementById("theMinutesHandAlarm");
-				
-				MouseEvent mevt = (MouseEvent)evt;
+								
 				elt.setAttributeNS(null, "x1", "300");					
 				elt.setAttributeNS(null, "y1", "300");
 				
+				MouseEvent mevt = (MouseEvent)evt;
 				System.out.println("clientX: " + mevt.getClientX());
 				System.out.println("clientY: " + mevt.getClientY());
-
-				elt.setAttributeNS(null, "x2", Integer.toString(mevt.getClientX()));
-				elt.setAttributeNS(null, "y2", Integer.toString(mevt.getClientY()));
+				
+				System.out.println("t8 alarmAdjustmentInProgress: " + alarmAdjustmentInProgress);
+				if (alarmAdjustmentInProgress){
+					elt.setAttributeNS(null, "x2", Integer.toString(mevt.getClientX()));
+					elt.setAttributeNS(null, "y2", Integer.toString(mevt.getClientY()));					
+				}
 				
 				Point p1 = new Point(300,300);
 				Point p2 = new Point(mevt.getClientX(),mevt.getClientY());
