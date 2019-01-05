@@ -81,18 +81,29 @@ public class SVGInteractor extends JFrame{
 		
 		
 		
-		// Create and append to the root a couple of basic shapes	
+		// Create and append to the root a couple of basic shapes			
 		
-		
-		Element alarmTextElement = document.createElementNS(svgNS, "text");
+		Element alarmTimeTextElement = document.createElementNS(svgNS, "text");
 		Text text = document.createTextNode("textNode");
-		text.setNodeValue("juos AlarmText");
-		alarmTextElement.appendChild(text);		
-		alarmTextElement.setAttributeNS(null, "x", "100");
-		alarmTextElement.setAttributeNS(null, "y", "570");
-		alarmTextElement.setAttributeNS(null, "font-size", "50");
-		alarmTextElement.setAttributeNS(null, "fill", "red");
-		alarmTextElement.setAttributeNS(null, "id", "theAlarmText");	
+		text.setNodeValue("AlarmTimeText");
+		alarmTimeTextElement.appendChild(text);		
+		alarmTimeTextElement.setAttributeNS(null, "x", "100");
+		alarmTimeTextElement.setAttributeNS(null, "y", "550");
+		alarmTimeTextElement.setAttributeNS(null, "font-size", "25");
+		alarmTimeTextElement.setAttributeNS(null, "fill", "red");
+		alarmTimeTextElement.setAttributeNS(null, "id", "theAlarmTimeText");
+		
+		
+		Element normalTimeTextElement = document.createElementNS(svgNS, "text");
+		Text normalTimeText = document.createTextNode("textNode2");
+		normalTimeText.setNodeValue("normalTimeText");
+		normalTimeTextElement.appendChild(normalTimeText);		
+		normalTimeTextElement.setAttributeNS(null, "x", "300");
+		normalTimeTextElement.setAttributeNS(null, "y", "550");
+		normalTimeTextElement.setAttributeNS(null, "font-size", "25");
+		normalTimeTextElement.setAttributeNS(null, "fill", "green");
+		normalTimeTextElement.setAttributeNS(null, "id", "TheNormalTimeTextElement");			
+		
 		
 		Element circle = document.createElementNS(svgNS, "circle");
 		circle.setAttributeNS(null, "stroke", "green");
@@ -189,7 +200,10 @@ public class SVGInteractor extends JFrame{
 		root.appendChild(minutesHand);
 		root.appendChild(secondsHand);
 		root.appendChild(minutesHandAlarm);
-		root.appendChild(alarmTextElement);
+		root.appendChild(alarmTimeTextElement);
+		root.appendChild(normalTimeTextElement);
+		
+		
 										
 		//Attach the listeners to the shapes	
 		registerListeners();
@@ -241,7 +255,7 @@ public class SVGInteractor extends JFrame{
 				System.out.println("mouseup MinuteHandAlarm");
 				alarmAdjustmentInProgress=false;				
 				
-				Element elt = document.getElementById("theAlarmText");
+				Element elt = document.getElementById("theAlarmTimeText");
 				String str_text = elt.getTextContent();
 				System.out.println("str_text: " + str_text);
 				elt.setAttributeNS(null, "x1", "300");					
@@ -260,7 +274,11 @@ public class SVGInteractor extends JFrame{
 				System.out.println("eventTarget mouseup hourMin[0]" + hourMin[0]);
 				System.out.println("eventTarget mouseup hourMin[1]" + hourMin[1]);
 				
-				elt.setTextContent("Alarm: " + hourMin[0] + ":" + hourMin[1] + " Uhr");
+				String str_min = hourMin[1].toString();
+				if (hourMin[1] < 10){					
+					str_min = "0" + (hourMin[1].toString());
+				}			
+				elt.setTextContent("Alarm: " + hourMin[0] + ":" + str_min + " Uhr");
 				
 			}						
 		}
@@ -269,11 +287,13 @@ public class SVGInteractor extends JFrame{
 		EventTarget t8 = (EventTarget)document.getElementById("theClockFace");		
 		t8.addEventListener("mousemove", new EventListener() {
 			public void handleEvent(Event evt) {
+				
+				//modify minuteHand Begin
 				System.out.println("mousemove MinuteHandAlarm");
-				Element elt = document.getElementById("theMinutesHandAlarm");
+				Element el_minHand = document.getElementById("theMinutesHandAlarm");
 								
-				elt.setAttributeNS(null, "x1", "300");					
-				elt.setAttributeNS(null, "y1", "300");
+				el_minHand.setAttributeNS(null, "x1", "300");					
+				el_minHand.setAttributeNS(null, "y1", "300");
 				
 				MouseEvent mevt = (MouseEvent)evt;
 				System.out.println("clientX: " + mevt.getClientX());
@@ -281,17 +301,25 @@ public class SVGInteractor extends JFrame{
 				
 				System.out.println("t8 alarmAdjustmentInProgress: " + alarmAdjustmentInProgress);
 				if (alarmAdjustmentInProgress){
-					elt.setAttributeNS(null, "x2", Integer.toString(mevt.getClientX()));
-					elt.setAttributeNS(null, "y2", Integer.toString(mevt.getClientY()));					
-				}
-				
+					el_minHand.setAttributeNS(null, "x2", Integer.toString(mevt.getClientX()));
+					el_minHand.setAttributeNS(null, "y2", Integer.toString(mevt.getClientY()));					
+				}				
 				Point p1 = new Point(300,300);
-				Point p2 = new Point(mevt.getClientX(),mevt.getClientY());
-												
-				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2);
-				
+				Point p2 = new Point(mevt.getClientX(),mevt.getClientY());												
+				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2);				
 				System.out.println("eventTarget mousemove hourMin[0]" + hourMin[0]);
 				System.out.println("eventTarget mousemove hourMin[1]" + hourMin[1]);
+				//modify minuteHand End
+				
+				//modify normalTimeTextElement Begin
+				Element elt = document.getElementById("TheNormalTimeTextElement");
+				String str_text = elt.getTextContent();
+				String str_min = hourMin[1].toString();
+				if (hourMin[1] < 10){					
+					str_min = "0" + (hourMin[1].toString());
+				}			
+				elt.setTextContent("Time: " + hourMin[0] + ":" + str_min + " Uhr");
+				//modify normalTimeTextElement End
 			}						
 		}
 		,false);
@@ -335,13 +363,6 @@ public class SVGInteractor extends JFrame{
 			}						
 		}
 		,false);
-		
-
-		
-		
-		
-		
-		
 				
 		
 		EventTarget t6 = (EventTarget)document.getElementById("theHoursHand");
