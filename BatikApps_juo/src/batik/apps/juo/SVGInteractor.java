@@ -54,6 +54,7 @@ public class SVGInteractor extends JFrame{
 	Setup s = null;
 	Uhr_Basis ub;
 	boolean alarmAdjustmentInProgress;
+	boolean AM;
 	
 	
 	public SVGInteractor(){
@@ -108,21 +109,28 @@ public class SVGInteractor extends JFrame{
 		Element circle = document.createElementNS(svgNS, "circle");
 		circle.setAttributeNS(null, "stroke", "green");
 		circle.setAttributeNS(null, "stroke-width", "5");
-		circle.setAttributeNS(null, "r", "70");
-		circle.setAttributeNS(null, "cx", "120");
-		circle.setAttributeNS(null, "cy", "180");
+		circle.setAttributeNS(null, "r", "50");
+		Integer int_xC = Integer.parseInt(mx);
+		int_xC = int_xC +220;
+		Integer int_yC = Integer.parseInt(my);
+		int_yC = int_yC -220;
+		circle.setAttributeNS(null, "cx", Integer.toString(int_xC));
+		circle.setAttributeNS(null, "cy", Integer.toString(int_yC));
 		circle.setAttributeNS(null, "id", "theCircle");
 		Gradients.insertCoolRadialGradient(document);
 		circle.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");
 		
 		Element square = document.createElementNS(svgNS, "rect");
-		//square.setAttributeNS(null, "fill", "plum");
-		square.setAttributeNS(null, "stroke", "indigo");
-		square.setAttributeNS(null, "stroke-width", "5");
-		square.setAttributeNS(null, "width", "160");
-		square.setAttributeNS(null, "height", "160");
-		square.setAttributeNS(null, "x", mx);
-		square.setAttributeNS(null, "y", my);
+		square.setAttributeNS(null, "stroke", "grey");
+		square.setAttributeNS(null, "stroke-width", "1");
+		square.setAttributeNS(null, "width", "400");
+		square.setAttributeNS(null, "height", "20");
+		Integer int_x = Integer.parseInt(mx);
+		int_x = int_x -200;
+		Integer int_y = Integer.parseInt(my);
+		int_y = int_y + 260;
+		square.setAttributeNS(null, "x", Integer.toString(int_x));
+		square.setAttributeNS(null, "y", Integer.toString(int_y));
 		square.setAttributeNS(null, "id", "theSquare");		
 		Gradients.insertCoolVerticalGradient(document);		
 		square.setAttributeNS(null, "fill","url(#" + Gradients.VERTICAL_GRADIENT_ID + ")");		
@@ -269,7 +277,7 @@ public class SVGInteractor extends JFrame{
 				Point p1 = new Point(300,300);
 				Point p2 = new Point(mevt.getClientX(),mevt.getClientY());
 												
-				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2);
+				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2, AM);
 				
 				System.out.println("eventTarget mouseup hourMin[0]" + hourMin[0]);
 				System.out.println("eventTarget mouseup hourMin[1]" + hourMin[1]);
@@ -306,7 +314,7 @@ public class SVGInteractor extends JFrame{
 				}				
 				Point p1 = new Point(300,300);
 				Point p2 = new Point(mevt.getClientX(),mevt.getClientY());												
-				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2);				
+				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2, AM);				
 				System.out.println("eventTarget mousemove hourMin[0]" + hourMin[0]);
 				System.out.println("eventTarget mousemove hourMin[1]" + hourMin[1]);
 				//modify minuteHand End
@@ -431,21 +439,28 @@ public class SVGInteractor extends JFrame{
 		// Add to the square a listener for the ‘click’ event
 		t2.addEventListener("click",new EventListener() {
 			public void handleEvent(Event evt) {
-				System.out.println("Greetings from the Square!");
+				System.out.println("Greetings from the Square, click !");
 				Element elt = document.getElementById("theSquare");
 				
 				String str_w = elt.getAttribute("width");				
 				Integer int_w = Integer.parseInt(str_w);
 				System.out.println("int_w: " + int_w);				
-				int_w = int_w+10;				
-				elt.setAttribute("width", Integer.toString(int_w));
-				
-				
+				int_w = int_w+1;				
+				elt.setAttribute("width", Integer.toString(int_w));								
 				String str_h = elt.getAttribute("height");				
 				Integer int_h = Integer.parseInt(str_h);
 				System.out.println("int_h: " + int_h);				
-				int_h = int_h+10;				
+				int_h = int_h+1;				
 				elt.setAttribute("height", Integer.toString(int_h));
+				
+				if (AM == true){
+					AM = false;
+					System.out.println("setze AM auf false");
+				}
+				else{
+					AM = true;
+					System.out.println("setze AM auf true");
+				}
 			}
 		}
 		,false);	
@@ -454,21 +469,20 @@ public class SVGInteractor extends JFrame{
 		t2.addEventListener("mouseover",new EventListener(){
 			public void handleEvent(Event evt) {
 				Element elt = document.getElementById("theSquare");
-				elt.setAttribute("x","340");
-				//elt.setAttribute("y","l00");
-				elt.setAttribute("width","200");
-				//elt.setAttribute("height","200");
-				elt.setAttributeNS(null, "height", "200");
 				
+				Integer int_x = Integer.parseInt(mx);
+				int_x = int_x -200;				
+				elt.setAttribute("x",Integer.toString(int_x));
+				elt.setAttribute("width","200");
+				elt.setAttributeNS(null, "height", "20");				
 				elt.setAttribute( "attributeName", "transform");
 				elt.setAttribute( "attributeType", "XML");
 				elt.setAttribute( "type", "rotate");
 				elt.setAttribute( "dur", 10 + "s");
 				elt.setAttribute( "repeatCount", "indefinite");
 				elt.setAttribute( "from", "0 "+360+" "+120);
-				elt.setAttribute( "to", 120+" "+360+" "+120);
-				
-				starteSquareMoveThread();  //juo added on 18.11.2018								
+				elt.setAttribute( "to", 120+" "+360+" "+120);				
+				starteSquareMoveThread();								
 			}
 		}
 		,false);
@@ -477,14 +491,14 @@ public class SVGInteractor extends JFrame{
 		t2.addEventListener("mouseout",new EventListener() {
 			public void handleEvent(Event evt) {
 				Element elt = document.getElementById("theSquare");
-				elt.setAttribute("x", "360");
-				//elt.setAttribute("y","l20");
-				elt.setAttribute("width","160");
-				//elt.setAttribute("height","l60");
-				elt.setAttributeNS(null, "height", "160");
 				
+				Integer int_x = Integer.parseInt(mx);
+				int_x = int_x -200;				
+				elt.setAttribute("x",Integer.toString(int_x));
+				elt.setAttribute("width","80");
+				elt.setAttributeNS(null, "height", "20");				
 				System.out.println("bin in mouseout theSquare!");
-				stoppeSquareMoveThread(squareMov);    //juo added on 15.12.2018
+				stoppeSquareMoveThread(squareMov);
 			}
 		}
 		,false);
@@ -605,7 +619,7 @@ public class SVGInteractor extends JFrame{
 						
 						int yPos = Integer.parseInt(elt.getAttribute("cy"));
 						
-						if ((yPos <= 70) || (yPos >=330)){
+						if ((yPos <= 50) || (yPos >=550)){
 							deltaY  = - deltaY;
 							System.out.println("deltaY: " +deltaY);
 						}
@@ -679,7 +693,7 @@ public class SVGInteractor extends JFrame{
 						Element elt = document.getElementById("theSquare");
 						int xPos = Integer.parseInt(elt.getAttribute("x"));
 						
-						if (xPos <= 0 || (xPos >= 440))
+						if (xPos <= 0 || (xPos >= 400))
 						   deltaX  = - deltaX;
 						
 						xPos += deltaX;							

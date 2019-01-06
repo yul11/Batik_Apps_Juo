@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 public class Calculator {
 	
 	
-	public static Integer[] convertAngleToTime(Point p1, Point p2){
+	public static Integer[] convertAngleToTime(Point p1, Point p2, boolean AM){
 		
 		Integer[] hourMin = new Integer[2];
 		
@@ -28,8 +28,22 @@ public class Calculator {
 		time = (zwoelf/dreihundertsechzig) * winkel;
 		
 		System.out.println("winkel: " + winkel + " time: " + time);				
-		System.out.println("Minuten: " + time *60);				
-		uhrzeit = 12+(time);				
+		System.out.println("Minuten: " + time *60);	
+		
+
+		if (AM){
+			if (time < 0)
+				uhrzeit = 12 + time;		
+			else
+				uhrzeit = time;			
+		}
+		else{	//PM
+			if (time < 0)
+				uhrzeit = 24 + time;		
+			else
+				uhrzeit = 12+ time;			
+		}
+		
 		System.out.println("Uhrzeit: " +"0"+uhrzeit);
 		
 		String str_uhrzeit = String.valueOf("0"+uhrzeit);
@@ -38,8 +52,8 @@ public class Calculator {
 		System.out.println("Punkt gefunden an Position: " + index);
 		
 		String hour   = str_uhrzeit.substring(index-2,index);
-		String minute = str_uhrzeit.substring(index+1,index+13);  //hier gibt es ein Problem bei 03:00 Uhr, 06:00 Uhr
-																  //09:00 Uhr und 12:00 Uhr. Quotient ist 0!
+		String minute = str_uhrzeit.substring(index+1,index+2);
+
 		String str_aux = "0."+minute; 				
 		Double d_minute = Double.parseDouble(str_aux);
 		System.out.println("d_minute: " + d_minute);				
@@ -47,7 +61,7 @@ public class Calculator {
 		System.out.println("d_minute:  " + d_minute + " ungerundet");
 	
 		NumberFormat numf = NumberFormat.getInstance();
-		numf.setMaximumFractionDigits(0); // max. 0 stellen hinter komma
+		numf.setMaximumFractionDigits(0); // max. 0 Stellen hinter Komma
 		numf.format(d_minute);
 		System.out.println("d_minute: " + numf.format(d_minute) + " gerundet");
 
