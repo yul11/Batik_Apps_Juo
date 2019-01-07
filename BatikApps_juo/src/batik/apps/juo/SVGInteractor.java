@@ -234,12 +234,6 @@ public class SVGInteractor extends JFrame{
 	//end SVGInteractor()-Konstruktor
 
 	
-	
-	
-	
-
-	
-
 
 	
 	//This method attaches all the required listeners
@@ -624,11 +618,24 @@ public class SVGInteractor extends JFrame{
 							System.out.println("deltaY: " +deltaY);
 						}
 							
-						yPos += deltaY;	
+						yPos += deltaY;
+						System.out.println("(yPos % 100): " + (yPos % 100)); 
 						
+						if ((yPos % 50) ==0 ){
+							elt.setAttributeNS(null, "fill","blue");
+							elt.setAttributeNS(null, "stroke","red");
+							elt.setAttributeNS(null, "stroke-width","20");	
+							elt.setAttribute("stroke-opacity",".7");
+																				
+						}
+						if ((yPos % 100) ==0 ){
+							elt.setAttributeNS(null, "fill","red");
+							elt.setAttributeNS(null, "stroke","blue");
+							elt.setAttributeNS(null, "stroke-width","20");		
+							elt.setAttribute("stroke-opacity",".7");												
+						}
 						elt.setAttribute("cy", "" + yPos);
-						System.out.println("yPos: " + yPos);
-						
+						System.out.println("yPos: " + yPos);						
 					}
 				});								
 			}
@@ -706,12 +713,11 @@ public class SVGInteractor extends JFrame{
 	}
 	//SQUARE END
 	
+	
+	
 	//Entry point into the program
 	public static void main(String[] args){		
 		SVGInteractor inter = new SVGInteractor();
 		inter.setVisible(true);
-	}
-
-
-
+	}	
 }
