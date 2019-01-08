@@ -575,8 +575,9 @@ public class SVGInteractor extends JFrame{
 	//An inner class encapsulating the laws of the circles movement
 	public class CircleMovement implements Runnable{	
 				
-		private int deltaY = 10;
+		private double deltaY = 4;
 		boolean doRun = true;
+		boolean down  = true;
 				
 		public void starte(){
 			thread = new Thread(this);
@@ -593,7 +594,7 @@ public class SVGInteractor extends JFrame{
 			//while (!Thread.currentThread().isInterrupted()) {
 			while (doRun) {
 								
-				System.out.println("CircleMovement-thread laeuft...");
+				//System.out.println("CircleMovement-thread laeuft...");
 				
 				try {
 					Thread.sleep(100);
@@ -607,7 +608,7 @@ public class SVGInteractor extends JFrame{
 				    // Insert some actions on the DOM here
 					public void run(){													
 						
-						System.out.println("bin in invokeLater theCircle");							
+						//System.out.println("bin in invokeLater theCircle");							
 						
 						Element elt = document.getElementById("theCircle");				
 						
@@ -616,19 +617,56 @@ public class SVGInteractor extends JFrame{
 						if ((yPos <= 50) || (yPos >=550)){
 							deltaY  = - deltaY;
 							System.out.println("deltaY: " +deltaY);
+							if (yPos >=550){
+								System.out.println("fülle gelb");
+								elt.setAttributeNS(null, "fill","yellow");
+								elt.setAttributeNS(null, "stroke","yellow");
+								elt.setAttributeNS(null, "stroke-width","20");	
+								down = false;
+							}
+							if (yPos <= 50){
+								System.out.println("fülle gelb");
+								elt.setAttributeNS(null, "fill","yellow");
+								elt.setAttributeNS(null, "stroke","yellow");
+								elt.setAttributeNS(null, "stroke-width","20");	
+								down = true;
+							}
+							
+						}
+						else{
+							if (down){
+								if (yPos == 100)
+									deltaY = 2 * deltaY;
+								if (yPos == 300)
+									deltaY = 3 * deltaY;								
+								if (yPos >= 400  && yPos < 410)
+									deltaY = 4 * deltaY;
+								System.out.println("Geschwindigkeit: " + deltaY + " Bewegung: down");		
+
+							}
+							else{
+								if (yPos == 100)
+									deltaY = deltaY/2;
+								if (yPos == 300)
+									deltaY = deltaY/3;
+								if (yPos >= 400  && yPos < 410)
+									deltaY = deltaY/4;
+								System.out.println("Geschwindigkeit: " + deltaY + " Bewegung: up");		
+
+							}
 						}
 							
 						yPos += deltaY;
-						System.out.println("(yPos % 100): " + (yPos % 100)); 
-						
-						if ((yPos % 50) ==0 ){
+						//System.out.println("(yPos % 100): " + (yPos % 100)); 
+												
+						if ((yPos % 4) ==0 ){
 							elt.setAttributeNS(null, "fill","blue");
 							elt.setAttributeNS(null, "stroke","red");
 							elt.setAttributeNS(null, "stroke-width","20");	
 							elt.setAttribute("stroke-opacity",".7");
 																				
 						}
-						if ((yPos % 100) ==0 ){
+						if ((yPos % 8) ==0 ){
 							elt.setAttributeNS(null, "fill","red");
 							elt.setAttributeNS(null, "stroke","blue");
 							elt.setAttributeNS(null, "stroke-width","20");		
