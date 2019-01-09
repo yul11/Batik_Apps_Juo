@@ -608,8 +608,6 @@ public class SVGInteractor extends JFrame{
 				    // Insert some actions on the DOM here
 					public void run(){													
 						
-						//System.out.println("bin in invokeLater theCircle");							
-						
 						Element elt = document.getElementById("theCircle");				
 						
 						int yPos = Integer.parseInt(elt.getAttribute("cy"));
@@ -630,29 +628,16 @@ public class SVGInteractor extends JFrame{
 								elt.setAttributeNS(null, "stroke","yellow");
 								elt.setAttributeNS(null, "stroke-width","20");	
 								down = true;
-							}
-							
+							}							
 						}
 						else{
-							if (down){
-								if (yPos == 100)
-									deltaY = 2 * deltaY;
-								if (yPos == 300)
-									deltaY = 3 * deltaY;								
-								if (yPos >= 400  && yPos < 410)
-									deltaY = 4 * deltaY;
-								System.out.println("Geschwindigkeit: " + deltaY + " Bewegung: down");		
-
+							if (down){														
+								deltaY = (1.0*(yPos/30)*(yPos/30));
+								System.out.println("deltaY: " + deltaY + " Bewegung: down");		
 							}
-							else{
-								if (yPos == 100)
-									deltaY = deltaY/2;
-								if (yPos == 300)
-									deltaY = deltaY/3;
-								if (yPos >= 400  && yPos < 410)
-									deltaY = deltaY/4;
-								System.out.println("Geschwindigkeit: " + deltaY + " Bewegung: up");		
-
+							else{								
+								deltaY = -(1.0*(yPos/30)*(yPos/30));
+								System.out.println("deltaY: " + deltaY + " Bewegung: up");		
 							}
 						}
 							
