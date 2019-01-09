@@ -75,14 +75,17 @@ public class SVGInteractor extends JFrame{
 					
 		// Get a reference to the <svg> element
 		Element root = document.getDocumentElement();
-		
-
-		
-		
-		
-		
-		
+				
 		// Create and append to the root a couple of basic shapes			
+		Element digitalTimeTextElement = document.createElementNS(svgNS, "text");
+		Text digitalTimeText = document.createTextNode("textNode3");
+		digitalTimeText.setNodeValue("Zeit: ");
+		digitalTimeTextElement.appendChild(digitalTimeText);		
+		digitalTimeTextElement.setAttributeNS(null, "x", "100");
+		digitalTimeTextElement.setAttributeNS(null, "y", "75");
+		digitalTimeTextElement.setAttributeNS(null, "font-size", "25");
+		digitalTimeTextElement.setAttributeNS(null, "fill", "black");
+		digitalTimeTextElement.setAttributeNS(null, "id", "theDigitalTimeText");		
 		
 		Element alarmTimeTextElement = document.createElementNS(svgNS, "text");
 		Text text = document.createTextNode("textNode");
@@ -210,6 +213,7 @@ public class SVGInteractor extends JFrame{
 		root.appendChild(minutesHandAlarm);
 		root.appendChild(alarmTimeTextElement);
 		root.appendChild(normalTimeTextElement);
+		root.appendChild(digitalTimeTextElement);
 		
 		
 										
@@ -229,7 +233,10 @@ public class SVGInteractor extends JFrame{
 		minuteMove = new MinuteMovement(document,canvas);
 		minuteMove.starte();		
 		hourMove   = new HourMovement(document,canvas);
-        hourMove.starte();					
+        hourMove.starte();	
+                
+        DigitalDisplay dd = new DigitalDisplay(document,canvas);
+        dd.starte();
 	}	
 	//end SVGInteractor()-Konstruktor
 

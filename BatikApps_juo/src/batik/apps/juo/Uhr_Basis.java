@@ -112,7 +112,7 @@ public class Uhr_Basis extends JPanel implements Runnable {
 		
 		        heute = new GregorianCalendar();
 
-				Thread.sleep(500);
+				Thread.sleep(1);
 				
 				angleSec = (360 / 60) * heute.get(Calendar.SECOND);	
 		        secondPoint_a.x = ((int) ( lengthSecondHand * (lengthFactor) * Math.sin(Math.toRadians(angleSec))) + xM);
