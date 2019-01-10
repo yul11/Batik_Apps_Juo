@@ -40,8 +40,6 @@ public class Uhr_Basis extends JPanel implements Runnable {
     private int[] handCoordinates;
     
 
-    
-
    
     public Uhr_Basis() {   	
     	thread = new Thread(this);
@@ -100,7 +98,7 @@ public class Uhr_Basis extends JPanel implements Runnable {
 	    // seconds
 	    g2d.setColor(colorSecondHand);
 	    g2d.drawLine(xM, yM, secondPoint_a.x, secondPoint_a.y);
-	    g2d.drawLine(xM, yM, secondPoint_b.x, secondPoint_b.y);			//Stummel Sekundenzeiger
+	    g2d.drawLine(xM, yM, secondPoint_b.x, secondPoint_b.y);
 	    
     }
  
@@ -126,19 +124,12 @@ public class Uhr_Basis extends JPanel implements Runnable {
 		        hourPoint.x = ((int) ( lengthHourHand * (lengthFactor) * Math.sin(Math.toRadians(angleHou))) + xM);
 		        hourPoint.y = ((int) (-lengthHourHand * (lengthFactor) * Math.cos(Math.toRadians(angleHou))) + yM);		        
 		        
-		        //System.out.println("Stunde:  " + heute.get(Calendar.HOUR) );
-		        //System.out.println("Minute:  " + heute.get(Calendar.MINUTE));		        
-		        //System.out.println("Sekunde: " + heute.get(Calendar.SECOND)+ "\n");
-		        
 		        handCoordinates[0]=secondPoint_a.x;
 		        handCoordinates[1]=secondPoint_a.y;
 		        handCoordinates[2]=minutePoint.x;
 		        handCoordinates[3]=minutePoint.y;
 		        handCoordinates[4]=hourPoint.x;
 		        handCoordinates[5]=hourPoint.y;
-		        		 
-		        //if (stateUhrBasis==1)
-		        //	repaint();
 		    }		    
         }
         catch (InterruptedException e) {

@@ -83,7 +83,8 @@ public class SVGInteractor extends JFrame{
 		digitalTimeTextElement.appendChild(digitalTimeText);		
 		digitalTimeTextElement.setAttributeNS(null, "x", "100");
 		digitalTimeTextElement.setAttributeNS(null, "y", "75");
-		digitalTimeTextElement.setAttributeNS(null, "font-size", "25");
+		digitalTimeTextElement.setAttributeNS(null, "font-size", "70");
+		digitalTimeTextElement.setAttributeNS(null, "font-family", "AR DECODE");
 		digitalTimeTextElement.setAttributeNS(null, "fill", "black");
 		digitalTimeTextElement.setAttributeNS(null, "id", "theDigitalTimeText");		
 		
@@ -235,12 +236,15 @@ public class SVGInteractor extends JFrame{
 		hourMove   = new HourMovement(document,canvas);
         hourMove.starte();	
                 
-        DigitalDisplay dd = new DigitalDisplay(document,canvas);
+        DigitalDisplay dd = new DigitalDisplay(document,canvas,this);
         dd.starte();
 	}	
 	//end SVGInteractor()-Konstruktor
 
 	
+	public void setAM(boolean val){
+		this.AM = val;		
+	}
 
 	
 	//This method attaches all the required listeners
@@ -453,15 +457,6 @@ public class SVGInteractor extends JFrame{
 				System.out.println("int_h: " + int_h);				
 				int_h = int_h+1;				
 				elt.setAttribute("height", Integer.toString(int_h));
-				
-				if (AM == true){
-					AM = false;
-					System.out.println("setze AM auf false");
-				}
-				else{
-					AM = true;
-					System.out.println("setze AM auf true");
-				}
 			}
 		}
 		,false);	

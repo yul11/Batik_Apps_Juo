@@ -7,6 +7,9 @@ import java.util.GregorianCalendar;
 import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 
 
 
@@ -20,11 +23,14 @@ public class DigitalDisplay implements Runnable{
 	int int_x  =300;
 	int int_y = 300;
 	protected GregorianCalendar heute;
+	SVGInteractor svgInter;
+	boolean AM;
 
 	
-	public DigitalDisplay(Document d, JSVGCanvas c){		
+	public DigitalDisplay(Document d, JSVGCanvas c, SVGInteractor s){		
 		this.document =d;
 		this.canvas   =c;
+		this.svgInter =s;
 		int_x  =300;
 		int_y = 300;
 
@@ -34,7 +40,31 @@ public class DigitalDisplay implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		registerListener();
 	}
+
+	
+	public void registerListener(){
+		EventTarget t1 = (EventTarget)document.getElementById("theDigitalTimeText");
+		
+		t1.addEventListener("click", new EventListener() {
+			public void handleEvent(Event evt) {
+				System.out.println("DigitalDisplay()-> clicked DigitalDisplay");				
+				if (AM == true){
+					AM = false;
+					System.out.println("DigitalDisplay()-> setze AM auf false");
+				}
+				else{
+					AM = true;
+					System.out.println("DigitalDisplay()-> setze AM auf true");
+				}				
+				svgInter.setAM(AM);
+			}
+		}
+	,false);
+	}
+	
+	
 
 	public void starte(){
 		thread = new Thread(this); 
@@ -75,7 +105,7 @@ public class DigitalDisplay implements Runnable{
 										
 					Element elt = document.getElementById("theDigitalTimeText");
 					
-					elt.setTextContent(heute.get(Calendar.HOUR_OF_DAY) + ":" + str_min + ":" + str_sec + " Uhr");					
+					elt.setTextContent(heute.get(Calendar.HOUR_OF_DAY) + ":" + str_min + ":" + str_sec);					
 				}
 			});								
 		}
