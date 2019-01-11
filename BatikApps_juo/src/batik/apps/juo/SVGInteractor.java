@@ -50,6 +50,7 @@ public class SVGInteractor extends JFrame{
 	JPanel panel;
 	String mx= "300";  //Mittelpunkt x-Koordinate
 	String my= "300";  //Mittelpunkt y-Koordinate
+	int r = 220;
 	private int clickCt;
 	Setup s = null;
 	Uhr_Basis ub;
@@ -115,9 +116,9 @@ public class SVGInteractor extends JFrame{
 		circle.setAttributeNS(null, "stroke-width", "5");
 		circle.setAttributeNS(null, "r", "50");
 		Integer int_xC = Integer.parseInt(mx);
-		int_xC = int_xC +220;
+		int_xC = int_xC +r;
 		Integer int_yC = Integer.parseInt(my);
-		int_yC = int_yC -220;
+		int_yC = int_yC -r;
 		circle.setAttributeNS(null, "cx", Integer.toString(int_xC));
 		circle.setAttributeNS(null, "cy", Integer.toString(int_yC));
 		circle.setAttributeNS(null, "id", "theCircle");
@@ -130,7 +131,7 @@ public class SVGInteractor extends JFrame{
 		square.setAttributeNS(null, "width", "400");
 		square.setAttributeNS(null, "height", "20");
 		Integer int_x = Integer.parseInt(mx);
-		int_x = int_x -200;
+		int_x = int_x -r;
 		Integer int_y = Integer.parseInt(my);
 		int_y = int_y + 260;
 		square.setAttributeNS(null, "x", Integer.toString(int_x));
@@ -201,10 +202,161 @@ public class SVGInteractor extends JFrame{
 		clockFace.setAttributeNS(null, "cy", my);
 		clockFace.setAttributeNS(null, "id", "theClockFace");
 		Gradients.insertCoolRadialGradient(document);
-		clockFace.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");		
-				
+		clockFace.setAttributeNS(null, "fill","url(#" + Gradients.COOL_RADIAL_GRADIENT_ID + ")");	
+
+		
+        // Striche bei 1,2,3,4,5,6,7,8,9,10,11,12 Uhr
+		r=r-20;
+		int length = 80;
+		
+		Element clockMarkZwoelf = document.createElementNS(svgNS, "line");
+		clockMarkZwoelf.setAttributeNS(null, "fill", "red");		
+		clockMarkZwoelf.setAttributeNS(null, "stroke", "red");
+		clockMarkZwoelf.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkZwoelf.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkZwoelf.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r-length)*Math.cos(Math.toRadians(270)))));					
+		clockMarkZwoelf.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r-length)*Math.sin(Math.toRadians(270)))));
+		clockMarkZwoelf.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)((r+length)*Math.cos(Math.toRadians(270)))));
+		clockMarkZwoelf.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)((r+length)*Math.sin(Math.toRadians(270)))));		
+
+		Element clockMarkEins = document.createElementNS(svgNS, "line");
+		clockMarkEins.setAttributeNS(null, "fill", "red");		
+		clockMarkEins.setAttributeNS(null, "stroke", "red");
+		clockMarkEins.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkEins.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkEins.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.cos(Math.toRadians(300)))));					
+		clockMarkEins.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.sin(Math.toRadians(300)))));
+		clockMarkEins.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.cos(Math.toRadians(300)))));
+		clockMarkEins.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.sin(Math.toRadians(300)))));		
+
+		Element clockMarkZwei = document.createElementNS(svgNS, "line");
+		clockMarkZwei.setAttributeNS(null, "fill", "red");		
+		clockMarkZwei.setAttributeNS(null, "stroke", "red");
+		clockMarkZwei.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkZwei.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkZwei.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.cos(Math.toRadians(330)))));					
+		clockMarkZwei.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.sin(Math.toRadians(330)))));
+		clockMarkZwei.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.cos(Math.toRadians(330)))));
+		clockMarkZwei.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.sin(Math.toRadians(330)))));		
+
+		Element clockMarkDrei = document.createElementNS(svgNS, "line");
+		clockMarkDrei.setAttributeNS(null, "fill", "red");		
+		clockMarkDrei.setAttributeNS(null, "stroke", "red");
+		clockMarkDrei.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkDrei.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkDrei.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r-length)*Math.cos(Math.toRadians(0)))));					
+		clockMarkDrei.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r-length)*Math.sin(Math.toRadians(0)))));
+		clockMarkDrei.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)((r+length)*Math.cos(Math.toRadians(0)))));
+		clockMarkDrei.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)((r+length)*Math.sin(Math.toRadians(0)))));		
+
+		Element clockMarkVier = document.createElementNS(svgNS, "line");
+		clockMarkVier.setAttributeNS(null, "fill", "red");		
+		clockMarkVier.setAttributeNS(null, "stroke", "red");
+		clockMarkVier.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkVier.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkVier.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.cos(Math.toRadians(30)))));					
+		clockMarkVier.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.sin(Math.toRadians(30)))));
+		clockMarkVier.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.cos(Math.toRadians(30)))));
+		clockMarkVier.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.sin(Math.toRadians(30)))));		
+
+		Element clockMarkFuenf = document.createElementNS(svgNS, "line");
+		clockMarkFuenf.setAttributeNS(null, "fill", "red");		
+		clockMarkFuenf.setAttributeNS(null, "stroke", "red");
+		clockMarkFuenf.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkFuenf.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkFuenf.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.cos(Math.toRadians(60)))));					
+		clockMarkFuenf.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.sin(Math.toRadians(60)))));
+		clockMarkFuenf.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.cos(Math.toRadians(60)))));
+		clockMarkFuenf.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.sin(Math.toRadians(60)))));		
+		
+		Element clockMarkSechs = document.createElementNS(svgNS, "line");
+		clockMarkSechs.setAttributeNS(null, "fill", "red");		
+		clockMarkSechs.setAttributeNS(null, "stroke", "red");
+		clockMarkSechs.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkSechs.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkSechs.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r-length)*Math.cos(Math.toRadians(90)))));					
+		clockMarkSechs.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r-length)*Math.sin(Math.toRadians(90)))));
+		clockMarkSechs.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)((r+length)*Math.cos(Math.toRadians(90)))));
+		clockMarkSechs.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)((r+length)*Math.sin(Math.toRadians(90)))));		
+
+		Element clockMarkSieben = document.createElementNS(svgNS, "line");
+		clockMarkSieben.setAttributeNS(null, "fill", "red");		
+		clockMarkSieben.setAttributeNS(null, "stroke", "red");
+		clockMarkSieben.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkSieben.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkSieben.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.cos(Math.toRadians(120)))));					
+		clockMarkSieben.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.sin(Math.toRadians(120)))));
+		clockMarkSieben.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.cos(Math.toRadians(120)))));
+		clockMarkSieben.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.sin(Math.toRadians(120)))));		
+
+		Element clockMarkAcht = document.createElementNS(svgNS, "line");
+		clockMarkAcht.setAttributeNS(null, "fill", "red");		
+		clockMarkAcht.setAttributeNS(null, "stroke", "red");
+		clockMarkAcht.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkAcht.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkAcht.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.cos(Math.toRadians(150)))));					
+		clockMarkAcht.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.sin(Math.toRadians(150)))));
+		clockMarkAcht.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.cos(Math.toRadians(150)))));
+		clockMarkAcht.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.sin(Math.toRadians(150)))));		
+
+		Element clockMarkNeun = document.createElementNS(svgNS, "line");
+		clockMarkNeun.setAttributeNS(null, "fill", "red");		
+		clockMarkNeun.setAttributeNS(null, "stroke", "red");
+		clockMarkNeun.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkNeun.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkNeun.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r-length)*Math.cos(Math.toRadians(180)))));					
+		clockMarkNeun.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r-length)*Math.sin(Math.toRadians(180)))));
+		clockMarkNeun.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)((r+length)*Math.cos(Math.toRadians(180)))));
+		clockMarkNeun.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)((r+length)*Math.sin(Math.toRadians(180)))));		
+		
+		Element clockMarkZehn = document.createElementNS(svgNS, "line");
+		clockMarkZehn.setAttributeNS(null, "fill", "red");		
+		clockMarkZehn.setAttributeNS(null, "stroke", "red");
+		clockMarkZehn.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkZehn.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkZehn.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.cos(Math.toRadians(210)))));					
+		clockMarkZehn.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.sin(Math.toRadians(210)))));
+		clockMarkZehn.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.cos(Math.toRadians(210)))));
+		clockMarkZehn.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.sin(Math.toRadians(210)))));		
+
+		Element clockMarkElf = document.createElementNS(svgNS, "line");
+		clockMarkElf.setAttributeNS(null, "fill", "red");		
+		clockMarkElf.setAttributeNS(null, "stroke", "red");
+		clockMarkElf.setAttributeNS(null, "style", "stroke:rgb(255,0,0); stroke-width:10; stroke-linecap:round");
+		clockMarkElf.setAttributeNS(null, "id", "theClockMarks");
+		Gradients.insertCoolRadialGradient(document);
+		clockMarkElf.setAttributeNS(null, "x1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.cos(Math.toRadians(240)))));					
+		clockMarkElf.setAttributeNS(null, "y1", Integer.toString(Integer.parseInt(mx) + (int)((r)*Math.sin(Math.toRadians(240)))));
+		clockMarkElf.setAttributeNS(null, "x2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.cos(Math.toRadians(240)))));
+		clockMarkElf.setAttributeNS(null, "y2", Integer.toString(Integer.parseInt(mx) + (int)(r*Math.sin(Math.toRadians(240)))));		
+
 		root.appendChild(rect2);
 		root.appendChild(clockFace);
+		
+		root.appendChild(clockMarkZwoelf);
+		root.appendChild(clockMarkEins);
+		root.appendChild(clockMarkZwei);
+		root.appendChild(clockMarkDrei);
+		root.appendChild(clockMarkVier);
+		root.appendChild(clockMarkFuenf);
+		root.appendChild(clockMarkSechs);
+		root.appendChild(clockMarkSieben);
+		root.appendChild(clockMarkAcht);
+		root.appendChild(clockMarkNeun);
+		root.appendChild(clockMarkZehn);
+		root.appendChild(clockMarkElf);
+				
 		root.appendChild(circle);
 		root.appendChild(square);		
 		
@@ -215,7 +367,6 @@ public class SVGInteractor extends JFrame{
 		root.appendChild(alarmTimeTextElement);
 		root.appendChild(normalTimeTextElement);
 		root.appendChild(digitalTimeTextElement);
-		
 		
 										
 		//Attach the listeners to the shapes	
