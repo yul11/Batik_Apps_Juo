@@ -1,5 +1,8 @@
 package batik.apps.juo;
 
+//sound-examples from:
+//http://www.pacdv.com/sounds/transportation_sounds.html
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,13 +18,7 @@ import javafx.scene.media.MediaPlayer;
 
 
 import javafx.scene.media.*;
-//import javafx.scene.media.MediaPlayer;
-//import javafx.scene.media.Media;
 
-
-
-//import javafx.scene.media.Media;
-//import javafx.scene.media.MediaPlayer;
 
 public class Sound {
 	
