@@ -27,6 +27,9 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.MouseEvent;
+
+import sun.audio.AudioStream;
+
 import javax.swing.JColorChooser;
 
 
@@ -56,6 +59,7 @@ public class SVGInteractor extends JFrame{
 	Uhr_Basis ub;
 	boolean alarmAdjustmentInProgress;
 	boolean AM;
+	AudioStream as= null;
 	
 	
 	public SVGInteractor(){
@@ -744,10 +748,7 @@ public class SVGInteractor extends JFrame{
 		
 		public void run(){	
 			
-			//while (!Thread.currentThread().isInterrupted()) {
 			while (doRun) {
-								
-				//System.out.println("CircleMovement-thread laeuft...");
 				
 				try {
 					Thread.sleep(100);
@@ -758,22 +759,24 @@ public class SVGInteractor extends JFrame{
 								
 				// Returns immediately
 				canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
-				    // Insert some actions on the DOM here
-					public void run(){													
+					
+					public void run(){	
 						
-						Element elt = document.getElementById("theCircle");				
-						
+						Element elt = document.getElementById("theCircle");
+
 						int yPos = Integer.parseInt(elt.getAttribute("cy"));
 						
 						if ((yPos <= 50) || (yPos >=550)){
 							deltaY  = - deltaY;
 							System.out.println("deltaY: " +deltaY);
+							
 							if (yPos >=550){
 								System.out.println("fülle gelb");
 								elt.setAttributeNS(null, "fill","yellow");
 								elt.setAttributeNS(null, "stroke","yellow");
-								elt.setAttributeNS(null, "stroke-width","20");	
-								down = false;
+								elt.setAttributeNS(null, "stroke-width","20");
+								down = false;								
+								as = Sound.soundStart();						
 							}
 							if (yPos <= 50){
 								System.out.println("fülle gelb");
@@ -781,6 +784,7 @@ public class SVGInteractor extends JFrame{
 								elt.setAttributeNS(null, "stroke","yellow");
 								elt.setAttributeNS(null, "stroke-width","20");	
 								down = true;
+								Sound.soundStop(as);
 							}							
 						}
 						else{
@@ -856,7 +860,6 @@ public class SVGInteractor extends JFrame{
 		
 		public void run(){				
 
-			//while (!Thread.currentThread().isInterrupted()) {
 			while (doRun) {
 			
 				System.out.println("SquareMovement-thread laeuft");								
