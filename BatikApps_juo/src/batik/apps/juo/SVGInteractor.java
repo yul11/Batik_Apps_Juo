@@ -187,12 +187,12 @@ public class SVGInteractor extends JFrame{
 		//rect2.setAttributeNS(null, "fill", "plum");
 		rect2.setAttributeNS(null, "stroke", "indigo");
 		rect2.setAttributeNS(null, "stroke-width", "5");
-		rect2.setAttributeNS(null, "x", "400");
-		rect2.setAttributeNS(null, "y", "150");
-		rect2.setAttributeNS(null, "id", "theSquare2");
+		rect2.setAttributeNS(null, "x", "0");
+		rect2.setAttributeNS(null, "y", "0");
+		rect2.setAttributeNS(null, "id", "theBackground");
 		rect2.setAttributeNS(null, "stroke", "black");
-		rect2.setAttributeNS(null, "width", "160");
-		rect2.setAttributeNS(null, "height", "160");
+		rect2.setAttributeNS(null, "width", "600");
+		rect2.setAttributeNS(null, "height", "600");
 		Gradients.insertCoolVerticalGradient(document);
 		rect2.setAttributeNS(null, "fill","url(#" + Gradients.VERTICAL_GRADIENT_ID + ")");		
 		
@@ -709,12 +709,28 @@ public class SVGInteractor extends JFrame{
 				clickCt++;
 			}
 		}
-		,false);		
+		,false);	
+		
+		
+		
+		// Get a reference to the square2 is background as an event target
+		EventTarget t10 = (EventTarget)document.getElementById("theBackground");
+		
+		// Add to the square a listener for the ‘click’ event
+		t10.addEventListener("click",new EventListener() {
+			public void handleEvent(Event evt) {			
+				Color selectedColor = JColorChooser.showDialog(null,"Farbe Hintergrund auswählen", null);
+				String hex = String.format("#%02x%02x%02x", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue());  				
+				Element el = document.getElementById("theBackground");
+        		el.setAttributeNS(null, "fill",hex);
+			}
+		}
+		,false);	
 	}
 	
 	
 
-	
+		
 	
 	
 	

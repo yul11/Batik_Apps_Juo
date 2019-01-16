@@ -13,7 +13,7 @@ public class Sound {
 	public static AudioStream soundStart() { 
 		AudioStream as=null;
 	    try {
-			InputStream in = new FileInputStream("D:/PC/Software/Java/git/Batik_Apps_Juo2/BatikApps_juo/src/batik/apps/juo/bottle_pop_3.wav");
+	    	InputStream in = new FileInputStream("D:/PC/Software/Java/git/Batik_Apps_Juo2/BatikApps_juo/src/batik/apps/juo/bottle_pop_3.wav");
 			//InputStream in = new FileInputStream("D:/PC/Software/Java/git/Batik_Apps_Juo2/BatikApps_juo/src/batik/apps/juo/fire_truck_1.wav");	
 			//InputStream in = new FileInputStream("D:/PC/Software/Java/git/Batik_Apps_Juo2/BatikApps_juo/src/batik/apps/juo/dhol_drums.wav");
 			as = new AudioStream(in);         
