@@ -23,7 +23,7 @@ public class MinuteMovement implements Runnable{
 	public MinuteMovement(Document d, JSVGCanvas c){		
 		this.document =d;
 		this.canvas   =c;
-		coorGen = new CoordinatesGenerator();
+		coorGen = new CoordinatesGenerator(document);
 		int_x  =300;
 		int_y = 300;
 

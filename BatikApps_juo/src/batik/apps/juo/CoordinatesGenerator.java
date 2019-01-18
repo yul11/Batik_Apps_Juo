@@ -1,17 +1,23 @@
 package batik.apps.juo;
 
+import org.w3c.dom.Document;
 
 public class CoordinatesGenerator implements Runnable{
 
 	private int[] handCoordinates;
 	private Thread thread;
 	Uhr_Basis ub;
+	Document document;
 
-	public CoordinatesGenerator() {  			
+	public CoordinatesGenerator(Document d) {  			
 		handCoordinates = new int[6];
 		ub = new Uhr_Basis();
 		thread = new Thread(this);
 		thread.start();
+		this.document = d;
+		AlarmControl ac = new AlarmControl(document,ub);
+		ac.starte();
+		
 	} 
 	
 	public int[] getCoordinates(){
@@ -26,7 +32,6 @@ public class CoordinatesGenerator implements Runnable{
 			handCoordinates = ub.getHandCoordinates();
 			for (int i=0; i<handCoordinates.length; i++){
 				handCoordinates = ub.getHandCoordinates();
-				//System.out.println("handcoordinates_________: " + handCoordinates[i]);
 			}
 
 			//System.out.println("\n");	
@@ -37,10 +42,6 @@ public class CoordinatesGenerator implements Runnable{
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		new CoordinatesGenerator();
 	}
 }
 

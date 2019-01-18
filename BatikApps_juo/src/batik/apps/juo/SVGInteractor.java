@@ -169,7 +169,7 @@ public class SVGInteractor extends JFrame{
 		minutesHandAlarm.setAttributeNS(null, "y1", "300");
 		minutesHandAlarm.setAttributeNS(null, "x2", "300");
 		minutesHandAlarm.setAttributeNS(null, "y2", "100");		
-		minutesHandAlarm.setAttributeNS(null, "style", "stroke:rgb(200,200,200); stroke-width:10; stroke-linecap:round");
+		minutesHandAlarm.setAttributeNS(null, "style", "stroke:rgb(200,200,200); stroke-width:5; stroke-linecap:round");
 		minutesHandAlarm.setAttributeNS(null, "id", "theMinutesHandAlarm");	
 		Gradients.insertCoolRadialGradient(document);
 		
@@ -391,8 +391,9 @@ public class SVGInteractor extends JFrame{
 		hourMove   = new HourMovement(document,canvas);
         hourMove.starte();	
                 
-        DigitalDisplay dd = new DigitalDisplay(document,canvas,this);
+        DigitalDisplay dd = new DigitalDisplay(document,canvas,this);       
         dd.starte();
+
 	}	
 	//end SVGInteractor()-Konstruktor
 
@@ -446,7 +447,7 @@ public class SVGInteractor extends JFrame{
 				if (hourMin[1] < 10){					
 					str_min = "0" + (hourMin[1].toString());
 				}			
-				elt.setTextContent("Alarm: " + hourMin[0] + ":" + str_min + " Uhr");
+				elt.setTextContent("Alarm " + hourMin[0] + ":" + str_min + " Uhr");
 				
 			}						
 		}

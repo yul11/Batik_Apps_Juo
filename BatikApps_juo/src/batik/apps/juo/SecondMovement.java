@@ -24,7 +24,7 @@ public class SecondMovement implements Runnable{
 	public SecondMovement(Document d, JSVGCanvas c){		
 		this.document =d;
 		this.canvas   =c;
-		coorGen = new CoordinatesGenerator();
+		coorGen = new CoordinatesGenerator(document);
 		int_x  =300;
 		int_y = 300;
 

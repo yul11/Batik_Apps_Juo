@@ -65,7 +65,10 @@ public class Uhr_Basis extends JPanel implements Runnable {
     	return handCoordinates;
     }
     
-    
+    public GregorianCalendar getTime(){
+    	return heute;
+    }
+       
      
     
     public void paintComponent(Graphics g) {	    
@@ -132,7 +135,6 @@ public class Uhr_Basis extends JPanel implements Runnable {
 		    }		    
         }
         catch (InterruptedException e) {
-            //Thread.currentThread().interrupt();
             System.out.println("Uhr_Basis()-> thread was interrupted. Error: " + e.getMessage());
         }  
     }
