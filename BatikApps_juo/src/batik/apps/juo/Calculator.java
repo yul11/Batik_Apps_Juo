@@ -29,7 +29,6 @@ public class Calculator {
 		
 		System.out.println("winkel: " + winkel + " time: " + time);				
 		System.out.println("Minuten: " + time *60);	
-		
 
 		if (AM){
 			if (time < 0)
@@ -41,19 +40,30 @@ public class Calculator {
 			if (time < 0)
 				uhrzeit = 24 + time;		
 			else
-				uhrzeit = 12+ time;			
+				uhrzeit = 12 + time;			
 		}
 		
-		System.out.println("Uhrzeit: " +"0"+uhrzeit);
-		
+		System.out.println("Uhrzeit: " +"0"+uhrzeit);		
 		String str_uhrzeit = String.valueOf("0"+uhrzeit);
 
 		int index = str_uhrzeit.indexOf('.');		
 		System.out.println("Punkt gefunden an Position: " + index);
 		
 		String hour   = str_uhrzeit.substring(index-2,index);
-		String minute = str_uhrzeit.substring(index+1,index+2);
-
+		String minute=null;
+		if (winkel == (90.0) || winkel == (180.0) || winkel == (-90.0) || winkel == (0.0)){
+			System.out.println("juo: Calculator()-> exceptional case at 3,6,9,12 o'clock. Set minute to 00");
+			minute = "00";
+		}
+		else{
+			if (winkel == (45.0) || winkel == (135.0) || winkel == (-45.0) || winkel == (-135.0)){
+				System.out.println("juo: Calculator()-> exceptional case at 1:30, 4:30, 7:30, 10:30 o'clock. Set minute to 5");
+				minute = "5";
+			}
+			else
+				minute = str_uhrzeit.substring(index+1,index+3);
+		}
+			
 		String str_aux = "0."+minute; 				
 		Double d_minute = Double.parseDouble(str_aux);
 		System.out.println("d_minute: " + d_minute);				

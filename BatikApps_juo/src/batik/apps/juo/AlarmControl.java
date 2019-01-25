@@ -34,9 +34,10 @@ public class AlarmControl implements Runnable{
 			
 			GregorianCalendar heute = uhr_basis.getTime();
 
-			System.out.println("juo: AlarmControl()-> heute.SECOND:      " + heute.get(Calendar.SECOND));			
-			System.out.println("juo: AlarmControl()-> heute.MINUTE:      " + heute.get(Calendar.MINUTE));
 			System.out.println("juo: AlarmControl()-> heute.HOUR_OF_DAY: " + heute.get(Calendar.HOUR_OF_DAY));
+			System.out.println("juo: AlarmControl()-> heute.MINUTE:      " + heute.get(Calendar.MINUTE));
+			System.out.println("juo: AlarmControl()-> heute.SECOND:      " + heute.get(Calendar.SECOND));	
+			
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
