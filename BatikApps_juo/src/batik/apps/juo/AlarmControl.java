@@ -3,6 +3,7 @@ package batik.apps.juo;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -13,12 +14,17 @@ public class AlarmControl implements Runnable{
 	Uhr_Basis uhr_basis;
 	private Thread thread;
 	boolean doRun = true;
-	Uhr_Basis ub;
+	boolean alarm = false;
+	boolean alarmRuns = false;
+	private CircleMovement circle_mov;
+	private JSVGCanvas canvas;
+
 
 	
-    public AlarmControl(Document d, Uhr_Basis ub) {  
+    public AlarmControl(Document d, Uhr_Basis ub, JSVGCanvas c) {  
     	this.document  = d;
     	this.uhr_basis = ub;
+    	this.canvas = c;
     }
  
     
@@ -27,11 +33,14 @@ public class AlarmControl implements Runnable{
 		thread.start();
 	}
     
-
+	public boolean getAlarmStatus(){
+		return alarm;
+	}
+ 
 	public void run() {
 		
 		while (doRun){
-			
+
 			GregorianCalendar heute = uhr_basis.getTime();
 
 			System.out.println("juo: AlarmControl()-> heute.HOUR_OF_DAY: " + heute.get(Calendar.HOUR_OF_DAY));
@@ -65,8 +74,25 @@ public class AlarmControl implements Runnable{
 				
 				if ((int_hour == heute.get(Calendar.HOUR_OF_DAY)) && (int_min == heute.get(Calendar.MINUTE))){					
 					System.out.println("juo:                                   Weckzeit jetzt!");
+					alarm = true;
 				}
-			}			
+				else
+					alarm = false;
+				
+				if (alarm){
+					if (!alarmRuns){
+						circle_mov = new CircleMovement(canvas, document);	
+						circle_mov.starte();
+						alarmRuns = true;					
+					}
+				}
+				else{
+					if (alarmRuns){
+						circle_mov.stoppe();
+						alarmRuns = false;											
+					}
+				}
+			}
 		}		
 	} 
 }

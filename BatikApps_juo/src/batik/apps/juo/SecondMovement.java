@@ -21,10 +21,10 @@ public class SecondMovement implements Runnable{
 	private int[] handCoordinates;
 	CoordinatesGenerator coorGen;
 	
-	public SecondMovement(Document d, JSVGCanvas c){		
+	public SecondMovement(Document d, JSVGCanvas c, Uhr_Basis ub){			
 		this.document =d;
 		this.canvas   =c;
-		coorGen = new CoordinatesGenerator(document);
+		coorGen = new CoordinatesGenerator(document, ub);
 		int_x  =300;
 		int_y = 300;
 

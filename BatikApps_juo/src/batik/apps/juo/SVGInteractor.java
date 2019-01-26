@@ -44,7 +44,7 @@ public class SVGInteractor extends JFrame{
 	private JSVGCanvas canvas = new JSVGCanvas();
 	private Document document; // The SVG document
 	private Thread thread;
-	private CircleMovement circleMov;
+	private CircleMovement circle_mov;
 	private SquareMovement squareMov;
 	private SecondMovement secondMove;
 	private MinuteMovement minuteMove;
@@ -384,16 +384,20 @@ public class SVGInteractor extends JFrame{
 		this.pack();
 		this.setBounds(600,100,this.getWidth(),this.getHeight());
 				
-		secondMove = new SecondMovement(document,canvas);
+        ub = new Uhr_Basis();
+				
+		secondMove = new SecondMovement(document,canvas,ub);
 		secondMove.starte();		
-		minuteMove = new MinuteMovement(document,canvas);
+		minuteMove = new MinuteMovement(document,canvas,ub);
 		minuteMove.starte();		
-		hourMove   = new HourMovement(document,canvas);
+		hourMove   = new HourMovement(document,canvas,ub);
         hourMove.starte();	
                 
         DigitalDisplay dd = new DigitalDisplay(document,canvas,this);       
         dd.starte();
-
+        
+		AlarmControl ac = new AlarmControl(document,ub,canvas);
+		ac.starte();
 	}	
 	//end SVGInteractor()-Konstruktor
 
@@ -441,14 +445,15 @@ public class SVGInteractor extends JFrame{
 				Integer[] hourMin = Calculator.convertAngleToTime(p1, p2, AM);
 				
 				System.out.println("eventTarget mouseup hourMin[0]" + hourMin[0]);
-				System.out.println("eventTarget mouseup hourMin[1]" + hourMin[1]);
+				System.out.println("eventTarget mouseup hourMin[1]" + hourMin[1]);				
 				
 				String str_min = hourMin[1].toString();
-				if (hourMin[1] < 10){					
+				if (hourMin[1] < 10)					
 					str_min = "0" + (hourMin[1].toString());
-				}			
-				elt.setTextContent("Alarm " + hourMin[0] + ":" + str_min + " Uhr");
-				
+				String str_hour = hourMin[0].toString();
+				if (hourMin[0] < 10)					
+					str_hour = "0" + (hourMin[0].toString());
+				elt.setTextContent("Alarm " + str_hour + ":" + str_min + " Uhr");
 			}						
 		}
 		,false);
@@ -484,10 +489,12 @@ public class SVGInteractor extends JFrame{
 				Element elt = document.getElementById("TheNormalTimeTextElement");
 				String str_text = elt.getTextContent();
 				String str_min = hourMin[1].toString();
-				if (hourMin[1] < 10){					
+				if (hourMin[1] < 10)					
 					str_min = "0" + (hourMin[1].toString());
-				}			
-				elt.setTextContent("Time: " + hourMin[0] + ":" + str_min + " Uhr");
+				String str_hour = hourMin[0].toString();
+				if (hourMin[0] < 10)					
+					str_hour = "0" + (hourMin[0].toString());
+				elt.setTextContent("Time " + str_hour + ":" + str_min + " Uhr");
 				//modify normalTimeTextElement End
 			}						
 		}
@@ -566,8 +573,9 @@ public class SVGInteractor extends JFrame{
 			public void handleEvent(Event evt) {			
 				Element elt = document.getElementById("theCircle");			
 				elt.setAttribute("fill","yellow");			
-				elt.setAttribute("fill-opacity",".5");			
-				starteCircleMoveThread();    //juo added on 18.11.2018
+				elt.setAttribute("fill-opacity",".5");				
+				circle_mov = new CircleMovement(canvas, document);	
+				circle_mov.starte();
 			}						
 		}
 		,false);
@@ -578,13 +586,12 @@ public class SVGInteractor extends JFrame{
 			public void handleEvent(Event evt){
 				Element elt = document.getElementById("theCircle");
 				elt.setAttribute("fill","lightsteelblue");
-				
-				System.out.println("bin in mouseout theCircle!");
-				stoppeCircleMoveThread(circleMov);    //juo added on 15.12.2018				
+				circle_mov.stoppe();
 			}
 		}
 		,false); 
-				
+
+		
 		//Add a listener for the SVGLoad event		
 		t1.addEventListener("SVGLoad", new EventListener(){			
 			public void handleEvent(Event evt){
@@ -731,122 +738,10 @@ public class SVGInteractor extends JFrame{
 	
 	
 
-		
-	
-	
-	
-	//CIRCLE START
-	public void starteCircleMoveThread(){		
-		circleMov = new CircleMovement();	
-		circleMov.starte();
-	}
-	
-	public void stoppeCircleMoveThread(CircleMovement mov){
-		System.out.println("rufe circleMov.stoppe() auf!!!");
-		mov.stoppe();			
-	}
-	
-	//An inner class encapsulating the laws of the circles movement
-	public class CircleMovement implements Runnable{	
-				
-		private double deltaY = 4;
-		boolean doRun = true;
-		boolean down  = true;
-				
-		public void starte(){
-			thread = new Thread(this);
-			thread.start();
-		}				
-		
-		public void stoppe(){
-			System.out.println("stoppe CircleMovement-thread now");
-			doRun = false;
-		}
-		
-		public void run(){	
-			
-			while (doRun) {
-				
-				try {
-					Thread.sleep(100);
-				} 
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-								
-				// Returns immediately
-				canvas.getUpdateManager().getUpdateRunnableQueue().invokeLater(new Runnable() {
-					
-					public void run(){	
-						
-						Element elt = document.getElementById("theCircle");
-
-						int yPos = Integer.parseInt(elt.getAttribute("cy"));
-						
-						if ((yPos <= 50) || (yPos >=550)){
-							deltaY  = - deltaY;
-							System.out.println("deltaY: " +deltaY);
-							
-							if (yPos >=550){
-								System.out.println("fülle gelb");
-								elt.setAttributeNS(null, "fill","yellow");
-								elt.setAttributeNS(null, "stroke","yellow");
-								elt.setAttributeNS(null, "stroke-width","20");
-								down = false;								
-								as = Sound.soundStart();						
-							}
-							if (yPos <= 50){
-								System.out.println("fülle gelb");
-								elt.setAttributeNS(null, "fill","yellow");
-								elt.setAttributeNS(null, "stroke","yellow");
-								elt.setAttributeNS(null, "stroke-width","20");	
-								down = true;
-								Sound.soundStop(as);
-							}							
-						}
-						else{
-							if (down){														
-								deltaY = (1.0*(yPos/30)*(yPos/30));
-								System.out.println("deltaY: " + deltaY + " Bewegung: down");		
-							}
-							else{								
-								deltaY = -(1.0*(yPos/30)*(yPos/30));
-								System.out.println("deltaY: " + deltaY + " Bewegung: up");		
-							}
-						}
-							
-						yPos += deltaY;
-						//System.out.println("(yPos % 100): " + (yPos % 100)); 
-												
-						if ((yPos % 4) ==0 ){
-							elt.setAttributeNS(null, "fill","blue");
-							elt.setAttributeNS(null, "stroke","red");
-							elt.setAttributeNS(null, "stroke-width","20");	
-							elt.setAttribute("stroke-opacity",".7");
-																				
-						}
-						if ((yPos % 8) ==0 ){
-							elt.setAttributeNS(null, "fill","red");
-							elt.setAttributeNS(null, "stroke","blue");
-							elt.setAttributeNS(null, "stroke-width","20");		
-							elt.setAttribute("stroke-opacity",".7");												
-						}
-						elt.setAttribute("cy", "" + yPos);
-						System.out.println("yPos: " + yPos);						
-					}
-				});								
-			}
-		}
-	}
-	//CIRCLE END
-
-	
-
-
-
-	
 	
 	//SQUARE START
+	// 	//An inner class encapsulating the laws of the square movement
+
 	public void starteSquareMoveThread(){		
 	    squareMov = new SquareMovement();			
 	    squareMov.starte();

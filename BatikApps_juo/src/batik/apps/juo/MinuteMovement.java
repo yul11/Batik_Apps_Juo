@@ -20,10 +20,10 @@ public class MinuteMovement implements Runnable{
 	private int[] handCoordinates;
 	CoordinatesGenerator coorGen;
 	
-	public MinuteMovement(Document d, JSVGCanvas c){		
+	public MinuteMovement(Document d, JSVGCanvas c, Uhr_Basis ub){		
 		this.document =d;
 		this.canvas   =c;
-		coorGen = new CoordinatesGenerator(document);
+		coorGen = new CoordinatesGenerator(document,ub);
 		int_x  =300;
 		int_y = 300;
 

@@ -9,15 +9,12 @@ public class CoordinatesGenerator implements Runnable{
 	Uhr_Basis ub;
 	Document document;
 
-	public CoordinatesGenerator(Document d) {  			
+	public CoordinatesGenerator(Document d, Uhr_Basis ub) {  			
 		handCoordinates = new int[6];
-		ub = new Uhr_Basis();
 		thread = new Thread(this);
 		thread.start();
 		this.document = d;
-		AlarmControl ac = new AlarmControl(document,ub);
-		ac.starte();
-		
+		this.ub = ub;
 	} 
 	
 	public int[] getCoordinates(){
@@ -34,7 +31,6 @@ public class CoordinatesGenerator implements Runnable{
 				handCoordinates = ub.getHandCoordinates();
 			}
 
-			//System.out.println("\n");	
 			try {
 				Thread.sleep(1);
 			} 
