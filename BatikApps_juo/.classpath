@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/batik-swing"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/batik-anim"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/batik-util"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/batik-dom"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/batik-svggen"/>
-	<classpathentry kind="lib" path="D:/PC/Software/Java/Batik/BatikApps_juo_github/BatikApps_juo/juo_additional/batik-script-1.7.jar/batik-script-1.7.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/batik-bridge"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_144"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/batik-swing"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/batik-anim"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/batik-util"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/batik-dom"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/batik-svggen"/>
+	<classpathentry exported="true" kind="lib" path="D:/PC/Software/Java/Batik/BatikApps_juo_github/BatikApps_juo/juo_additional/batik-script-1.7.jar/batik-script-1.7.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/batik-bridge"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_144"/>
+	<classpathentry exported="true" kind="lib" path="D:/PC/Software/Java/Batik88/Juo_Source88/BatikApps_juo/juo_additional/w3c.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

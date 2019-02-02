@@ -7,14 +7,14 @@ import javax.swing.JFileChooser;
 
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.util.XMLResourceDescriptor;
-import org.w3c.dom.Document;
 
 
 public class GetDomRepresentationFromSVGFile {
 	
 	
 	
-	 public void getRep() throws MalformedURLException, IOException{
+	 @SuppressWarnings("deprecation")
+	public void getRep() throws MalformedURLException, IOException{
 		 
 		 JFileChooser fc = new JFileChooser();
 		 int r = fc.showOpenDialog(null);
@@ -30,7 +30,8 @@ public class GetDomRepresentationFromSVGFile {
 			
 			
 			SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
-			Document doc = f.createDocument(file.toURL().toString());
+			//Document doc = 
+			f.createDocument(file.toURL().toString());
 			
 			//Your code working with the Document goes here
 			//doc.createElement("test_juo");

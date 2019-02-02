@@ -5,12 +5,10 @@ import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.Control.Type;
 import javax.sound.sampled.Line;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 
 public class TetSiren extends Object implements LineListener {
 
@@ -25,7 +23,6 @@ public class TetSiren extends Object implements LineListener {
 
 	public TetSiren() throws Exception {
 
-		JFrame f = new JFrame();
 		File soundFile = new File("D:/auxi/fire_truck_1.wav");
 
 		System.out.println("Playing " + soundFile.getName());

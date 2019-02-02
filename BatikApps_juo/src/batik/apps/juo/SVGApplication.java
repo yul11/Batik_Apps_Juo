@@ -62,7 +62,8 @@ public class SVGApplication {
 
         // Set the button action.
         button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
+            @SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent ae) {
                 JFileChooser fc = new JFileChooser(".");
                 int choice = fc.showOpenDialog(panel);
                 if (choice == JFileChooser.APPROVE_OPTION) {

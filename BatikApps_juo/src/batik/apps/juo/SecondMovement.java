@@ -41,6 +41,7 @@ public class SecondMovement implements Runnable{
 		thread.start();
 	}		
 	
+	@SuppressWarnings("deprecation")
 	public void stoppe(){
 		System.out.println("stoppe LineMovement-thread now");
 		this.thread.stop();

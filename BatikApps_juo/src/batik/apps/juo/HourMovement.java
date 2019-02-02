@@ -40,6 +40,7 @@ public class HourMovement implements Runnable{
 		thread.start();
 	}		
 	
+	@SuppressWarnings("deprecation")
 	public void stoppe(){
 		System.out.println("stoppe HourMovement-thread now");
 		this.thread.stop();

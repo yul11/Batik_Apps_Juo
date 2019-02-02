@@ -25,6 +25,7 @@ public class Creator extends JFrame implements ActionListener{
 	private JButton btnCircle;
 	private JButton btnSquare;
 	//declare the SVG Generator
+	@SuppressWarnings("unused")
 	private SVGGraphics2D generator;
 	private JPanel  panel;
 
@@ -96,6 +97,7 @@ public class Creator extends JFrame implements ActionListener{
 
 
 	// And finally the methods that actually draw a circle and a square using the available methods of Graphics2D
+	@SuppressWarnings("unused")
 	private void drawSquare(Graphics2D g2d){
 		
 		//create a rectangle with equal sides
@@ -113,6 +115,7 @@ public class Creator extends JFrame implements ActionListener{
 
 	
 	
+	@SuppressWarnings("unused")
 	private void drawCircle(Graphics2D g2d){
 		
 		//Create a circle

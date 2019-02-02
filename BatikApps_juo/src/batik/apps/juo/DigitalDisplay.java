@@ -71,6 +71,7 @@ public class DigitalDisplay implements Runnable{
 		thread.start();
 	}		
 	
+	@SuppressWarnings("deprecation")
 	public void stoppe(){
 		System.out.println("stoppe DigitalDisplay-thread now");
 		this.thread.stop();
